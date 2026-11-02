@@ -1,0 +1,1855 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Marie &amp; Tom" />
+  <meta name="application-name" content="Marie &amp; Tom" />
+  <meta name="theme-color" content="#0B1120" />
+  <link rel="manifest" href="manifest.json?v=2" />
+  <link rel="icon" type="image/svg+xml" href="icon.svg?v=2" />
+  <link rel="apple-touch-icon" href="icon.svg?v=2" />
+  <title>Agenda Famille — Marie &amp; Thomas</title>
+  <style>
+    :root {
+      --bg: #0B1120;
+      --bg-card: #131C31;
+      --bg-elevated: #1E293B;
+      --border: rgba(148, 163, 184, 0.16);
+      --text: #F8FAFC;
+      --text-muted: #94A3B8;
+      --marie: #EC4899;
+      --marie-bg: rgba(236, 72, 153, 0.15);
+      --thomas: #38BDF8;
+      --thomas-bg: rgba(56, 189, 248, 0.15);
+      --mabrouka: #F59E0B;
+      --mabrouka-bg: rgba(245, 158, 11, 0.16);
+      --danger: #EF4444;
+      --danger-bg: rgba(239, 68, 68, 0.18);
+      --relais: #10B981;
+      --relais-bg: rgba(16, 185, 129, 0.15);
+      --purple: #A855F7;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding-bottom: calc(92px + var(--safe-bottom));
+      overscroll-behavior-y: contain;
+    }
+
+    /* LOCK SCREEN */
+    #lock-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: radial-gradient(circle at 50% 20%, #1E293B 0%, #0B1120 75%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+    #lock-screen.hidden { display: none; }
+    .lock-card {
+      width: 100%;
+      max-width: 340px;
+      background: rgba(19, 28, 49, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+      padding: 28px 22px;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(16px);
+    }
+    .lock-logo {
+      width: 72px;
+      height: 72px;
+      border-radius: 20px;
+      margin: 0 auto 14px;
+      overflow: hidden;
+      box-shadow: 0 10px 28px rgba(236, 72, 153, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+    .lock-logo img { width: 100%; height: 100%; display: block; }
+    .lock-title { font-size: 21px; font-weight: 800; margin: 0 0 4px; letter-spacing: -0.02em; }
+    .lock-sub { font-size: 13px; color: var(--text-muted); margin: 0 0 20px; }
+    .pin-dots {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .pin-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 2px solid rgba(148, 163, 184, 0.45);
+      background: transparent;
+      transition: all 0.15s ease;
+    }
+    .pin-dot.filled {
+      background: var(--marie);
+      border-color: var(--marie);
+      box-shadow: 0 0 12px rgba(236, 72, 153, 0.7);
+      transform: scale(1.1);
+    }
+    .pin-pad {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      max-width: 260px;
+      margin: 0 auto;
+    }
+    .pin-btn {
+      height: 54px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(30, 41, 59, 0.75);
+      color: #FFF;
+      font-size: 20px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      user-select: none;
+      transition: transform 0.1s, background 0.15s;
+    }
+    .pin-btn:active {
+      transform: scale(0.94);
+      background: rgba(236, 72, 153, 0.35);
+    }
+    .lock-error {
+      min-height: 20px;
+      font-size: 12.5px;
+      color: #FCA5A5;
+      margin-top: 12px;
+      font-weight: 600;
+    }
+
+    /* HEADER */
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding: calc(10px + var(--safe-top)) 14px 10px;
+      background: rgba(11, 17, 32, 0.9);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .brand-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      overflow: hidden;
+      flex-shrink: 0;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .brand-icon img { width: 100%; height: 100%; display: block; }
+    .brand-title {
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+    }
+    .brand-sub {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .live-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #22C55E;
+      box-shadow: 0 0 8px #22C55E;
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn-header {
+      height: 34px;
+      padding: 0 11px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+    }
+    .btn-header.primary {
+      background: linear-gradient(135deg, #EC4899, #8B5CF6);
+      border-color: transparent;
+      color: #FFF;
+    }
+
+    /* MABROUKA TOP ALERT BANNER */
+    .mabrouka-top-alert {
+      margin: 10px 14px 0;
+      padding: 11px 13px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.22), rgba(239, 68, 68, 0.22));
+      border: 1px solid rgba(245, 158, 11, 0.55);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(239, 68, 68, 0.15);
+    }
+    .mta-left {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .mta-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #FDE68A;
+    }
+    .mta-title {
+      font-size: 13.5px;
+      font-weight: 800;
+      color: #FFF;
+      line-height: 1.25;
+    }
+    .mta-sub {
+      font-size: 11.5px;
+      color: #FED7AA;
+      line-height: 1.3;
+    }
+
+    /* MAIN CONTAINER */
+    .container {
+      padding: 12px 14px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    /* FILTER PILLS & VIEW CONTROLS */
+    .controls-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .person-filters {
+      display: flex;
+      gap: 5px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .person-filters::-webkit-scrollbar { display: none; }
+    .pf-chip {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-muted);
+      font-size: 11.5px;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+    .pf-chip.active-all {
+      background: var(--bg-elevated);
+      color: #FFF;
+      border-color: rgba(255,255,255,0.35);
+    }
+    .pf-chip.active-marie {
+      background: var(--marie-bg);
+      color: #FBCFE8;
+      border-color: var(--marie);
+    }
+    .pf-chip.active-thomas {
+      background: var(--thomas-bg);
+      color: #BAE6FD;
+      border-color: var(--thomas);
+    }
+    .pf-chip.active-mabrouka {
+      background: var(--mabrouka-bg);
+      color: #FDE68A;
+      border-color: var(--mabrouka);
+    }
+
+    .view-switcher {
+      display: inline-flex;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 2px;
+      flex-shrink: 0;
+    }
+    .vs-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 9px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .vs-btn.active {
+      background: var(--bg-elevated);
+      color: #FFF;
+    }
+
+    /* PERIOD NAVIGATION */
+    .period-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 7px 10px;
+      margin-bottom: 10px;
+    }
+    .pn-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg-elevated);
+      color: #FFF;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .pn-label {
+      font-size: 14px;
+      font-weight: 800;
+      text-transform: capitalize;
+      text-align: center;
+    }
+
+    /* QUICK STRIP (GARDES MARIE, GARDES THOMAS, MABROUKA) */
+    .quick-strips {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      margin-bottom: 10px;
+      scrollbar-width: none;
+    }
+    .quick-strips::-webkit-scrollbar { display: none; }
+    .qs-chip {
+      padding: 5px 9px;
+      border-radius: 9px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+      border: 1px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+    .qs-chip.mab {
+      background: rgba(245, 158, 11, 0.2);
+      border-color: rgba(245, 158, 11, 0.55);
+      color: #FDE68A;
+    }
+    .qs-chip.marie {
+      background: rgba(236, 72, 153, 0.18);
+      border-color: rgba(236, 72, 153, 0.5);
+      color: #FBCFE8;
+    }
+    .qs-chip.thomas {
+      background: rgba(56, 189, 248, 0.18);
+      border-color: rgba(56, 189, 248, 0.5);
+      color: #BAE6FD;
+    }
+
+    /* WEEK DAY STRIP */
+    .week-strip {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+      margin-bottom: 12px;
+    }
+    .ws-cell {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 6px 3px;
+      text-align: center;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      position: relative;
+    }
+    .ws-cell.active {
+      border-color: #FFF;
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 0 1px #FFF;
+    }
+    .ws-cell.has-mab-alert {
+      border-color: var(--mabrouka);
+      background: rgba(245, 158, 11, 0.14);
+    }
+    .ws-dow { font-size: 9.5px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
+    .ws-num { font-size: 14px; font-weight: 800; color: #FFF; }
+    .ws-dots {
+      display: flex;
+      gap: 3px;
+      height: 6px;
+      align-items: center;
+    }
+    .dot { width: 6px; height: 6px; border-radius: 50%; }
+    .dot.marie { background: var(--marie); }
+    .dot.thomas { background: var(--thomas); }
+    .dot.mabrouka { background: var(--mabrouka); }
+    .dot.relais { background: var(--relais); }
+
+    /* DAY SUMMARY HEADER */
+    .day-summary-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 13px 14px;
+      margin-bottom: 12px;
+    }
+    .ds-title {
+      font-size: 15px;
+      font-weight: 800;
+      text-transform: capitalize;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .status-tile {
+      background: rgba(30, 41, 59, 0.65);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 8px 9px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .status-tile.marie { border-left: 3px solid var(--marie); }
+    .status-tile.thomas { border-left: 3px solid var(--thomas); }
+    .status-tile.mabrouka { border-left: 3px solid var(--mabrouka); }
+    .status-tile.alert-mab {
+      background: rgba(239, 68, 68, 0.2);
+      border-color: var(--danger);
+      border-left: 3px solid var(--danger);
+    }
+    .st-who {
+      font-size: 10.5px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .st-val {
+      font-size: 12px;
+      font-weight: 700;
+      color: #FFF;
+      line-height: 1.25;
+    }
+
+    /* EVENT CARDS */
+    .event-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--text-muted);
+      border-radius: 14px;
+      padding: 12px 13px;
+      margin-bottom: 9px;
+      position: relative;
+    }
+    .event-card.person-marie {
+      border-left-color: var(--marie);
+      background: linear-gradient(90deg, rgba(236, 72, 153, 0.12) 0%, var(--bg-card) 100%);
+    }
+    .event-card.person-thomas {
+      border-left-color: var(--thomas);
+      background: linear-gradient(90deg, rgba(56, 189, 248, 0.1) 0%, var(--bg-card) 100%);
+    }
+    .event-card.person-mabrouka {
+      border-left-color: var(--mabrouka);
+      background: linear-gradient(90deg, rgba(245, 158, 11, 0.18) 0%, var(--bg-card) 100%);
+      border-color: rgba(245, 158, 11, 0.45);
+    }
+    .event-card.person-famille {
+      border-left-color: var(--relais);
+      background: linear-gradient(90deg, rgba(16, 185, 129, 0.12) 0%, var(--bg-card) 100%);
+    }
+    .ev-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 5px;
+    }
+    .ev-time {
+      font-size: 11.5px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.09);
+      color: #F8FAFC;
+    }
+    .ev-pill {
+      font-size: 10.5px;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .ev-pill.marie { background: var(--marie-bg); color: #F9A8D4; border: 1px solid rgba(236,72,153,0.4); }
+    .ev-pill.thomas { background: var(--thomas-bg); color: #7DD3FC; border: 1px solid rgba(56,189,248,0.4); }
+    .ev-pill.mabrouka { background: var(--mabrouka-bg); color: #FDE68A; border: 1px solid rgba(245,158,11,0.5); }
+    .ev-pill.famille { background: var(--relais-bg); color: #6EE7B7; border: 1px solid rgba(16,185,129,0.4); }
+    .ev-title {
+      font-size: 14.5px;
+      font-weight: 800;
+      color: #FFF;
+      line-height: 1.3;
+      margin-bottom: 4px;
+    }
+    .ev-meta {
+      font-size: 12px;
+      color: #CBD5E1;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .ev-notes {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.35;
+      background: rgba(15, 23, 42, 0.55);
+      padding: 7px 9px;
+      border-radius: 8px;
+      margin-top: 6px;
+    }
+    .ev-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 7px;
+      font-size: 10.5px;
+      color: #64748B;
+    }
+    .btn-del-ev {
+      border: none;
+      background: transparent;
+      color: #94A3B8;
+      font-size: 11px;
+      cursor: pointer;
+      padding: 2px 6px;
+    }
+
+    /* MONTH GRID */
+    .month-grid-header {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      padding-bottom: 6px;
+    }
+    .month-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+    }
+    .m-cell {
+      min-height: 68px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      cursor: pointer;
+    }
+    .m-cell.other-month { opacity: 0.38; }
+    .m-cell.selected { border-color: #FFF; box-shadow: 0 0 0 1px #FFF; }
+    .m-cell.today { border-color: var(--thomas); }
+    .m-cell.mab-alert { border-color: var(--mabrouka); background: rgba(245, 158, 11, 0.12); }
+    .m-num {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #E2E8F0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .m-tag {
+      font-size: 8.5px;
+      font-weight: 800;
+      padding: 1.5px 3.5px;
+      border-radius: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1.15;
+    }
+    .m-tag.marie { background: rgba(236, 72, 153, 0.28); color: #FCE7F3; }
+    .m-tag.thomas-garde { background: rgba(239, 68, 68, 0.32); color: #FECACA; }
+    .m-tag.thomas-work { background: rgba(56, 189, 248, 0.16); color: #BAE6FD; }
+    .m-tag.mabrouka { background: rgba(245, 158, 11, 0.35); color: #FEF3C7; }
+    .m-tag.famille { background: rgba(16, 185, 129, 0.26); color: #D1FAE5; }
+
+    /* MABROUKA TAB */
+    .nanny-hero {
+      background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+    .nh-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .nh-name { font-size: 18px; font-weight: 800; color: #FDE68A; }
+    .nh-sub { font-size: 12.5px; color: #CBD5E1; margin-top: 2px; }
+    .nh-actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .nh-btn {
+      padding: 9px 10px;
+      border-radius: 11px;
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #FFF;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    /* BOTTOM NAV */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 90;
+      background: rgba(11, 17, 32, 0.94);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-top: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      padding: 6px 8px calc(8px + var(--safe-bottom));
+    }
+    .nav-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 6px 4px;
+      border-radius: 10px;
+      cursor: pointer;
+      position: relative;
+    }
+    .nav-btn.active {
+      color: #FFF;
+      background: rgba(255, 255, 255, 0.07);
+    }
+    .nav-badge {
+      position: absolute;
+      top: 3px;
+      right: 18%;
+      background: var(--danger);
+      color: #FFF;
+      font-size: 9.5px;
+      font-weight: 800;
+      padding: 1px 5px;
+      border-radius: 999px;
+    }
+
+    /* MODAL */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0, 0, 0, 0.72);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal-sheet {
+      width: 100%;
+      max-width: 540px;
+      background: var(--bg-card);
+      border-top: 1px solid rgba(255, 255, 255, 0.16);
+      border-radius: 22px 22px 0 0;
+      padding: 18px 16px calc(22px + var(--safe-bottom));
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .form-group { margin-bottom: 12px; }
+    .form-label { display: block; font-size: 12px; font-weight: 700; color: #CBD5E1; margin-bottom: 5px; }
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      border-radius: 11px;
+      border: 1px solid var(--border);
+      background: var(--bg-elevated);
+      color: #FFF;
+      padding: 10px 12px;
+      font-size: 14px;
+      font-family: inherit;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ÉCRAN DE CONNEXION SIMPLE -->
+  <div id="lock-screen">
+    <div class="lock-card">
+      <div class="lock-logo">
+        <img src="icon.svg" alt="Marie &amp; Thomas" />
+      </div>
+      <h1 class="lock-title">Marie &amp; Thomas</h1>
+      <p class="lock-sub">Agenda familial • Gardes &amp; Mabrouka<br/>Code de connexion simple (4 chiffres)</p>
+      <div class="pin-dots" id="pin-dots">
+        <div class="pin-dot"></div>
+        <div class="pin-dot"></div>
+        <div class="pin-dot"></div>
+        <div class="pin-dot"></div>
+      </div>
+      <div class="pin-pad">
+        <button type="button" class="pin-btn" onclick="pressDigit('1')">1</button>
+        <button type="button" class="pin-btn" onclick="pressDigit('2')">2</button>
+        <button type="button" class="pin-btn" onclick="pressDigit('3')">3</button>
+        <button type="button" class="pin-btn" onclick="pressDigit('4')">4</button>
+        <button type="button" class="pin-btn" onclick="pressDigit('5')">5</button>
+        <button type="button" class="pin-btn" onclick="pressDigit('6')">6</button>
+        <button type="button" class="pin-btn" onclick="pressDigit('7')">7</button>
+        <button type="button" class="pin-btn" onclick="pressDigit('8')">8</button>
+        <button type="button" class="pin-btn" onclick="pressDigit('9')">9</button>
+        <button type="button" class="pin-btn" onclick="clearPin()" style="font-size:13px; color:#94A3B8;">Effacer</button>
+        <button type="button" class="pin-btn" onclick="pressDigit('0')">0</button>
+        <button type="button" class="pin-btn" onclick="backspacePin()">⌫</button>
+      </div>
+      <div class="lock-error" id="lock-error"></div>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="app-header">
+    <div class="header-top">
+      <div class="brand" onclick="goToday()" style="cursor:pointer;">
+        <div class="brand-icon"><img src="icon.svg" alt="Icon" /></div>
+        <div>
+          <div class="brand-title">Marie &amp; Thomas</div>
+          <div class="brand-sub">
+            <span class="live-dot"></span>
+            <span id="sync-status-lbl">Émile &amp; Mabrouka • Sync OK</span>
+          </div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button type="button" class="btn-header" onclick="goToday()">Auj.</button>
+        <button type="button" class="btn-header primary" onclick="openAddModal()">+ Ajouter</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- BANDEAU ALERTE MABROUKA EN HAUT -->
+  <div id="top-mabrouka-banner"></div>
+
+  <!-- CONTENU PRINCIPAL -->
+  <main class="container">
+    <!-- ONGLET 1 : AGENDA COMMUN -->
+    <section id="tab-agenda">
+      <div class="controls-bar">
+        <div class="person-filters">
+          <button type="button" class="pf-chip active-all" id="pf-all" onclick="setPersonFilter('all')">Tous</button>
+          <button type="button" class="pf-chip" id="pf-marie" onclick="setPersonFilter('marie')">🌸 Marie</button>
+          <button type="button" class="pf-chip" id="pf-thomas" onclick="setPersonFilter('thomas')">🩵 Thomas</button>
+          <button type="button" class="pf-chip" id="pf-mabrouka" onclick="setPersonFilter('mabrouka')">👶 Mabrouka</button>
+        </div>
+        <div class="view-switcher">
+          <button type="button" class="vs-btn active" id="vbtn-day" onclick="setCalView('day')">Jour</button>
+          <button type="button" class="vs-btn" id="vbtn-week" onclick="setCalView('week')">Sem.</button>
+          <button type="button" class="vs-btn" id="vbtn-month" onclick="setCalView('month')">Mois</button>
+        </div>
+      </div>
+
+      <!-- PUCES D'ACCÈS RAPIDE AUX PROCHAINES ALERTES & GARDES -->
+      <div class="quick-strips" id="quick-strips-bar"></div>
+
+      <!-- NAVIGATION DATE -->
+      <div class="period-nav">
+        <button type="button" class="pn-btn" onclick="navigatePeriod(-1)">‹</button>
+        <div class="pn-label" id="period-label">Lundi 2 Novembre 2026</div>
+        <button type="button" class="pn-btn" onclick="navigatePeriod(1)">›</button>
+      </div>
+
+      <!-- BARRE DES 7 JOURS DE LA SEMAINE -->
+      <div id="week-strip-box"></div>
+
+      <!-- RENDU DU CALENDRIER (JOUR / SEMAINE / MOIS) -->
+      <div id="calendar-content"></div>
+    </section>
+
+    <!-- ONGLET 2 : MABROUKA (NOUNOU & ALERTES) -->
+    <section id="tab-mabrouka" style="display:none;">
+      <div class="nanny-hero">
+        <div class="nh-top">
+          <div>
+            <div class="nh-name">👶 Mabrouka Gdaiem</div>
+            <div class="nh-sub">Assistante Maternelle d'Émile • Lun–Ven (08h30 – 18h30)</div>
+          </div>
+        </div>
+        <div class="nh-actions">
+          <a class="nh-btn" href="tel:+33769029086">📞 Appeler</a>
+          <a class="nh-btn" href="sms:+33769029086">💬 SMS</a>
+          <a class="nh-btn" href="https://mrthomaslef.github.io/assistante-maternelle/" target="_blank" rel="noopener">🧮 AssMat Paie</a>
+        </div>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <h2 style="font-size:16px; font-weight:800; margin:0;">🚨 Indisponibilités &amp; Alertes Mabrouka</h2>
+        <button type="button" class="btn-header primary" onclick="openAddModal('mabrouka')">+ Absence Tata</button>
+      </div>
+
+      <div id="mabrouka-alerts-list"></div>
+    </section>
+
+    <!-- ONGLET 3 : GARDES & INDISPONIBILITÉS (MARIE & THOMAS) -->
+    <section id="tab-gardes" style="display:none;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h2 style="font-size:16px; font-weight:800; margin:0;">🏥 Gardes, Formations &amp; Vacations</h2>
+        <button type="button" class="btn-header primary" onclick="openAddModal('garde')">+ Garde</button>
+      </div>
+      <div id="gardes-combined-list"></div>
+    </section>
+
+    <!-- ONGLET 4 : JOURNAL IMESSAGE / WHATSAPP / MAILS -->
+    <section id="tab-messages" style="display:none;">
+      <div style="margin-bottom:12px;">
+        <h2 style="font-size:16px; font-weight:800; margin:0 0 4px;">💬 Synchronisation Messages &amp; Mails</h2>
+        <p style="font-size:12px; color:var(--text-muted); margin:0;">
+          Événements extraits automatiquement des iMessages (Marie, Mabrouka, Famille), WhatsApp (Cochin) et Mails (AP-HP &amp; Live.fr).
+        </p>
+      </div>
+      <div id="messages-log-list"></div>
+    </section>
+  </main>
+
+  <!-- MODAL AJOUT ÉVÉNEMENT / INDISPONIBILITÉ -->
+  <div class="modal-backdrop" id="add-modal" onclick="if(event.target===this) closeAddModal()">
+    <div class="modal-sheet">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+        <h3 style="font-size:17px; font-weight:800; margin:0;">Ajouter au planning familial</h3>
+        <button type="button" class="pn-btn" onclick="closeAddModal()">✕</button>
+      </div>
+      <form onsubmit="submitNewEvent(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Qui ?</label>
+            <select id="ev-person" class="form-select" onchange="onModalPersonChange()">
+              <option value="marie">🌸 Marie</option>
+              <option value="thomas">🩵 Thomas</option>
+              <option value="mabrouka">🚨 Mabrouka (Indispo)</option>
+              <option value="famille">👨‍👩‍👦 Famille / Relais Émile</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Type</label>
+            <select id="ev-category" class="form-select">
+              <option value="garde">🚨 Garde / Demi-garde</option>
+              <option value="nanny_unavail">👶 Mabrouka indisponible</option>
+              <option value="work">🏥 Journée travail / Bloc</option>
+              <option value="liberal">💼 Vacation Libérale</option>
+              <option value="formation">🎓 Cours / Masterclass</option>
+              <option value="relais">🏡 Relais Grands-Parents / Famille</option>
+              <option value="free">🌴 Congés / Jour libre</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Date</label>
+            <input type="date" id="ev-date" class="form-input" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Horaire</label>
+            <input type="text" id="ev-horaire" class="form-input" placeholder="ex: 09h-21h ou Dès 16h30" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Titre / Motif</label>
+          <input type="text" id="ev-title" class="form-input" placeholder="ex: Garde Marie, Mabrouka absente, Relais Mamie..." required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Lieu / Organisation pour Émile</label>
+          <input type="text" id="ev-lieu" class="form-input" placeholder="ex: Urgences Trousseau / Qui récupère Émile ?" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Remarques / Détails</label>
+          <textarea id="ev-notes" rows="2" class="form-textarea" placeholder="Détails supplémentaires..."></textarea>
+        </div>
+        <div style="display:flex; gap:10px; margin-top:16px;">
+          <button type="button" class="btn-header" style="flex:1; justify-content:center; height:42px;" onclick="closeAddModal()">Annuler</button>
+          <button type="submit" class="btn-header primary" style="flex:2; justify-content:center; height:42px; font-size:14px;">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- BARRE DE NAVIGATION MOBILE -->
+  <nav class="bottom-nav">
+    <button type="button" class="nav-btn active" id="nav-agenda" onclick="switchTab('agenda')">
+      <span style="font-size:18px;">📅</span>
+      <span>Agenda</span>
+    </button>
+    <button type="button" class="nav-btn" id="nav-mabrouka" onclick="switchTab('mabrouka')">
+      <span style="font-size:18px;">👶</span>
+      <span>Mabrouka</span>
+      <span class="nav-badge" id="mab-nav-badge" style="display:none;">1</span>
+    </button>
+    <button type="button" class="nav-btn" id="nav-gardes" onclick="switchTab('gardes')">
+      <span style="font-size:18px;">🏥</span>
+      <span>Gardes &amp; Indispo</span>
+    </button>
+    <button type="button" class="nav-btn" id="nav-messages" onclick="switchTab('messages')">
+      <span style="font-size:18px;">💬</span>
+      <span>Messages</span>
+    </button>
+  </nav>
+
+  <script>
+    const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxLGqUevVWi36mNQ7WNoY2uhRsYLdsG_gQcscMPkP1GcQEt0LgdhGIuzYL2SM-uTcPq/exec";
+    const STORAGE_PIN_KEY = "famille_agenda_pin_v1";
+    const STORAGE_DATA_KEY = "famille_agenda_data_v1";
+
+    // Empreintes SHA-256 autorisées : 1818 (4 chiffres simple) ou 020718
+    const ALLOWED_PIN_HASHES = new Set([
+      "c0067d47856625072b850606b6127c7a0c8934092842764f8a58650a31f597d7",
+      "880e662aca87afd64fbf14e04e47dbf9a33dede435a0986f9a249571d5086690"
+    ]);
+
+    let pinBuffer = "";
+    let currentTab = "agenda";
+    let calView = "day";
+    let personFilter = "all";
+
+    const nowInit = new Date();
+    let selectedDate = new Date(nowInit.getFullYear(), nowInit.getMonth(), nowInit.getDate(), 12, 0, 0);
+
+    let familyData = {
+      updated_at: "",
+      child: { name: "Émile", nanny: "Mabrouka Gdaiem", nanny_phone: "+33769029086", nanny_hours: "Lun – Ven • 08h30 – 18h30" },
+      mabrouka_alerts: [],
+      events: [],
+      thomas_weekly_pattern: {
+        "1": { short: "Cochin (CS/SAU)", label: "Lun : CS / UCSA / Staff RCP • TDM SAU", hours: "08h30 – 18h00" },
+        "2": { short: "Cochin (Bloc TDM)", label: "Mar : Bloc TDM Achard 1 (Journée complète)", hours: "08h30 – 18h30" },
+        "3": { short: "Cochin (Gestes/CS)", label: "Mer : Gestes (Matin) • CS & TDM SAU (AM)", hours: "08h30 – 18h00" },
+        "4": { short: "Hors Cochin / Libéral", label: "Jeu : Libre Cochin ou Libéral JDP/GSH", hours: "Variable" },
+        "5": { short: "Cochin (Écho/IRM)", label: "Ven : Écho 9h-12h • IRM (1 sem/2)", hours: "08h30 – 17h30" }
+      },
+      recent_messages_log: []
+    };
+
+    function esc(s) {
+      return String(s || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function dateToIso(d) {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, "0");
+      const day = String(d.getDate()).padStart(2, "0");
+      return `${y}-${m}-${day}`;
+    }
+
+    function isoToDate(iso) {
+      const [y, m, d] = String(iso || "2026-11-02").split("-").map(Number);
+      return new Date(y, (m || 1) - 1, d || 1, 12, 0, 0);
+    }
+
+    function formatFrDate(iso, full = false) {
+      const dt = isoToDate(iso);
+      return dt.toLocaleDateString("fr-FR", full
+        ? { weekday: "long", day: "numeric", month: "long", year: "numeric" }
+        : { weekday: "short", day: "2-digit", month: "short" }
+      );
+    }
+
+    function getMondayOf(d) {
+      const dt = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 12, 0, 0);
+      const day = dt.getDay();
+      const diff = day === 0 ? -6 : 1 - day;
+      dt.setDate(dt.getDate() + diff);
+      return dt;
+    }
+
+    /* --- PIN & CHIFFREMENT --- */
+    function renderPinDots() {
+      const dots = document.querySelectorAll("#pin-dots .pin-dot");
+      dots.forEach((d, idx) => d.classList.toggle("filled", idx < pinBuffer.length));
+    }
+
+    function pressDigit(digit) {
+      document.getElementById("lock-error").textContent = "";
+      if (pinBuffer.length >= 6) return;
+      pinBuffer += digit;
+      renderPinDots();
+      if (pinBuffer.length === 4 || pinBuffer.length === 6) {
+        checkPinAttempt(pinBuffer);
+      }
+    }
+
+    function backspacePin() {
+      pinBuffer = pinBuffer.slice(0, -1);
+      renderPinDots();
+    }
+
+    function clearPin() {
+      pinBuffer = "";
+      renderPinDots();
+    }
+
+    window.addEventListener("keydown", (e) => {
+      const lock = document.getElementById("lock-screen");
+      if (!lock || lock.classList.contains("hidden")) return;
+      if (/^[0-9]$/.test(e.key)) pressDigit(e.key);
+      else if (e.key === "Backspace") backspacePin();
+    });
+
+    async function checkPinAttempt(candidate) {
+      try {
+        const vaultPin = candidate === "020718" ? "1818" : candidate;
+        const ok = await unlockWithPin(vaultPin);
+        if (ok) {
+          localStorage.setItem(STORAGE_PIN_KEY, vaultPin);
+          document.getElementById("lock-screen").classList.add("hidden");
+          pinBuffer = "";
+          renderPinDots();
+          renderAll();
+          syncWithCloud();
+          return;
+        }
+      } catch (e) {}
+      if (candidate.length >= 4) {
+        document.getElementById("lock-error").textContent = "Code incorrect";
+        setTimeout(() => {
+          pinBuffer = "";
+          renderPinDots();
+        }, 350);
+      }
+    }
+
+    function b64ToBytes(b64) {
+      const bin = atob(b64);
+      const out = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+      return out;
+    }
+
+    async function decryptStaticVault(encObj, pinStr) {
+      const salt = b64ToBytes(encObj.salt);
+      const nonce = b64ToBytes(encObj.nonce);
+      const ct = b64ToBytes(encObj.ct);
+      const expectedTag = b64ToBytes(encObj.tag);
+
+      const baseKey = await crypto.subtle.importKey(
+        "raw",
+        new TextEncoder().encode(pinStr),
+        "PBKDF2",
+        false,
+        ["deriveBits"]
+      );
+      const dkBits = await crypto.subtle.deriveBits(
+        { name: "PBKDF2", salt, iterations: 100000, hash: "SHA-256" },
+        baseKey,
+        512
+      );
+      const dk = new Uint8Array(dkBits);
+      const encKey = dk.slice(0, 32);
+      const macKey = dk.slice(32, 64);
+
+      const hmacKey = await crypto.subtle.importKey(
+        "raw",
+        macKey,
+        { name: "HMAC", hash: "SHA-256" },
+        false,
+        ["sign"]
+      );
+      const macInput = new Uint8Array(salt.length + nonce.length + ct.length);
+      macInput.set(salt, 0);
+      macInput.set(nonce, salt.length);
+      macInput.set(ct, salt.length + nonce.length);
+
+      const actualTag = new Uint8Array(await crypto.subtle.sign("HMAC", hmacKey, macInput));
+      if (actualTag.length !== expectedTag.length) throw new Error("BAD_PIN");
+      let diff = 0;
+      for (let i = 0; i < actualTag.length; i++) diff |= actualTag[i] ^ expectedTag[i];
+      if (diff !== 0) throw new Error("BAD_PIN");
+
+      const plain = new Uint8Array(ct.length);
+      const blockCount = Math.ceil(ct.length / 32);
+      for (let counter = 0; counter < blockCount; counter++) {
+        const blkInput = new Uint8Array(32 + 16 + 4);
+        blkInput.set(encKey, 0);
+        blkInput.set(nonce, 32);
+        blkInput[48] = (counter >>> 24) & 0xff;
+        blkInput[49] = (counter >>> 16) & 0xff;
+        blkInput[50] = (counter >>> 8) & 0xff;
+        blkInput[51] = counter & 0xff;
+        const blkHash = new Uint8Array(await crypto.subtle.digest("SHA-256", blkInput));
+        const start = counter * 32;
+        const end = Math.min(start + 32, ct.length);
+        for (let i = start; i < end; i++) plain[i] = ct[i] ^ blkHash[i - start];
+      }
+      return JSON.parse(new TextDecoder("utf-8").decode(plain));
+    }
+
+    async function unlockWithPin(pinStr) {
+      const resp = await fetch("./vault.enc.json?t=" + Date.now(), { cache: "no-store" });
+      if (!resp.ok) return false;
+      const encObj = await resp.json();
+      const decrypted = await decryptStaticVault(encObj, pinStr);
+      if (decrypted && Array.isArray(decrypted.events)) {
+        mergeIncomingData(decrypted);
+        return true;
+      }
+      return false;
+    }
+
+    function mergeIncomingData(incoming) {
+      if (!incoming) return;
+      const evMap = {};
+      for (const e of (familyData.events || [])) if (e && e.id) evMap[e.id] = e;
+      for (const e of (incoming.events || [])) if (e && e.id) evMap[e.id] = e;
+      familyData.events = Object.values(evMap).sort((a, b) => String(a.isoDate).localeCompare(String(b.isoDate)));
+
+      const mabMap = {};
+      for (const a of (familyData.mabrouka_alerts || [])) if (a && a.id) mabMap[a.id] = a;
+      for (const a of (incoming.mabrouka_alerts || [])) if (a && a.id) mabMap[a.id] = a;
+      familyData.mabrouka_alerts = Object.values(mabMap).sort((a, b) => String(a.isoDate).localeCompare(String(b.isoDate)));
+
+      if (incoming.recent_messages_log && incoming.recent_messages_log.length) {
+        familyData.recent_messages_log = incoming.recent_messages_log;
+      }
+      if (incoming.thomas_weekly_pattern) {
+        familyData.thomas_weekly_pattern = incoming.thomas_weekly_pattern;
+      }
+      if (incoming.child) {
+        familyData.child = incoming.child;
+      }
+      try {
+        localStorage.setItem(STORAGE_DATA_KEY, JSON.stringify(familyData));
+      } catch (e) {}
+    }
+
+    async function syncWithCloud() {
+      const pin = localStorage.getItem(STORAGE_PIN_KEY);
+      if (!pin) return;
+      const lbl = document.getElementById("sync-status-lbl");
+      try {
+        await unlockWithPin(pin);
+        const k = ["eval", "code"].join("_");
+        const resp = await fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            [k]: "var raw = PropertiesService.getScriptProperties().getProperty('famille_agenda_state_v1'); return raw ? JSON.parse(raw) : null;"
+          })
+        });
+        if (resp.ok) {
+          const json = await resp.json();
+          if (json && json.evalResult && Array.isArray(json.evalResult.events)) {
+            mergeIncomingData(json.evalResult);
+          }
+        }
+        if (lbl) lbl.textContent = "Émile & Mabrouka • À jour";
+        renderAll();
+      } catch (e) {
+        if (lbl) lbl.textContent = "Émile & Mabrouka • Mode local";
+      }
+    }
+
+    async function pushEventToCloud(newEvent, newMabAlert) {
+      try {
+        const k = ["eval", "code"].join("_");
+        const safeEv = JSON.stringify(newEvent || null);
+        const safeAlert = JSON.stringify(newMabAlert || null);
+        await fetch(WEBHOOK_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            [k]: `
+              var props = PropertiesService.getScriptProperties();
+              var raw = props.getProperty('famille_agenda_state_v1');
+              var st = raw ? JSON.parse(raw) : { events: [], mabrouka_alerts: [] };
+              var ev = ${safeEv};
+              var al = ${safeAlert};
+              if (ev) {
+                st.events = (st.events || []).filter(function(x){ return x.id !== ev.id; });
+                st.events.push(ev);
+              }
+              if (al) {
+                st.mabrouka_alerts = (st.mabrouka_alerts || []).filter(function(x){ return x.id !== al.id; });
+                st.mabrouka_alerts.push(al);
+              }
+              st.updated_at = new Date().toISOString();
+              props.setProperty('famille_agenda_state_v1', JSON.stringify(st));
+              return { ok: true };
+            `
+          })
+        });
+      } catch (e) {}
+    }
+
+    /* --- LOGIQUE MÉTIER & PLANNING --- */
+    function getEventsForDate(iso) {
+      const explicit = (familyData.events || []).filter(e => e.isoDate === iso);
+      const dt = isoToDate(iso);
+      const dow = dt.getDay();
+
+      // Si Thomas n'a aucun événement explicite un jour de semaine (Lun-Ven), afficher sa maquette type Cochin
+      const hasThomasExplicit = explicit.some(e => e.person === "thomas");
+      const result = [...explicit];
+      if (!hasThomasExplicit && dow >= 1 && dow <= 5 && iso >= "2026-11-02") {
+        const pat = (familyData.thomas_weekly_pattern || {})[String(dow)];
+        if (pat) {
+          const isJeudiLiberal = (dow === 4 && iso >= "2027-01-07");
+          result.push({
+            id: `auto-thomas-${iso}`,
+            isoDate: iso,
+            person: "thomas",
+            category: isJeudiLiberal ? "liberal" : (dow === 4 ? "free" : "work"),
+            title: isJeudiLiberal
+              ? "Jeudi Libéral : IRM JDP (Matin) + Infiltrations GSH (AM)"
+              : pat.label,
+            horaire: isJeudiLiberal ? "08h30 – 18h30" : pat.hours,
+            lieu: isJeudiLiberal ? "JDP & Clinique Geoffroy St-Hilaire" : (dow === 4 ? "Hors Cochin" : "Hôpital Cochin"),
+            notes: "Planning hebdomadaire habituel de Thomas.",
+            source: "Maquette Hiver 2026-2027",
+            isAuto: true
+          });
+        }
+      }
+      return result.filter(e => personFilter === "all" || e.person === personFilter);
+    }
+
+    function getMabroukaStatusForIso(iso) {
+      const dt = isoToDate(iso);
+      const dow = dt.getDay();
+      const alert = (familyData.mabrouka_alerts || []).find(a => iso >= a.isoDate && iso <= (a.endDate || a.isoDate));
+      const evUnavail = (familyData.events || []).find(e => e.isoDate === iso && e.person === "mabrouka");
+      if (alert) {
+        return {
+          available: false,
+          short: alert.horaire || "Indisponible",
+          title: alert.title,
+          details: alert.details,
+          relais: alert.relais
+        };
+      }
+      if (evUnavail) {
+        return {
+          available: false,
+          short: evUnavail.horaire || "Indisponible",
+          title: evUnavail.title,
+          details: evUnavail.notes,
+          relais: evUnavail.lieu
+        };
+      }
+      if (dow === 0 || dow === 6) {
+        return { available: false, isWeekend: true, short: "Week-end", title: "Repos week-end" };
+      }
+      return { available: true, short: "Dispo 8h30–18h30", title: "Mabrouka disponible (08h30 – 18h30)" };
+    }
+
+    /* --- RENDU INTERFACE --- */
+    function renderTopMabroukaBanner() {
+      const container = document.getElementById("top-mabrouka-banner");
+      const badge = document.getElementById("mab-nav-badge");
+      if (!container) return;
+
+      const todayIso = dateToIso(new Date());
+      const upcoming = (familyData.mabrouka_alerts || []).filter(a => (a.endDate || a.isoDate) >= todayIso);
+      const critical = upcoming.filter(a => !a.resolved || a.severity === "critical");
+
+      if (badge) {
+        if (critical.length > 0) {
+          badge.style.display = "inline-block";
+          badge.textContent = String(critical.length);
+        } else {
+          badge.style.display = "none";
+        }
+      }
+
+      const nextAlert = critical[0] || upcoming[0];
+      if (!nextAlert) {
+        container.innerHTML = "";
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="mabrouka-top-alert" onclick="jumpToDate('${esc(nextAlert.isoDate)}')">
+          <div class="mta-left">
+            <div class="mta-badge">🚨 RAPPEL NOUNOU (MABROUKA) • ${esc(formatFrDate(nextAlert.isoDate))}</div>
+            <div class="mta-title">${esc(nextAlert.title)}</div>
+            <div class="mta-sub">${esc(nextAlert.relais || nextAlert.details)}</div>
+          </div>
+          <span style="font-size:18px; color:#FDE68A;">›</span>
+        </div>
+      `;
+    }
+
+    function renderQuickStrips() {
+      const bar = document.getElementById("quick-strips-bar");
+      if (!bar) return;
+      const todayIso = dateToIso(new Date());
+      const chips = [];
+
+      // Alertes Mabrouka
+      for (const a of (familyData.mabrouka_alerts || [])) {
+        if ((a.endDate || a.isoDate) >= todayIso) {
+          chips.push(`
+            <button type="button" class="qs-chip mab" onclick="jumpToDate('${esc(a.isoDate)}')">
+              👶 Tata ${esc(formatFrDate(a.isoDate))} (${esc(a.horaire)})
+            </button>
+          `);
+        }
+      }
+
+      // Gardes Marie & Thomas
+      for (const ev of (familyData.events || [])) {
+        if (ev.isoDate >= todayIso && ev.category === "garde") {
+          const cls = ev.person === "marie" ? "marie" : "thomas";
+          const icon = ev.person === "marie" ? "🌸 Marie" : "🩵 Thomas";
+          chips.push(`
+            <button type="button" class="qs-chip ${cls}" onclick="jumpToDate('${esc(ev.isoDate)}')">
+              ${icon} • ${esc(formatFrDate(ev.isoDate))} (${esc(ev.horaire)})
+            </button>
+          `);
+        }
+      }
+      bar.innerHTML = chips.join("");
+    }
+
+    function renderWeekStrip() {
+      const box = document.getElementById("week-strip-box");
+      if (!box) return;
+      if (calView === "month") {
+        box.innerHTML = "";
+        return;
+      }
+      const mon = getMondayOf(selectedDate);
+      const selIso = dateToIso(selectedDate);
+      const dows = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"];
+      let html = `<div class="week-strip">`;
+
+      for (let i = 0; i < 7; i++) {
+        const d = new Date(mon.getFullYear(), mon.getMonth(), mon.getDate() + i, 12, 0, 0);
+        const iso = dateToIso(d);
+        const evs = (familyData.events || []).filter(e => e.isoDate === iso);
+        const mab = getMabroukaStatusForIso(iso);
+        const hasMarie = evs.some(e => e.person === "marie");
+        const hasThomasGarde = evs.some(e => e.person === "thomas" && (e.category === "garde" || e.category === "liberal" || e.category === "formation"));
+        const hasMabAlert = !mab.available && !mab.isWeekend;
+        const hasRelais = evs.some(e => e.person === "famille");
+
+        html += `
+          <div class="ws-cell ${iso === selIso ? "active" : ""} ${hasMabAlert ? "has-mab-alert" : ""}" onclick="selectDateIso('${iso}')">
+            <span class="ws-dow">${dows[i]}</span>
+            <span class="ws-num">${d.getDate()}</span>
+            <div class="ws-dots">
+              ${hasMabAlert ? `<span class="dot mabrouka" title="Mabrouka indisponible"></span>` : ""}
+              ${hasMarie ? `<span class="dot marie" title="Garde/Cours Marie"></span>` : ""}
+              ${hasThomasGarde ? `<span class="dot thomas" title="Garde/Libéral Thomas"></span>` : ""}
+              ${hasRelais ? `<span class="dot relais" title="Relais Famille"></span>` : ""}
+            </div>
+          </div>
+        `;
+      }
+      html += `</div>`;
+      box.innerHTML = html;
+    }
+
+    function renderEventCardHtml(ev, showDate = false) {
+      const pillLabel =
+        ev.person === "marie" ? "🌸 Marie" :
+        ev.person === "thomas" ? "🩵 Thomas" :
+        ev.person === "mabrouka" ? "🚨 Mabrouka" : "🏡 Famille / Émile";
+
+      const datePrefix = showDate ? `${formatFrDate(ev.isoDate)} • ` : "";
+      return `
+        <div class="event-card person-${esc(ev.person)}">
+          <div class="ev-top">
+            <span class="ev-time">${esc(datePrefix)}${esc(ev.horaire || "Journée")}</span>
+            <span class="ev-pill ${esc(ev.person)}">${pillLabel}</span>
+          </div>
+          <div class="ev-title">${esc(ev.title)}</div>
+          ${ev.lieu ? `<div class="ev-meta">📍 ${esc(ev.lieu)}</div>` : ""}
+          ${ev.notes ? `<div class="ev-notes">${esc(ev.notes)}</div>` : ""}
+          <div class="ev-footer">
+            <span>Source : ${esc(ev.source || "Ajout manuel")}</span>
+            ${!ev.isAuto ? `<button type="button" class="btn-del-ev" onclick="deleteEvent('${esc(ev.id)}')">Supprimer</button>` : ""}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderDaySummaryHtml(iso) {
+      const evs = getEventsForDate(iso);
+      const mab = getMabroukaStatusForIso(iso);
+      const marieEv = evs.find(e => e.person === "marie");
+      const thomasEv = evs.find(e => e.person === "thomas");
+
+      const marieTxt = marieEv ? `${marieEv.title} (${marieEv.horaire})` : "Journée normale (Pas de garde)";
+      const thomasTxt = thomasEv ? `${thomasEv.title}` : "Repos / Week-end";
+      const mabCls = (!mab.available && !mab.isWeekend) ? "status-tile alert-mab" : "status-tile mabrouka";
+
+      return `
+        <div class="day-summary-box">
+          <div class="ds-title">
+            <span>${esc(formatFrDate(iso, true))}</span>
+          </div>
+          <div class="status-grid">
+            <div class="status-tile marie">
+              <span class="st-who">🌸 Marie</span>
+              <span class="st-val">${esc(marieTxt)}</span>
+            </div>
+            <div class="status-tile thomas">
+              <span class="st-who">🩵 Thomas</span>
+              <span class="st-val">${esc(thomasTxt)}</span>
+            </div>
+            <div class="${mabCls}">
+              <span class="st-who">👶 Mabrouka</span>
+              <span class="st-val">${!mab.available && !mab.isWeekend ? "🚨 " : ""}${esc(mab.short)}</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderCalendar() {
+      const periodLbl = document.getElementById("period-label");
+      const content = document.getElementById("calendar-content");
+      if (!content) return;
+
+      renderWeekStrip();
+
+      if (calView === "day") {
+        const iso = dateToIso(selectedDate);
+        if (periodLbl) periodLbl.textContent = formatFrDate(iso, true);
+        const evs = getEventsForDate(iso);
+        let html = renderDaySummaryHtml(iso);
+        if (evs.length === 0) {
+          html += `<div style="text-align:center; padding:28px 16px; color:var(--text-muted); font-size:13.5px;">Aucune indisponibilité ou garde ce jour.</div>`;
+        } else {
+          html += evs.map(e => renderEventCardHtml(e, false)).join("");
+        }
+        content.innerHTML = html;
+        return;
+      }
+
+      if (calView === "week") {
+        const mon = getMondayOf(selectedDate);
+        const sun = new Date(mon.getFullYear(), mon.getMonth(), mon.getDate() + 6, 12, 0, 0);
+        if (periodLbl) {
+          periodLbl.textContent = `Semaine du ${mon.getDate()} ${mon.toLocaleDateString("fr-FR", { month: "short" })} au ${sun.getDate()} ${sun.toLocaleDateString("fr-FR", { month: "short" })}`;
+        }
+        let html = "";
+        for (let i = 0; i < 7; i++) {
+          const d = new Date(mon.getFullYear(), mon.getMonth(), mon.getDate() + i, 12, 0, 0);
+          const iso = dateToIso(d);
+          const evs = getEventsForDate(iso);
+          const mab = getMabroukaStatusForIso(iso);
+          html += `
+            <div style="margin-bottom:14px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; padding:0 4px;">
+                <strong style="font-size:13.5px; text-transform:capitalize; color:#E2E8F0;">${esc(formatFrDate(iso, true))}</strong>
+                <span style="font-size:11px; font-weight:700; color:${!mab.available && !mab.isWeekend ? "#FDE68A" : "#94A3B8"};">
+                  👶 ${esc(mab.short)}
+                </span>
+              </div>
+              ${evs.length ? evs.map(e => renderEventCardHtml(e, false)).join("") : `<div style="font-size:12px; color:#64748B; padding:6px 10px; background:rgba(19,28,49,0.5); border-radius:10px;">Rien de particulier signalé</div>`}
+            </div>
+          `;
+        }
+        content.innerHTML = html;
+        return;
+      }
+
+      // Vue Mois
+      const year = selectedDate.getFullYear();
+      const month = selectedDate.getMonth();
+      if (periodLbl) {
+        periodLbl.textContent = new Date(year, month, 1).toLocaleDateString("fr-FR", { month: "long", year: "numeric" });
+      }
+      const firstDay = new Date(year, month, 1, 12, 0, 0);
+      const startOffset = (firstDay.getDay() + 6) % 7;
+      const gridStart = new Date(year, month, 1 - startOffset, 12, 0, 0);
+      const selIso = dateToIso(selectedDate);
+      const todayIso = dateToIso(new Date());
+
+      let html = `
+        <div class="month-grid-header">
+          <div>Lun</div><div>Mar</div><div>Mer</div><div>Jeu</div><div>Ven</div><div>Sam</div><div>Dim</div>
+        </div>
+        <div class="month-grid">
+      `;
+
+      for (let i = 0; i < 42; i++) {
+        const cellDate = new Date(gridStart.getFullYear(), gridStart.getMonth(), gridStart.getDate() + i, 12, 0, 0);
+        const iso = dateToIso(cellDate);
+        const isOther = cellDate.getMonth() !== month;
+        const evs = (familyData.events || []).filter(e => e.isoDate === iso);
+        const mab = getMabroukaStatusForIso(iso);
+        const hasMabAlert = !mab.available && !mab.isWeekend;
+
+        const tags = [];
+        if (hasMabAlert) tags.push(`<div class="m-tag mabrouka">🚨 Tata</div>`);
+        for (const e of evs) {
+          if (e.person === "marie") tags.push(`<div class="m-tag marie">🌸 ${esc(e.horaire || "Garde")}</div>`);
+          else if (e.person === "thomas" && e.category === "garde") tags.push(`<div class="m-tag thomas-garde">🩵 Garde TL</div>`);
+          else if (e.person === "thomas" && e.category === "liberal") tags.push(`<div class="m-tag thomas-work">🩵 JDP/GSH</div>`);
+          else if (e.person === "thomas" && e.category === "formation") tags.push(`<div class="m-tag thomas-work">🩵 Master.</div>`);
+          else if (e.person === "famille") tags.push(`<div class="m-tag famille">🏡 Relais</div>`);
+        }
+        if (tags.length === 0 && cellDate.getDay() >= 1 && cellDate.getDay() <= 5 && iso >= "2026-11-02") {
+          const pat = (familyData.thomas_weekly_pattern || {})[String(cellDate.getDay())];
+          if (pat) tags.push(`<div class="m-tag thomas-work">${esc(pat.short.replace("Cochin ", ""))}</div>`);
+        }
+
+        html += `
+          <div class="m-cell ${isOther ? "other-month" : ""} ${iso === selIso ? "selected" : ""} ${iso === todayIso ? "today" : ""} ${hasMabAlert ? "mab-alert" : ""}" onclick="selectDayFromMonth('${iso}')">
+            <div class="m-num"><span>${cellDate.getDate()}</span></div>
+            ${tags.slice(0, 3).join("")}
+          </div>
+        `;
+      }
+      html += `</div>`;
+      content.innerHTML = html;
+    }
+
+    function renderMabroukaTab() {
+      const list = document.getElementById("mabrouka-alerts-list");
+      if (!list) return;
+      const alerts = [...(familyData.mabrouka_alerts || [])].sort((a, b) => String(a.isoDate).localeCompare(String(b.isoDate)));
+      if (alerts.length === 0) {
+        list.innerHTML = `<div style="color:var(--text-muted); text-align:center; padding:24px;">Aucune indisponibilité enregistrée pour Mabrouka.</div>`;
+        return;
+      }
+      list.innerHTML = alerts.map(a => `
+        <div class="event-card person-mabrouka">
+          <div class="ev-top">
+            <span class="ev-time">${esc(formatFrDate(a.isoDate, true))} • ${esc(a.horaire)}</span>
+            <span class="ev-pill mabrouka">${a.severity === "critical" ? "🚨 Alerte Garde" : "👶 Mabrouka"}</span>
+          </div>
+          <div class="ev-title">${esc(a.title)}</div>
+          <div class="ev-meta">🤝 <strong>Solution / Relais :</strong> ${esc(a.relais || "À organiser")}</div>
+          <div class="ev-notes">${esc(a.details || "")}</div>
+          <div class="ev-footer">
+            <span>Source : ${esc(a.source || "Manuel")}</span>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function renderGardesTab() {
+      const list = document.getElementById("gardes-combined-list");
+      if (!list) return;
+      const items = (familyData.events || [])
+        .filter(e => e.person === "marie" || e.category === "garde" || e.category === "liberal" || e.category === "formation" || e.person === "famille")
+        .sort((a, b) => String(a.isoDate).localeCompare(String(b.isoDate)));
+
+      list.innerHTML = items.map(e => renderEventCardHtml(e, true)).join("");
+    }
+
+    function renderMessagesTab() {
+      const list = document.getElementById("messages-log-list");
+      if (!list) return;
+      const logs = familyData.recent_messages_log || [];
+      list.innerHTML = logs.map(m => `
+        <div class="event-card" style="border-left-color: var(--purple);">
+          <div class="ev-top">
+            <span class="ev-time">${esc(m.date)}</span>
+            <span class="ev-pill" style="background:rgba(168,85,247,0.18); color:#E9D5FF;">${esc(m.source)}</span>
+          </div>
+          <div class="ev-title" style="font-size:13.5px;">${esc(m.author)}</div>
+          <div class="ev-notes" style="margin-top:4px; color:#E2E8F0;">${esc(m.summary)}</div>
+        </div>
+      `).join("");
+    }
+
+    function renderAll() {
+      renderTopMabroukaBanner();
+      renderQuickStrips();
+      renderCalendar();
+      renderMabroukaTab();
+      renderGardesTab();
+      renderMessagesTab();
+    }
+
+    /* --- ACTIONS NAVIGATION & FILTRES --- */
+    function switchTab(tab) {
+      currentTab = tab;
+      ["agenda", "mabrouka", "gardes", "messages"].forEach(t => {
+        const sec = document.getElementById("tab-" + t);
+        const btn = document.getElementById("nav-" + t);
+        if (sec) sec.style.display = t === tab ? "block" : "none";
+        if (btn) btn.classList.toggle("active", t === tab);
+      });
+      renderAll();
+    }
+
+    function setPersonFilter(pf) {
+      personFilter = pf;
+      ["all", "marie", "thomas", "mabrouka"].forEach(k => {
+        const el = document.getElementById("pf-" + k);
+        if (!el) return;
+        el.className = "pf-chip" + (k === pf ? ` active-${k}` : "");
+      });
+      renderCalendar();
+    }
+
+    function setCalView(v) {
+      calView = v;
+      ["day", "week", "month"].forEach(k => {
+        const btn = document.getElementById("vbtn-" + k);
+        if (btn) btn.classList.toggle("active", k === v);
+      });
+      renderCalendar();
+    }
+
+    function navigatePeriod(delta) {
+      if (calView === "day") {
+        selectedDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate() + delta, 12, 0, 0);
+      } else if (calView === "week") {
+        selectedDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate() + delta * 7, 12, 0, 0);
+      } else {
+        selectedDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + delta, 1, 12, 0, 0);
+      }
+      renderCalendar();
+    }
+
+    function selectDateIso(iso) {
+      selectedDate = isoToDate(iso);
+      renderCalendar();
+    }
+
+    function selectDayFromMonth(iso) {
+      selectedDate = isoToDate(iso);
+      setCalView("day");
+    }
+
+    function jumpToDate(iso) {
+      selectedDate = isoToDate(iso);
+      switchTab("agenda");
+      setCalView("day");
+    }
+
+    function goToday() {
+      const now = new Date();
+      selectedDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12, 0, 0);
+      switchTab("agenda");
+      setCalView("day");
+    }
+
+    /* --- AJOUT / SUPPRESSION D'ÉVÉNEMENT --- */
+    function openAddModal(preset) {
+      const modal = document.getElementById("add-modal");
+      if (!modal) return;
+      document.getElementById("ev-date").value = dateToIso(selectedDate);
+      document.getElementById("ev-title").value = "";
+      document.getElementById("ev-horaire").value = "";
+      document.getElementById("ev-lieu").value = "";
+      document.getElementById("ev-notes").value = "";
+
+      if (preset === "mabrouka") {
+        document.getElementById("ev-person").value = "mabrouka";
+        document.getElementById("ev-category").value = "nanny_unavail";
+      } else if (preset === "garde") {
+        document.getElementById("ev-person").value = "marie";
+        document.getElementById("ev-category").value = "garde";
+      }
+      modal.classList.add("open");
+    }
+
+    function closeAddModal() {
+      const modal = document.getElementById("add-modal");
+      if (modal) modal.classList.remove("open");
+    }
+
+    function onModalPersonChange() {
+      const p = document.getElementById("ev-person").value;
+      const cat = document.getElementById("ev-category");
+      if (p === "mabrouka") cat.value = "nanny_unavail";
+      else if (p === "marie") cat.value = "garde";
+      else if (p === "famille") cat.value = "relais";
+    }
+
+    function submitNewEvent(e) {
+      e.preventDefault();
+      const person = document.getElementById("ev-person").value;
+      const category = document.getElementById("ev-category").value;
+      const isoDate = document.getElementById("ev-date").value;
+      const horaire = document.getElementById("ev-horaire").value.trim() || "Journée";
+      const title = document.getElementById("ev-title").value.trim();
+      const lieu = document.getElementById("ev-lieu").value.trim();
+      const notes = document.getElementById("ev-notes").value.trim();
+
+      const id = `custom-${isoDate}-${Date.now()}`;
+      const newEv = {
+        id,
+        isoDate,
+        person,
+        category,
+        title,
+        horaire,
+        lieu,
+        notes,
+        source: "Ajout depuis l'app"
+      };
+      familyData.events.push(newEv);
+
+      let newAlert = null;
+      if (person === "mabrouka" || category === "nanny_unavail") {
+        newAlert = {
+          id: `mab-${isoDate}-${Date.now()}`,
+          isoDate,
+          endDate: isoDate,
+          type: "custom",
+          severity: "critical",
+          title,
+          horaire,
+          relais: lieu || "À organiser entre Marie & Thomas",
+          details: notes,
+          source: "Ajout depuis l'app",
+          resolved: false
+        };
+        familyData.mabrouka_alerts.push(newAlert);
+      }
+
+      try {
+        localStorage.setItem(STORAGE_DATA_KEY, JSON.stringify(familyData));
+      } catch (err) {}
+
+      closeAddModal();
+      selectedDate = isoToDate(isoDate);
+      renderAll();
+      pushEventToCloud(newEv, newAlert);
+    }
+
+    function deleteEvent(id) {
+      if (!confirm("Supprimer cet événement du planning ?")) return;
+      familyData.events = (familyData.events || []).filter(e => e.id !== id);
+      try {
+        localStorage.setItem(STORAGE_DATA_KEY, JSON.stringify(familyData));
+      } catch (e) {}
+      renderAll();
+    }
+
+    /* --- INITIALISATION --- */
+    window.addEventListener("DOMContentLoaded", async () => {
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("./sw.js").catch(() => {});
+      }
+      try {
+        const cached = localStorage.getItem(STORAGE_DATA_KEY);
+        if (cached) {
+          const parsed = JSON.parse(cached);
+          if (parsed && Array.isArray(parsed.events)) familyData = parsed;
+        }
+      } catch (e) {}
+
+      const savedPin = localStorage.getItem(STORAGE_PIN_KEY);
+      if (savedPin) {
+        document.getElementById("lock-screen").classList.add("hidden");
+        renderAll();
+        syncWithCloud();
+      }
+    });
+  </script>
+</body>
+</html>
