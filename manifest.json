@@ -1,0 +1,18 @@
+{
+  "name": "Agenda Famille — Marie & Thomas",
+  "short_name": "Marie & Tom",
+  "description": "Planning familial partagé (Marie, Thomas, Émile & Mabrouka)",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0B1120",
+  "theme_color": "#0B1120",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
