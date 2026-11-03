@@ -710,67 +710,159 @@
       color: #E2E8F0;
     }
 
-    /* MONTH CALENDAR GRID */
-    .month-grid-header {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      text-align: center;
-      font-size: 11px;
+    /* MONTH CALENDAR GRID (OPTIMISÉ MOBILE SANS DÉBORDEMENT) */
+    .months-selector-row {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 2px 0 8px;
+      margin-bottom: 8px;
+      scrollbar-width: none;
+    }
+    .months-selector-row::-webkit-scrollbar { display: none; }
+    .month-sel-pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 11.5px;
+      font-weight: 800;
+      text-transform: capitalize;
+      white-space: nowrap;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .month-sel-pill.active {
+      background: rgba(236, 72, 153, 0.22);
+      border-color: var(--marie);
+      color: #FFF;
+    }
+    .month-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 8px;
+      font-size: 10.5px;
       font-weight: 700;
       color: var(--text-muted);
-      margin-bottom: 6px;
+    }
+    .ml-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .ml-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+    }
+    .month-grid-header {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      text-align: center;
+      font-size: 10.5px;
+      font-weight: 800;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      width: 100%;
     }
     .month-grid {
       display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 4px;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 3px;
+      width: 100%;
+      margin-bottom: 12px;
     }
     .m-cell {
-      min-height: 66px;
+      min-height: 58px;
+      min-width: 0;
+      width: 100%;
+      overflow: hidden;
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 4px;
+      border-radius: 9px;
+      padding: 4px 2px 3px;
       cursor: pointer;
       display: flex;
       flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
       gap: 2px;
+      user-select: none;
     }
-    .m-cell.other-month { opacity: 0.35; }
+    .m-cell.is-weekend {
+      background: rgba(15, 23, 42, 0.65);
+    }
+    .m-cell.other-month { opacity: 0.32; }
     .m-cell.selected {
-      border-color: var(--marie);
-      box-shadow: 0 0 0 1px var(--marie);
+      border-color: #FFF !important;
+      box-shadow: 0 0 0 1.5px #FFF;
+      background: rgba(255, 255, 255, 0.08);
     }
     .m-cell.today .m-num span {
       background: var(--marie);
       color: #FFF;
       border-radius: 999px;
-      padding: 1px 6px;
+      padding: 1px 5px;
     }
     .m-cell.mab-alert {
-      border-color: rgba(245, 158, 11, 0.65);
-      background: rgba(245, 158, 11, 0.1);
+      border-color: rgba(245, 158, 11, 0.75);
+      background: rgba(245, 158, 11, 0.14);
+    }
+    .m-cell.is-marie-garde {
+      border-color: rgba(236, 72, 153, 0.65);
+      background: rgba(236, 72, 153, 0.13);
+    }
+    .m-cell.is-thomas-garde {
+      border-color: rgba(56, 189, 248, 0.65);
+      background: rgba(56, 189, 248, 0.13);
     }
     .m-num {
-      font-size: 11px;
+      font-size: 11.5px;
       font-weight: 800;
-      color: var(--text-muted);
+      color: #E2E8F0;
+      line-height: 1.1;
+      text-align: center;
+      width: 100%;
     }
     .m-tag {
-      font-size: 8.5px;
-      font-weight: 700;
-      padding: 1.5px 3px;
+      font-size: 8px;
+      font-weight: 800;
+      padding: 1.5px 2px;
       border-radius: 4px;
+      width: 100%;
+      max-width: 100%;
+      text-align: center;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       line-height: 1.15;
     }
-    .m-tag.marie { background: var(--marie-bg); color: #FBCFE8; }
-    .m-tag.thomas-garde { background: rgba(56, 189, 248, 0.28); color: #E0F2FE; }
-    .m-tag.thomas-work { background: rgba(56, 189, 248, 0.12); color: #7DD3FC; }
-    .m-tag.mabrouka { background: rgba(245, 158, 11, 0.3); color: #FDE68A; }
-    .m-tag.famille { background: var(--famille-bg); color: #BBF7D0; }
+    .m-tag.marie { background: rgba(236, 72, 153, 0.28); color: #FBCFE8; }
+    .m-tag.thomas-garde { background: rgba(56, 189, 248, 0.28); color: #BAE6FD; }
+    .m-tag.thomas-work { background: rgba(56, 189, 248, 0.14); color: #7DD3FC; }
+    .m-tag.mabrouka { background: rgba(245, 158, 11, 0.34); color: #FDE68A; }
+    .m-tag.famille { background: rgba(34, 197, 94, 0.26); color: #BBF7D0; }
+    .m-tag.std { background: rgba(148, 163, 184, 0.12); color: #94A3B8; font-weight: 700; }
+    .m-dots {
+      display: flex;
+      gap: 3px;
+      justify-content: center;
+      align-items: center;
+      min-height: 5px;
+    }
+    .m-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+    }
+    .m-dot.mabrouka { background: #F59E0B; }
+    .m-dot.marie { background: #EC4899; }
+    .m-dot.thomas { background: #38BDF8; }
+    .m-dot.famille { background: #22C55E; }
 
     /* NANNY PROFILE CARD */
     .nanny-hero {
@@ -1537,7 +1629,25 @@
       const box = document.getElementById("week-strip-box");
       if (!box) return;
       if (calView === "month") {
-        box.innerHTML = "";
+        const curY = selectedDate.getFullYear();
+        const curM = selectedDate.getMonth();
+        const months = [
+          [2026, 10], [2026, 11],
+          [2027, 0], [2027, 1], [2027, 2], [2027, 3], [2027, 4], [2027, 5]
+        ];
+        let pillsHtml = "";
+        for (const [y, m] of months) {
+          const d = new Date(y, m, 1, 12, 0, 0);
+          const lbl = d.toLocaleDateString("fr-FR", { month: "short", year: "2-digit" }).replace(".", "");
+          const isAct = (y === curY && m === curM);
+          pillsHtml += `<button type="button" class="month-sel-pill ${isAct ? "active" : ""}" id="mpill-${y}-${m}" onclick="selectMonthFromPill(${y}, ${m})">${esc(lbl)}</button>`;
+        }
+        box.innerHTML = `<div class="months-selector-row" id="months-selector-scroll">${pillsHtml}</div>`;
+        const mScroll = document.getElementById("months-selector-scroll");
+        const actEl = document.getElementById(`mpill-${curY}-${curM}`);
+        if (mScroll && actEl) {
+          mScroll.scrollLeft = Math.max(0, actEl.offsetLeft - (mScroll.clientWidth - actEl.offsetWidth) / 2);
+        }
         return;
       }
 
@@ -1840,51 +1950,116 @@
         return;
       }
 
-      // Vue Mois
+      // Vue Mois (compacte, lisible sur téléphone, sans débordement + panneau du jour sélectionné en dessous)
       const year = selectedDate.getFullYear();
       const month = selectedDate.getMonth();
       if (periodLbl) {
         periodLbl.textContent = new Date(year, month, 1).toLocaleDateString("fr-FR", { month: "long", year: "numeric" });
       }
       const firstDay = new Date(year, month, 1, 12, 0, 0);
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
       const startOffset = (firstDay.getDay() + 6) % 7;
+      const totalCells = Math.ceil((startOffset + daysInMonth) / 7) * 7;
       const gridStart = new Date(year, month, 1 - startOffset, 12, 0, 0);
       const selIso = dateToIso(selectedDate);
       const todayIso = dateToIso(new Date());
 
       let html = `
+        <div class="month-legend">
+          <span class="ml-item"><span class="ml-dot" style="background:#F59E0B;"></span>Tata indispo</span>
+          <span class="ml-item"><span class="ml-dot" style="background:#EC4899;"></span>Garde Marie</span>
+          <span class="ml-item"><span class="ml-dot" style="background:#38BDF8;"></span>Garde Thomas</span>
+          <span class="ml-item"><span class="ml-dot" style="background:#22C55E;"></span>Relais Famille</span>
+        </div>
         <div class="month-grid-header">
           <div>Lun</div><div>Mar</div><div>Mer</div><div>Jeu</div><div>Ven</div><div>Sam</div><div>Dim</div>
         </div>
         <div class="month-grid">
       `;
 
-      for (let i = 0; i < 42; i++) {
+      for (let i = 0; i < totalCells; i++) {
         const cellDate = new Date(gridStart.getFullYear(), gridStart.getMonth(), gridStart.getDate() + i, 12, 0, 0);
         const iso = dateToIso(cellDate);
+        const dow = cellDate.getDay();
+        const isWe = (dow === 0 || dow === 6);
         const isOther = cellDate.getMonth() !== month;
-        const evs = (familyData.events || []).filter(e => e.isoDate === iso);
+
         const mab = getMabroukaStatusForIso(iso);
+        const marie = getMarieSimpleStatusForIso(iso);
+        const thomas = getThomasSimpleStatusForIso(iso);
+        const evs = (familyData.events || []).filter(e => e.isoDate === iso);
+        const hasRelais = evs.some(e => e.person === "famille");
         const hasMabAlert = !mab.available && !mab.isWeekend;
 
-        const tags = [];
-        if (hasMabAlert) tags.push(`<div class="m-tag mabrouka">🚨 Tata</div>`);
-        for (const e of evs) {
-          if (e.person === "marie") tags.push(`<div class="m-tag marie">🌸 ${esc(e.horaire || "Garde")}</div>`);
-          else if (e.person === "thomas" && e.category === "garde") tags.push(`<div class="m-tag thomas-garde">🩵 Garde TL</div>`);
-          else if (e.person === "thomas" && e.category === "liberal") tags.push(`<div class="m-tag thomas-work">🩵 Libéral</div>`);
-          else if (e.person === "thomas" && e.category === "formation") tags.push(`<div class="m-tag thomas-work">🩵 Form.</div>`);
-          else if (e.person === "famille") tags.push(`<div class="m-tag famille">🏡 Relais</div>`);
+        // 1 seul badge court ultra-lisible par case
+        let tagCls = "std";
+        let tagTxt = isWe ? "WE" : (dow === 4 ? (iso >= "2027-01-07" ? "Libéral" : "Libre") : "Cochin");
+
+        if (hasMabAlert) {
+          tagCls = "mabrouka";
+          tagTxt = mab.short.includes("16h30") ? "Tata 16h30" : (mab.title.toLowerCase().includes("férié") ? "Férié" : "🚨 Tata");
+        } else if (marie.hasEvent && thomas.isGarde) {
+          tagCls = "marie";
+          tagTxt = "M + T";
+        } else if (marie.hasEvent) {
+          tagCls = "marie";
+          const h = String(marie.event.horaire || "");
+          tagTxt = h.includes("23h") ? "Marie 23h" : (h.includes("21h") ? "Marie 21h" : (h.includes("07h30") ? "Marie 7h30" : "Marie 24h"));
+        } else if (thomas.isGarde) {
+          tagCls = "thomas-garde";
+          tagTxt = "Garde TL";
+        } else if (hasRelais) {
+          tagCls = "famille";
+          tagTxt = "Mamie/Fam.";
+        } else if (thomas.event && thomas.event.category === "formation") {
+          tagCls = "thomas-work";
+          tagTxt = thomas.event.title.toLowerCase().includes("valence") ? "Valence" : (thomas.event.horaire.includes("20h") ? "Soir 20h" : "Form. TL");
+        } else if (thomas.event && thomas.event.category === "liberal") {
+          tagCls = "thomas-work";
+          tagTxt = "Libéral";
+        } else if (thomas.event && thomas.event.category === "free") {
+          tagCls = "famille";
+          tagTxt = "Congés";
         }
 
+        // Petits points colorés s'il y a plusieurs événements le même jour
+        const dots = [];
+        if (hasMabAlert) dots.push(`<span class="m-dot mabrouka"></span>`);
+        if (marie.hasEvent) dots.push(`<span class="m-dot marie"></span>`);
+        if (thomas.isGarde || (thomas.event && thomas.event.category !== "work")) dots.push(`<span class="m-dot thomas"></span>`);
+        if (hasRelais) dots.push(`<span class="m-dot famille"></span>`);
+
+        const cellClasses = [
+          "m-cell",
+          isWe ? "is-weekend" : "",
+          isOther ? "other-month" : "",
+          iso === selIso ? "selected" : "",
+          iso === todayIso ? "today" : "",
+          hasMabAlert ? "mab-alert" : (marie.hasEvent ? "is-marie-garde" : (thomas.isGarde ? "is-thomas-garde" : ""))
+        ].filter(Boolean).join(" ");
+
         html += `
-          <div class="m-cell ${isOther ? "other-month" : ""} ${iso === selIso ? "selected" : ""} ${iso === todayIso ? "today" : ""} ${hasMabAlert ? "mab-alert" : ""}" onclick="selectDayFromMonth('${iso}')">
+          <div class="${cellClasses}" onclick="selectDayInMonthView('${iso}')">
             <div class="m-num"><span>${cellDate.getDate()}</span></div>
-            ${tags.slice(0, 3).join("")}
+            <div class="m-tag ${tagCls}">${esc(tagTxt)}</div>
+            <div class="m-dots">${dots.join("")}</div>
           </div>
         `;
       }
       html += `</div>`;
+
+      // Détail du jour sélectionné directement sous le calendrier mensuel
+      const selEvs = getEventsForDate(selIso);
+      html += `
+        <div style="margin-top:10px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; padding:0 2px;">
+            <strong style="font-size:13.5px; text-transform:capitalize; color:#FFF;">📅 ${esc(formatFullDayTitle(selectedDate))}</strong>
+            <button type="button" class="btn-header" style="height:28px; font-size:11px; padding:0 9px;" onclick="setCalView('day')">Vue Jour ›</button>
+          </div>
+          ${renderDaySummaryHtml(selIso)}
+          ${selEvs.map(e => renderEventCardHtml(e, false)).join("")}
+        </div>
+      `;
       content.innerHTML = html;
     }
 
@@ -1972,6 +2147,16 @@
     function selectDayFromMonth(iso) {
       selectedDate = isoToDate(iso);
       setCalView("day");
+    }
+
+    function selectDayInMonthView(iso) {
+      selectedDate = isoToDate(iso);
+      renderCalendar({ scrollStrip: false });
+    }
+
+    function selectMonthFromPill(y, m) {
+      selectedDate = new Date(y, m, 1, 12, 0, 0);
+      renderCalendar({ scrollStrip: true });
     }
 
     function jumpToDate(iso) {
