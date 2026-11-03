@@ -3,16 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Agenda Famille • Marie &amp; Thomas</title>
+  <meta name="theme-color" content="#0F172A" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Marie &amp; Tom" />
-  <meta name="application-name" content="Marie &amp; Tom" />
-  <meta name="theme-color" content="#0B1120" />
-  <link rel="manifest" href="manifest.json?v=2" />
-  <link rel="icon" type="image/svg+xml" href="icon.svg?v=2" />
-  <link rel="apple-touch-icon" href="icon.svg?v=2" />
-  <title>Agenda Famille — Marie &amp; Thomas</title>
+  <meta name="apple-mobile-web-app-title" content="Agenda Famille" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" type="image/svg+xml" href="icon.svg" />
+  <link rel="apple-touch-icon" href="icon.svg" />
   <style>
     :root {
       --bg: #0B1120;
@@ -22,35 +20,31 @@
       --text: #F8FAFC;
       --text-muted: #94A3B8;
       --marie: #EC4899;
-      --marie-bg: rgba(236, 72, 153, 0.15);
+      --marie-bg: rgba(236, 72, 153, 0.16);
       --thomas: #38BDF8;
-      --thomas-bg: rgba(56, 189, 248, 0.15);
+      --thomas-bg: rgba(56, 189, 248, 0.16);
       --mabrouka: #F59E0B;
-      --mabrouka-bg: rgba(245, 158, 11, 0.16);
+      --mabrouka-bg: rgba(245, 158, 11, 0.18);
+      --famille: #22C55E;
+      --famille-bg: rgba(34, 197, 94, 0.16);
       --danger: #EF4444;
-      --danger-bg: rgba(239, 68, 68, 0.18);
-      --relais: #10B981;
-      --relais-bg: rgba(16, 185, 129, 0.15);
       --purple: #A855F7;
       --safe-top: env(safe-area-inset-top, 0px);
       --safe-bottom: env(safe-area-inset-bottom, 0px);
     }
 
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
     html, body {
       margin: 0;
       padding: 0;
-      width: 100%;
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
       background: var(--bg);
       color: var(--text);
-      min-height: 100vh;
-      padding-bottom: calc(92px + var(--safe-bottom));
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+      min-height: 100%;
       overscroll-behavior-y: contain;
+    }
+    body {
+      padding-bottom: calc(74px + var(--safe-bottom));
     }
 
     /* LOCK SCREEN */
@@ -64,18 +58,16 @@
       align-items: center;
       justify-content: center;
       padding: 24px;
+      transition: opacity 0.22s ease;
     }
-    #lock-screen.hidden { display: none; }
+    #lock-screen.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
     .lock-card {
       width: 100%;
       max-width: 340px;
-      background: rgba(19, 28, 49, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      border-radius: 24px;
-      padding: 28px 22px;
       text-align: center;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
-      backdrop-filter: blur(16px);
     }
     .lock-logo {
       width: 72px;
@@ -149,7 +141,7 @@
       top: 0;
       z-index: 50;
       padding: calc(10px + var(--safe-top)) 14px 10px;
-      background: rgba(11, 17, 32, 0.9);
+      background: rgba(11, 17, 32, 0.92);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
@@ -159,6 +151,8 @@
       align-items: center;
       justify-content: space-between;
       gap: 10px;
+      max-width: 720px;
+      margin: 0 auto;
     }
     .brand {
       display: flex;
@@ -166,8 +160,8 @@
       gap: 10px;
     }
     .brand-icon {
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       border-radius: 10px;
       overflow: hidden;
       flex-shrink: 0;
@@ -175,7 +169,7 @@
     }
     .brand-icon img { width: 100%; height: 100%; display: block; }
     .brand-title {
-      font-size: 16px;
+      font-size: 15.5px;
       font-weight: 800;
       line-height: 1.15;
       letter-spacing: -0.01em;
@@ -222,48 +216,40 @@
 
     /* MABROUKA TOP ALERT BANNER */
     .mabrouka-top-alert {
-      margin: 10px 14px 0;
-      padding: 11px 13px;
-      border-radius: 14px;
+      max-width: 692px;
+      margin: 10px auto 0;
+      padding: 10px 13px;
+      border-radius: 13px;
       background: linear-gradient(135deg, rgba(245, 158, 11, 0.22), rgba(239, 68, 68, 0.22));
       border: 1px solid rgba(245, 158, 11, 0.55);
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       justify-content: space-between;
       gap: 10px;
       cursor: pointer;
-      box-shadow: 0 8px 24px rgba(239, 68, 68, 0.15);
     }
     .mta-left {
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 2px;
     }
     .mta-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.04em;
       color: #FDE68A;
     }
     .mta-title {
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 800;
       color: #FFF;
       line-height: 1.25;
     }
-    .mta-sub {
-      font-size: 11.5px;
-      color: #FED7AA;
-      line-height: 1.3;
-    }
 
     /* MAIN CONTAINER */
     .container {
-      padding: 12px 14px;
+      padding: 10px 14px;
       max-width: 720px;
       margin: 0 auto;
     }
@@ -274,7 +260,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 8px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
     .person-filters {
       display: flex;
@@ -284,7 +270,7 @@
     }
     .person-filters::-webkit-scrollbar { display: none; }
     .pf-chip {
-      padding: 6px 10px;
+      padding: 5px 10px;
       border-radius: 999px;
       border: 1px solid var(--border);
       background: var(--bg-card);
@@ -338,45 +324,14 @@
       color: #FFF;
     }
 
-    /* PERIOD NAVIGATION */
-    .period-nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 7px 10px;
-      margin-bottom: 10px;
-    }
-    .pn-btn {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: var(--bg-elevated);
-      color: #FFF;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .pn-label {
-      font-size: 14px;
-      font-weight: 800;
-      text-transform: capitalize;
-      text-align: center;
-    }
-
     /* QUICK STRIP (GARDES MARIE, GARDES THOMAS, MABROUKA) */
     .quick-strips {
       display: flex;
       gap: 6px;
       overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
       padding-bottom: 6px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       scrollbar-width: none;
     }
     .quick-strips::-webkit-scrollbar { display: none; }
@@ -394,102 +349,243 @@
       flex-shrink: 0;
     }
     .qs-chip.mab {
-      background: rgba(245, 158, 11, 0.2);
-      border-color: rgba(245, 158, 11, 0.55);
+      background: rgba(245, 158, 11, 0.18);
+      border-color: rgba(245, 158, 11, 0.5);
       color: #FDE68A;
     }
     .qs-chip.marie {
-      background: rgba(236, 72, 153, 0.18);
-      border-color: rgba(236, 72, 153, 0.5);
+      background: rgba(236, 72, 153, 0.16);
+      border-color: rgba(236, 72, 153, 0.45);
       color: #FBCFE8;
     }
     .qs-chip.thomas {
-      background: rgba(56, 189, 248, 0.18);
-      border-color: rgba(56, 189, 248, 0.5);
+      background: rgba(56, 189, 248, 0.16);
+      border-color: rgba(56, 189, 248, 0.45);
       color: #BAE6FD;
     }
 
-    /* WEEK DAY STRIP */
-    .week-strip {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 5px;
-      margin-bottom: 12px;
-    }
-    .ws-cell {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 11px;
-      padding: 6px 3px;
-      text-align: center;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 3px;
-      position: relative;
-    }
-    .ws-cell.active {
-      border-color: #FFF;
-      background: rgba(255, 255, 255, 0.1);
-      box-shadow: 0 0 0 1px #FFF;
-    }
-    .ws-cell.has-mab-alert {
-      border-color: var(--mabrouka);
-      background: rgba(245, 158, 11, 0.14);
-    }
-    .ws-dow { font-size: 9.5px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; }
-    .ws-num { font-size: 14px; font-weight: 800; color: #FFF; }
-    .ws-dots {
-      display: flex;
-      gap: 3px;
-      height: 6px;
-      align-items: center;
-    }
-    .dot { width: 6px; height: 6px; border-radius: 50%; }
-    .dot.marie { background: var(--marie); }
-    .dot.thomas { background: var(--thomas); }
-    .dot.mabrouka { background: var(--mabrouka); }
-    .dot.relais { background: var(--relais); }
-
-    /* DAY SUMMARY HEADER */
-    .day-summary-box {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 13px 14px;
-      margin-bottom: 12px;
-    }
-    .ds-title {
-      font-size: 15px;
-      font-weight: 800;
-      text-transform: capitalize;
-      margin-bottom: 10px;
+    /* PERIOD NAVIGATION */
+    .period-nav {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 6px 10px;
+      margin-bottom: 8px;
+    }
+    .pn-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg-elevated);
+      color: #FFF;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .pn-label {
+      font-size: 13.5px;
+      font-weight: 800;
+      text-transform: capitalize;
+      text-align: center;
+    }
+
+    /* SCROLLABLE DAY STRIP (COMME AGENDA INTERVENTIONNEL) */
+    .day-strip-month-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: capitalize;
+      margin-bottom: 4px;
+      padding: 0 2px;
+    }
+    .day-strip-scroll {
+      position: relative;
+      display: flex;
+      gap: 5px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 2px 0 8px;
+      margin-bottom: 8px;
+      scrollbar-width: none;
+      width: 100%;
+    }
+    .day-strip-scroll::-webkit-scrollbar { display: none; }
+    .ws-day {
+      flex: 0 0 calc((100% - 25px) * 0.155);
+      min-width: 52px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 6px 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .ws-day.is-weekend {
+      flex: 0 0 calc((100% - 25px) * 0.112);
+      min-width: 40px;
+      padding: 5px 2px;
+      opacity: 0.92;
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px dashed rgba(148, 163, 184, 0.28);
+    }
+    .ws-day.active {
+      background: rgba(236, 72, 153, 0.22);
+      border-color: var(--marie);
+      box-shadow: 0 0 0 1px var(--marie);
+    }
+    .ws-day.is-marie-garde {
+      border-color: rgba(236, 72, 153, 0.65);
+      background: rgba(236, 72, 153, 0.12);
+    }
+    .ws-day.is-thomas-garde {
+      border-color: rgba(56, 189, 248, 0.65);
+      background: rgba(56, 189, 248, 0.12);
+    }
+    .ws-day.has-mab-alert {
+      border-color: rgba(245, 158, 11, 0.8);
+      background: rgba(245, 158, 11, 0.14);
+    }
+    .ws-dow {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .ws-num {
+      font-size: 13px;
+      font-weight: 800;
+      color: #FFF;
+      line-height: 1.1;
+    }
+    .ws-mon {
+      font-size: 8.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-left: 2px;
+    }
+    .ws-day.is-weekend .ws-mon { display: none; }
+    .ws-badge {
+      font-size: 8.5px;
+      font-weight: 800;
+      padding: 1.5px 4px;
+      border-radius: 5px;
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 1px;
+    }
+    .ws-badge.b-mab { background: rgba(245, 158, 11, 0.28); color: #FDE68A; }
+    .ws-badge.b-marie { background: rgba(236, 72, 153, 0.28); color: #FBCFE8; }
+    .ws-badge.b-thomas { background: rgba(56, 189, 248, 0.26); color: #BAE6FD; }
+    .ws-badge.b-relais { background: rgba(34, 197, 94, 0.25); color: #BBF7D0; }
+    .ws-badge.b-std { background: rgba(148, 163, 184, 0.14); color: #94A3B8; }
+
+    /* SCROLLABLE WEEKS SELECTOR (EN VUE SEMAINE) */
+    .weeks-selector-row {
+      display: flex;
+      gap: 7px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 2px 0 8px;
+      margin-bottom: 8px;
+      scrollbar-width: none;
+    }
+    .weeks-selector-row::-webkit-scrollbar { display: none; }
+    .week-sel-card {
+      flex: 0 0 148px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 8px 10px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      user-select: none;
+    }
+    .week-sel-card.active {
+      border-color: var(--marie);
+      background: rgba(236, 72, 153, 0.16);
+      box-shadow: 0 0 0 1px var(--marie);
+    }
+    .wsc-title {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: #FFF;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .wsc-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+    }
+    .wsc-tag {
+      font-size: 9px;
+      font-weight: 700;
+      padding: 1.5px 5px;
+      border-radius: 5px;
+    }
+
+    /* SIMPLIFIED DAY SUMMARY CARD */
+    .day-summary-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+    .ds-title {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     .status-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
+      gap: 7px;
+    }
+    @media (max-width: 460px) {
+      .status-grid { grid-template-columns: 1fr; gap: 6px; }
     }
     .status-tile {
-      background: rgba(30, 41, 59, 0.65);
+      padding: 9px 11px;
+      border-radius: 11px;
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 8px 9px;
+      background: rgba(30, 41, 59, 0.5);
       display: flex;
       flex-direction: column;
-      gap: 3px;
+      gap: 2px;
     }
     .status-tile.marie { border-left: 3px solid var(--marie); }
     .status-tile.thomas { border-left: 3px solid var(--thomas); }
-    .status-tile.mabrouka { border-left: 3px solid var(--mabrouka); }
+    .status-tile.mabrouka { border-left: 3px solid #22C55E; }
     .status-tile.alert-mab {
-      background: rgba(239, 68, 68, 0.2);
-      border-color: var(--danger);
-      border-left: 3px solid var(--danger);
+      border-left: 3px solid var(--mabrouka);
+      background: rgba(245, 158, 11, 0.14);
+      border-color: rgba(245, 158, 11, 0.4);
     }
     .st-who {
       font-size: 10.5px;
@@ -498,7 +594,7 @@
       color: var(--text-muted);
     }
     .st-val {
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 700;
       color: #FFF;
       line-height: 1.25;
@@ -509,105 +605,120 @@
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-left: 4px solid var(--text-muted);
-      border-radius: 14px;
-      padding: 12px 13px;
-      margin-bottom: 9px;
-      position: relative;
+      border-radius: 13px;
+      padding: 11px 13px;
+      margin-bottom: 8px;
     }
-    .event-card.person-marie {
-      border-left-color: var(--marie);
-      background: linear-gradient(90deg, rgba(236, 72, 153, 0.12) 0%, var(--bg-card) 100%);
-    }
-    .event-card.person-thomas {
-      border-left-color: var(--thomas);
-      background: linear-gradient(90deg, rgba(56, 189, 248, 0.1) 0%, var(--bg-card) 100%);
-    }
+    .event-card.person-marie { border-left-color: var(--marie); }
+    .event-card.person-thomas { border-left-color: var(--thomas); }
     .event-card.person-mabrouka {
       border-left-color: var(--mabrouka);
-      background: linear-gradient(90deg, rgba(245, 158, 11, 0.18) 0%, var(--bg-card) 100%);
-      border-color: rgba(245, 158, 11, 0.45);
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(19, 28, 49, 0.95));
     }
-    .event-card.person-famille {
-      border-left-color: var(--relais);
-      background: linear-gradient(90deg, rgba(16, 185, 129, 0.12) 0%, var(--bg-card) 100%);
-    }
+    .event-card.person-famille { border-left-color: var(--famille); }
+
     .ev-top {
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 8px;
-      margin-bottom: 5px;
+      margin-bottom: 4px;
     }
     .ev-time {
       font-size: 11.5px;
-      font-weight: 800;
-      padding: 3px 8px;
-      border-radius: 6px;
-      background: rgba(255, 255, 255, 0.09);
-      color: #F8FAFC;
+      font-weight: 700;
+      color: var(--text-muted);
     }
     .ev-pill {
       font-size: 10.5px;
       font-weight: 800;
-      padding: 3px 8px;
+      padding: 2px 8px;
       border-radius: 999px;
-      text-transform: uppercase;
-      letter-spacing: 0.03em;
     }
-    .ev-pill.marie { background: var(--marie-bg); color: #F9A8D4; border: 1px solid rgba(236,72,153,0.4); }
-    .ev-pill.thomas { background: var(--thomas-bg); color: #7DD3FC; border: 1px solid rgba(56,189,248,0.4); }
-    .ev-pill.mabrouka { background: var(--mabrouka-bg); color: #FDE68A; border: 1px solid rgba(245,158,11,0.5); }
-    .ev-pill.famille { background: var(--relais-bg); color: #6EE7B7; border: 1px solid rgba(16,185,129,0.4); }
+    .ev-pill.marie { background: var(--marie-bg); color: #FBCFE8; }
+    .ev-pill.thomas { background: var(--thomas-bg); color: #BAE6FD; }
+    .ev-pill.mabrouka { background: var(--mabrouka-bg); color: #FDE68A; }
+    .ev-pill.famille { background: var(--famille-bg); color: #BBF7D0; }
+
     .ev-title {
-      font-size: 14.5px;
+      font-size: 14px;
       font-weight: 800;
       color: #FFF;
-      line-height: 1.3;
-      margin-bottom: 4px;
-    }
-    .ev-meta {
-      font-size: 12px;
-      color: #CBD5E1;
-      margin-bottom: 4px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      line-height: 1.25;
     }
     .ev-notes {
       font-size: 12px;
-      color: var(--text-muted);
+      color: #CBD5E1;
       line-height: 1.35;
-      background: rgba(15, 23, 42, 0.55);
-      padding: 7px 9px;
-      border-radius: 8px;
-      margin-top: 6px;
+      margin-top: 4px;
     }
     .ev-footer {
       display: flex;
+      justify-content: flex-end;
       align-items: center;
-      justify-content: space-between;
-      margin-top: 7px;
-      font-size: 10.5px;
-      color: #64748B;
+      margin-top: 6px;
     }
     .btn-del-ev {
-      border: none;
       background: transparent;
-      color: #94A3B8;
-      font-size: 11px;
+      border: 1px solid rgba(239, 68, 68, 0.35);
+      color: #FCA5A5;
+      border-radius: 6px;
+      padding: 2px 7px;
+      font-size: 10.5px;
+      font-weight: 700;
       cursor: pointer;
-      padding: 2px 6px;
     }
 
-    /* MONTH GRID */
+    /* COMPACT WEEK LIST */
+    .week-row-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      margin-bottom: 7px;
+      cursor: pointer;
+    }
+    .week-row-card.is-today {
+      border-color: rgba(236, 72, 153, 0.5);
+    }
+    .wrc-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .wrc-day {
+      font-size: 13.5px;
+      font-weight: 800;
+      text-transform: capitalize;
+      color: #FFF;
+    }
+    .wrc-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+      font-size: 11.5px;
+    }
+    .wrc-pill {
+      padding: 5px 8px;
+      border-radius: 8px;
+      background: rgba(30, 41, 59, 0.55);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-weight: 600;
+      color: #E2E8F0;
+    }
+
+    /* MONTH CALENDAR GRID */
     .month-grid-header {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       text-align: center;
-      font-size: 10.5px;
+      font-size: 11px;
       font-weight: 700;
       color: var(--text-muted);
-      padding-bottom: 6px;
+      margin-bottom: 6px;
     }
     .month-grid {
       display: grid;
@@ -615,135 +726,144 @@
       gap: 4px;
     }
     .m-cell {
-      min-height: 68px;
+      min-height: 66px;
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-radius: 10px;
       padding: 4px;
+      cursor: pointer;
       display: flex;
       flex-direction: column;
       gap: 2px;
-      cursor: pointer;
     }
-    .m-cell.other-month { opacity: 0.38; }
-    .m-cell.selected { border-color: #FFF; box-shadow: 0 0 0 1px #FFF; }
-    .m-cell.today { border-color: var(--thomas); }
-    .m-cell.mab-alert { border-color: var(--mabrouka); background: rgba(245, 158, 11, 0.12); }
+    .m-cell.other-month { opacity: 0.35; }
+    .m-cell.selected {
+      border-color: var(--marie);
+      box-shadow: 0 0 0 1px var(--marie);
+    }
+    .m-cell.today .m-num span {
+      background: var(--marie);
+      color: #FFF;
+      border-radius: 999px;
+      padding: 1px 6px;
+    }
+    .m-cell.mab-alert {
+      border-color: rgba(245, 158, 11, 0.65);
+      background: rgba(245, 158, 11, 0.1);
+    }
     .m-num {
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: 800;
-      color: #E2E8F0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      color: var(--text-muted);
     }
     .m-tag {
       font-size: 8.5px;
-      font-weight: 800;
-      padding: 1.5px 3.5px;
+      font-weight: 700;
+      padding: 1.5px 3px;
       border-radius: 4px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       line-height: 1.15;
     }
-    .m-tag.marie { background: rgba(236, 72, 153, 0.28); color: #FCE7F3; }
-    .m-tag.thomas-garde { background: rgba(239, 68, 68, 0.32); color: #FECACA; }
-    .m-tag.thomas-work { background: rgba(56, 189, 248, 0.16); color: #BAE6FD; }
-    .m-tag.mabrouka { background: rgba(245, 158, 11, 0.35); color: #FEF3C7; }
-    .m-tag.famille { background: rgba(16, 185, 129, 0.26); color: #D1FAE5; }
+    .m-tag.marie { background: var(--marie-bg); color: #FBCFE8; }
+    .m-tag.thomas-garde { background: rgba(56, 189, 248, 0.28); color: #E0F2FE; }
+    .m-tag.thomas-work { background: rgba(56, 189, 248, 0.12); color: #7DD3FC; }
+    .m-tag.mabrouka { background: rgba(245, 158, 11, 0.3); color: #FDE68A; }
+    .m-tag.famille { background: var(--famille-bg); color: #BBF7D0; }
 
-    /* MABROUKA TAB */
+    /* NANNY PROFILE CARD */
     .nanny-hero {
-      background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
-      border: 1px solid rgba(245, 158, 11, 0.4);
-      border-radius: 18px;
-      padding: 16px;
+      background: linear-gradient(135deg, #1E293B, #131C31);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 14px;
       margin-bottom: 14px;
     }
     .nh-top {
       display: flex;
-      align-items: center;
       justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 12px;
+      align-items: center;
+      margin-bottom: 10px;
     }
-    .nh-name { font-size: 18px; font-weight: 800; color: #FDE68A; }
-    .nh-sub { font-size: 12.5px; color: #CBD5E1; margin-top: 2px; }
+    .nh-name { font-size: 16px; font-weight: 800; }
+    .nh-sub { font-size: 12px; color: var(--text-muted); }
     .nh-actions {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      display: flex;
       gap: 8px;
+      margin-top: 10px;
     }
     .nh-btn {
+      flex: 1;
       padding: 9px 10px;
-      border-radius: 11px;
-      background: rgba(255, 255, 255, 0.07);
-      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg-elevated);
       color: #FFF;
       text-decoration: none;
       font-size: 12px;
       font-weight: 700;
       text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
     }
 
-    /* BOTTOM NAV */
+    /* BOTTOM TAB BAR */
     .bottom-nav {
       position: fixed;
       bottom: 0;
       left: 0;
       right: 0;
-      z-index: 90;
+      z-index: 60;
       background: rgba(11, 17, 32, 0.94);
-      backdrop-filter: blur(18px);
-      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border-top: 1px solid var(--border);
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      padding: 6px 8px calc(8px + var(--safe-bottom));
+      padding: 6px 10px calc(6px + var(--safe-bottom));
+      display: flex;
+      justify-content: space-around;
     }
     .nav-btn {
       border: none;
       background: transparent;
       color: var(--text-muted);
+      font-size: 10.5px;
+      font-weight: 700;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 3px;
-      font-size: 10.5px;
-      font-weight: 700;
-      padding: 6px 4px;
+      padding: 4px 12px;
       border-radius: 10px;
       cursor: pointer;
       position: relative;
     }
-    .nav-btn.active {
-      color: #FFF;
-      background: rgba(255, 255, 255, 0.07);
+    .nav-btn.active { color: #FFF; }
+    .nav-btn.active::before {
+      content: "";
+      position: absolute;
+      top: -6px;
+      width: 24px;
+      height: 3px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--marie), var(--thomas));
     }
     .nav-badge {
       position: absolute;
-      top: 3px;
-      right: 18%;
+      top: 0;
+      right: 6px;
       background: var(--danger);
       color: #FFF;
-      font-size: 9.5px;
+      font-size: 9px;
       font-weight: 800;
       padding: 1px 5px;
       border-radius: 999px;
     }
 
-    /* MODAL */
+    /* MODAL ADD EVENT */
     .modal-backdrop {
       position: fixed;
       inset: 0;
       z-index: 200;
-      background: rgba(0, 0, 0, 0.72);
-      backdrop-filter: blur(6px);
+      background: rgba(0, 0, 0, 0.7);
       display: none;
       align-items: flex-end;
       justify-content: center;
@@ -751,23 +871,29 @@
     .modal-backdrop.open { display: flex; }
     .modal-sheet {
       width: 100%;
-      max-width: 540px;
+      max-width: 520px;
       background: var(--bg-card);
-      border-top: 1px solid rgba(255, 255, 255, 0.16);
-      border-radius: 22px 22px 0 0;
-      padding: 18px 16px calc(22px + var(--safe-bottom));
+      border-top: 1px solid var(--border);
+      border-radius: 20px 20px 0 0;
+      padding: 18px 16px calc(20px + var(--safe-bottom));
       max-height: 90vh;
       overflow-y: auto;
     }
     .form-group { margin-bottom: 12px; }
-    .form-label { display: block; font-size: 12px; font-weight: 700; color: #CBD5E1; margin-bottom: 5px; }
+    .form-label {
+      display: block;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+    }
     .form-input, .form-select, .form-textarea {
       width: 100%;
-      border-radius: 11px;
+      padding: 10px 12px;
+      border-radius: 10px;
       border: 1px solid var(--border);
       background: var(--bg-elevated);
       color: #FFF;
-      padding: 10px 12px;
       font-size: 14px;
       font-family: inherit;
     }
@@ -783,11 +909,9 @@
   <!-- ÉCRAN DE CONNEXION SIMPLE -->
   <div id="lock-screen">
     <div class="lock-card">
-      <div class="lock-logo">
-        <img src="icon.svg" alt="Marie &amp; Thomas" />
-      </div>
-      <h1 class="lock-title">Marie &amp; Thomas</h1>
-      <p class="lock-sub">Agenda familial • Gardes &amp; Mabrouka<br/>Code de connexion simple (4 chiffres)</p>
+      <div class="lock-logo"><img src="icon.svg" alt="Agenda Famille" /></div>
+      <h1 class="lock-title">Agenda Marie &amp; Thomas</h1>
+      <p class="lock-sub">Planning familial &amp; alertes garde d'Émile</p>
       <div class="pin-dots" id="pin-dots">
         <div class="pin-dot"></div>
         <div class="pin-dot"></div>
@@ -795,48 +919,48 @@
         <div class="pin-dot"></div>
       </div>
       <div class="pin-pad">
-        <button type="button" class="pin-btn" onclick="pressDigit('1')">1</button>
-        <button type="button" class="pin-btn" onclick="pressDigit('2')">2</button>
-        <button type="button" class="pin-btn" onclick="pressDigit('3')">3</button>
-        <button type="button" class="pin-btn" onclick="pressDigit('4')">4</button>
-        <button type="button" class="pin-btn" onclick="pressDigit('5')">5</button>
-        <button type="button" class="pin-btn" onclick="pressDigit('6')">6</button>
-        <button type="button" class="pin-btn" onclick="pressDigit('7')">7</button>
-        <button type="button" class="pin-btn" onclick="pressDigit('8')">8</button>
-        <button type="button" class="pin-btn" onclick="pressDigit('9')">9</button>
-        <button type="button" class="pin-btn" onclick="clearPin()" style="font-size:13px; color:#94A3B8;">Effacer</button>
-        <button type="button" class="pin-btn" onclick="pressDigit('0')">0</button>
+        <button type="button" class="pin-btn" onclick="pressPin('1')">1</button>
+        <button type="button" class="pin-btn" onclick="pressPin('2')">2</button>
+        <button type="button" class="pin-btn" onclick="pressPin('3')">3</button>
+        <button type="button" class="pin-btn" onclick="pressPin('4')">4</button>
+        <button type="button" class="pin-btn" onclick="pressPin('5')">5</button>
+        <button type="button" class="pin-btn" onclick="pressPin('6')">6</button>
+        <button type="button" class="pin-btn" onclick="pressPin('7')">7</button>
+        <button type="button" class="pin-btn" onclick="pressPin('8')">8</button>
+        <button type="button" class="pin-btn" onclick="pressPin('9')">9</button>
+        <button type="button" class="pin-btn" onclick="clearPin()">C</button>
+        <button type="button" class="pin-btn" onclick="pressPin('0')">0</button>
         <button type="button" class="pin-btn" onclick="backspacePin()">⌫</button>
       </div>
       <div class="lock-error" id="lock-error"></div>
     </div>
   </div>
 
-  <!-- HEADER -->
+  <!-- EN-TÊTE PRINCIPAL -->
   <header class="app-header">
     <div class="header-top">
-      <div class="brand" onclick="goToday()" style="cursor:pointer;">
+      <div class="brand">
         <div class="brand-icon"><img src="icon.svg" alt="Icon" /></div>
         <div>
           <div class="brand-title">Marie &amp; Thomas</div>
           <div class="brand-sub">
             <span class="live-dot"></span>
-            <span id="sync-status-lbl">Émile &amp; Mabrouka • Sync OK</span>
+            <span id="sync-status-label">Émile &amp; Mabrouka</span>
           </div>
         </div>
       </div>
       <div class="header-actions">
-        <button type="button" class="btn-header" onclick="goToday()">Auj.</button>
+        <button type="button" class="btn-header" onclick="goToday()">Aujourd'hui</button>
         <button type="button" class="btn-header primary" onclick="openAddModal()">+ Ajouter</button>
       </div>
     </div>
   </header>
 
-  <!-- BANDEAU ALERTE MABROUKA EN HAUT -->
+  <!-- BANDEAU D'ALERTE PRIORITAIRE MABROUKA -->
   <div id="top-mabrouka-banner"></div>
 
   <!-- CONTENU PRINCIPAL -->
-  <main class="container">
+  <main class="container" id="swipe-area">
     <!-- ONGLET 1 : AGENDA COMMUN -->
     <section id="tab-agenda">
       <div class="controls-bar">
@@ -853,17 +977,17 @@
         </div>
       </div>
 
-      <!-- PUCES D'ACCÈS RAPIDE AUX PROCHAINES ALERTES & GARDES -->
+      <!-- PUCES D'ACCÈS RAPIDE DÉFILABLES -->
       <div class="quick-strips" id="quick-strips-bar"></div>
 
       <!-- NAVIGATION DATE -->
       <div class="period-nav">
         <button type="button" class="pn-btn" onclick="navigatePeriod(-1)">‹</button>
-        <div class="pn-label" id="period-label">Lundi 2 Novembre 2026</div>
+        <div class="pn-label" id="period-label">Mardi 3 Novembre 2026</div>
         <button type="button" class="pn-btn" onclick="navigatePeriod(1)">›</button>
       </div>
 
-      <!-- BARRE DES 7 JOURS DE LA SEMAINE -->
+      <!-- BARRE DE DÉFILEMENT CONTINU DES JOURS / SEMAINES (COMME AGENDA INTERVENTIONNEL) -->
       <div id="week-strip-box"></div>
 
       <!-- RENDU DU CALENDRIER (JOUR / SEMAINE / MOIS) -->
@@ -887,7 +1011,7 @@
       </div>
 
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <h2 style="font-size:16px; font-weight:800; margin:0;">🚨 Indisponibilités &amp; Alertes Mabrouka</h2>
+        <h2 style="font-size:16px; font-weight:800; margin:0;">🚨 Indisponibilités Mabrouka</h2>
         <button type="button" class="btn-header primary" onclick="openAddModal('mabrouka')">+ Absence Tata</button>
       </div>
 
@@ -897,21 +1021,10 @@
     <!-- ONGLET 3 : GARDES & INDISPONIBILITÉS (MARIE & THOMAS) -->
     <section id="tab-gardes" style="display:none;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-        <h2 style="font-size:16px; font-weight:800; margin:0;">🏥 Gardes, Formations &amp; Vacations</h2>
+        <h2 style="font-size:16px; font-weight:800; margin:0;">🏥 Gardes &amp; Indisponibilités</h2>
         <button type="button" class="btn-header primary" onclick="openAddModal('garde')">+ Garde</button>
       </div>
       <div id="gardes-combined-list"></div>
-    </section>
-
-    <!-- ONGLET 4 : JOURNAL IMESSAGE / WHATSAPP / MAILS -->
-    <section id="tab-messages" style="display:none;">
-      <div style="margin-bottom:12px;">
-        <h2 style="font-size:16px; font-weight:800; margin:0 0 4px;">💬 Synchronisation Messages &amp; Mails</h2>
-        <p style="font-size:12px; color:var(--text-muted); margin:0;">
-          Événements extraits automatiquement des iMessages (Marie, Mabrouka, Famille), WhatsApp (Cochin) et Mails (AP-HP &amp; Live.fr).
-        </p>
-      </div>
-      <div id="messages-log-list"></div>
     </section>
   </main>
 
@@ -938,9 +1051,9 @@
             <select id="ev-category" class="form-select">
               <option value="garde">🚨 Garde / Demi-garde</option>
               <option value="nanny_unavail">👶 Mabrouka indisponible</option>
-              <option value="work">🏥 Journée travail / Bloc</option>
-              <option value="liberal">💼 Vacation Libérale</option>
-              <option value="formation">🎓 Cours / Masterclass</option>
+              <option value="work">🏥 Journée travail</option>
+              <option value="liberal">💼 Journée Libéral</option>
+              <option value="formation">🎓 Formation / Déplacement</option>
               <option value="relais">🏡 Relais Grands-Parents / Famille</option>
               <option value="free">🌴 Congés / Jour libre</option>
             </select>
@@ -957,16 +1070,12 @@
           </div>
         </div>
         <div class="form-group">
-          <label class="form-label">Titre / Motif</label>
+          <label class="form-label">Titre</label>
           <input type="text" id="ev-title" class="form-input" placeholder="ex: Garde Marie, Mabrouka absente, Relais Mamie..." required />
         </div>
         <div class="form-group">
-          <label class="form-label">Lieu / Organisation pour Émile</label>
-          <input type="text" id="ev-lieu" class="form-input" placeholder="ex: Urgences Trousseau / Qui récupère Émile ?" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Remarques / Détails</label>
-          <textarea id="ev-notes" rows="2" class="form-textarea" placeholder="Détails supplémentaires..."></textarea>
+          <label class="form-label">Organisation / Remarque</label>
+          <input type="text" id="ev-notes" class="form-input" placeholder="ex: Qui récupère Émile ?" />
         </div>
         <div style="display:flex; gap:10px; margin-top:16px;">
           <button type="button" class="btn-header" style="flex:1; justify-content:center; height:42px;" onclick="closeAddModal()">Annuler</button>
@@ -976,11 +1085,11 @@
     </div>
   </div>
 
-  <!-- BARRE DE NAVIGATION MOBILE -->
+  <!-- BARRE DE NAVIGATION MOBILE SIMPLIFIÉE (3 ONGLETS) -->
   <nav class="bottom-nav">
     <button type="button" class="nav-btn active" id="nav-agenda" onclick="switchTab('agenda')">
       <span style="font-size:18px;">📅</span>
-      <span>Agenda</span>
+      <span>Planning</span>
     </button>
     <button type="button" class="nav-btn" id="nav-mabrouka" onclick="switchTab('mabrouka')">
       <span style="font-size:18px;">👶</span>
@@ -989,50 +1098,38 @@
     </button>
     <button type="button" class="nav-btn" id="nav-gardes" onclick="switchTab('gardes')">
       <span style="font-size:18px;">🏥</span>
-      <span>Gardes &amp; Indispo</span>
-    </button>
-    <button type="button" class="nav-btn" id="nav-messages" onclick="switchTab('messages')">
-      <span style="font-size:18px;">💬</span>
-      <span>Messages</span>
+      <span>Gardes &amp; Relais</span>
     </button>
   </nav>
 
   <script>
+    const SESSION_KEY = "agenda_famille_unlocked_pin_v1";
+    const LOCAL_CACHE_KEY = "agenda_famille_data_cache_v3";
     const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxLGqUevVWi36mNQ7WNoY2uhRsYLdsG_gQcscMPkP1GcQEt0LgdhGIuzYL2SM-uTcPq/exec";
-    const STORAGE_PIN_KEY = "famille_agenda_pin_v1";
-    const STORAGE_DATA_KEY = "famille_agenda_data_v1";
-
-    // Empreintes SHA-256 autorisées : 1818 (4 chiffres simple) ou 020718
-    const ALLOWED_PIN_HASHES = new Set([
-      "c0067d47856625072b850606b6127c7a0c8934092842764f8a58650a31f597d7",
-      "880e662aca87afd64fbf14e04e47dbf9a33dede435a0986f9a249571d5086690"
-    ]);
 
     let pinBuffer = "";
     let currentTab = "agenda";
     let calView = "day";
     let personFilter = "all";
-
-    const nowInit = new Date();
-    let selectedDate = new Date(nowInit.getFullYear(), nowInit.getMonth(), nowInit.getDate(), 12, 0, 0);
+    let selectedDate = new Date();
+    selectedDate.setHours(12, 0, 0, 0);
 
     let familyData = {
-      updated_at: "",
-      child: { name: "Émile", nanny: "Mabrouka Gdaiem", nanny_phone: "+33769029086", nanny_hours: "Lun – Ven • 08h30 – 18h30" },
+      child: { name: "Émile", nanny: "Mabrouka Gdaiem", nanny_hours: "08h30 – 18h30" },
       mabrouka_alerts: [],
       events: [],
       thomas_weekly_pattern: {
-        "1": { short: "Cochin (CS/SAU)", label: "Lun : CS / UCSA / Staff RCP • TDM SAU", hours: "08h30 – 18h00" },
-        "2": { short: "Cochin (Bloc TDM)", label: "Mar : Bloc TDM Achard 1 (Journée complète)", hours: "08h30 – 18h30" },
-        "3": { short: "Cochin (Gestes/CS)", label: "Mer : Gestes (Matin) • CS & TDM SAU (AM)", hours: "08h30 – 18h00" },
-        "4": { short: "Hors Cochin / Libéral", label: "Jeu : Libre Cochin ou Libéral JDP/GSH", hours: "Variable" },
-        "5": { short: "Cochin (Écho/IRM)", label: "Ven : Écho 9h-12h • IRM (1 sem/2)", hours: "08h30 – 17h30" }
-      },
-      recent_messages_log: []
+        "1": { short: "Cochin", label: "Cochin (08h30 – 18h30)", hours: "08h30 – 18h30" },
+        "2": { short: "Cochin", label: "Cochin (08h30 – 18h30)", hours: "08h30 – 18h30" },
+        "3": { short: "Cochin", label: "Cochin (09h00 – 18h30)", hours: "09h00 – 18h30" },
+        "4": { short: "Libre / Libéral", label: "Libre ou Libéral", hours: "Variable" },
+        "5": { short: "Cochin", label: "Cochin (09h00 – 18h00)", hours: "09h00 – 18h00" }
+      }
     };
 
+    /* --- UTILITAIRES DATE & TEXTE --- */
     function esc(s) {
-      return String(s || "")
+      return String(s == null ? "" : s)
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
@@ -1047,82 +1144,61 @@
     }
 
     function isoToDate(iso) {
-      const [y, m, d] = String(iso || "2026-11-02").split("-").map(Number);
+      const [y, m, d] = String(iso).split("-").map(Number);
       return new Date(y, (m || 1) - 1, d || 1, 12, 0, 0);
     }
 
-    function formatFrDate(iso, full = false) {
-      const dt = isoToDate(iso);
-      return dt.toLocaleDateString("fr-FR", full
-        ? { weekday: "long", day: "numeric", month: "long", year: "numeric" }
-        : { weekday: "short", day: "2-digit", month: "short" }
-      );
-    }
-
     function getMondayOf(d) {
-      const dt = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 12, 0, 0);
-      const day = dt.getDay();
-      const diff = day === 0 ? -6 : 1 - day;
-      dt.setDate(dt.getDate() + diff);
-      return dt;
+      const copy = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 12, 0, 0);
+      const day = copy.getDay();
+      const diff = (day === 0 ? -6 : 1) - day;
+      copy.setDate(copy.getDate() + diff);
+      return copy;
     }
 
-    /* --- PIN & CHIFFREMENT --- */
-    function renderPinDots() {
-      const dots = document.querySelectorAll("#pin-dots .pin-dot");
-      dots.forEach((d, idx) => d.classList.toggle("filled", idx < pinBuffer.length));
+    function formatFrDate(iso, withYear = false) {
+      const d = isoToDate(iso);
+      const opts = { weekday: "short", day: "numeric", month: "short" };
+      if (withYear) opts.year = "numeric";
+      return d.toLocaleDateString("fr-FR", opts);
     }
 
-    function pressDigit(digit) {
-      document.getElementById("lock-error").textContent = "";
-      if (pinBuffer.length >= 6) return;
-      pinBuffer += digit;
-      renderPinDots();
-      if (pinBuffer.length === 4 || pinBuffer.length === 6) {
-        checkPinAttempt(pinBuffer);
-      }
+    function formatFullDayTitle(d) {
+      return d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
     }
 
-    function backspacePin() {
-      pinBuffer = pinBuffer.slice(0, -1);
-      renderPinDots();
-    }
-
-    function clearPin() {
-      pinBuffer = "";
-      renderPinDots();
-    }
-
-    window.addEventListener("keydown", (e) => {
-      const lock = document.getElementById("lock-screen");
-      if (!lock || lock.classList.contains("hidden")) return;
-      if (/^[0-9]$/.test(e.key)) pressDigit(e.key);
-      else if (e.key === "Backspace") backspacePin();
-    });
-
-    async function checkPinAttempt(candidate) {
-      try {
-        const vaultPin = candidate === "020718" ? "1818" : candidate;
-        const ok = await unlockWithPin(vaultPin);
-        if (ok) {
-          localStorage.setItem(STORAGE_PIN_KEY, vaultPin);
-          document.getElementById("lock-screen").classList.add("hidden");
-          pinBuffer = "";
-          renderPinDots();
-          renderAll();
-          syncWithCloud();
-          return;
+    /* --- NETTOYAGE AUTOMATIQUE DES DÉTAILS DE LA JOURNÉE DE THOMAS --- */
+    function sanitizeFamilyState(raw) {
+      if (!raw || typeof raw !== "object") return raw;
+      // Supprimer tout événement purement descriptif du travail quotidien de Thomas (sans impact horaire/garde)
+      raw.events = (raw.events || []).filter(e => {
+        if (!e) return false;
+        if (e.person === "thomas" && e.category === "work") return false;
+        return true;
+      }).map(e => {
+        if (e.person === "thomas") {
+          let cleanTitle = String(e.title || "");
+          if (e.category === "liberal") cleanTitle = "Journée Libéral (Paris 5e)";
+          else if (cleanTitle.toLowerCase().includes("masterclass") || cleanTitle.toLowerCase().includes("osteocool")) {
+            cleanTitle = cleanTitle.toLowerCase().includes("valence") ? "Déplacement Thomas (Valence)" : "Formation Thomas (Paris)";
+          } else if (cleanTitle.toLowerCase().includes("bone club")) {
+            cleanTitle = "Réunion soir Thomas (18h00 – 20h00)";
+          }
+          return { ...e, title: cleanTitle };
         }
-      } catch (e) {}
-      if (candidate.length >= 4) {
-        document.getElementById("lock-error").textContent = "Code incorrect";
-        setTimeout(() => {
-          pinBuffer = "";
-          renderPinDots();
-        }, 350);
-      }
+        return e;
+      });
+      raw.thomas_weekly_pattern = {
+        "1": { short: "Cochin", label: "Cochin (08h30 – 18h30)", hours: "08h30 – 18h30" },
+        "2": { short: "Cochin", label: "Cochin (08h30 – 18h30)", hours: "08h30 – 18h30" },
+        "3": { short: "Cochin", label: "Cochin (09h00 – 18h30)", hours: "09h00 – 18h30" },
+        "4": { short: "Libre / Libéral", label: "Libre ou Libéral", hours: "Variable" },
+        "5": { short: "Cochin", label: "Cochin (09h00 – 18h00)", hours: "09h00 – 18h00" }
+      };
+      return raw;
     }
 
+    /* --- DÉCHIFFREMENT VAULT (PBKDF2-SHA256) --- */
     function b64ToBytes(b64) {
       const bin = atob(b64);
       const out = new Uint8Array(bin.length);
@@ -1130,134 +1206,145 @@
       return out;
     }
 
-    async function decryptStaticVault(encObj, pinStr) {
-      const salt = b64ToBytes(encObj.salt);
-      const nonce = b64ToBytes(encObj.nonce);
-      const ct = b64ToBytes(encObj.ct);
-      const expectedTag = b64ToBytes(encObj.tag);
+    function concatBytes(...arrays) {
+      const total = arrays.reduce((acc, a) => acc + a.length, 0);
+      const out = new Uint8Array(total);
+      let offset = 0;
+      for (const a of arrays) {
+        out.set(a, offset);
+        offset += a.length;
+      }
+      return out;
+    }
 
-      const baseKey = await crypto.subtle.importKey(
-        "raw",
-        new TextEncoder().encode(pinStr),
-        "PBKDF2",
-        false,
-        ["deriveBits"]
-      );
-      const dkBits = await crypto.subtle.deriveBits(
+    async function decryptVaultWithPin(pin, vault) {
+      const enc = new TextEncoder();
+      const salt = b64ToBytes(vault.salt);
+      const nonce = b64ToBytes(vault.nonce);
+      const ct = b64ToBytes(vault.ct);
+      const tag = b64ToBytes(vault.tag);
+
+      const baseKey = await crypto.subtle.importKey("raw", enc.encode(pin), "PBKDF2", false, ["deriveBits"]);
+      const bits = await crypto.subtle.deriveBits(
         { name: "PBKDF2", salt, iterations: 100000, hash: "SHA-256" },
         baseKey,
         512
       );
-      const dk = new Uint8Array(dkBits);
+      const dk = new Uint8Array(bits);
       const encKey = dk.slice(0, 32);
       const macKey = dk.slice(32, 64);
 
-      const hmacKey = await crypto.subtle.importKey(
-        "raw",
-        macKey,
-        { name: "HMAC", hash: "SHA-256" },
-        false,
-        ["sign"]
-      );
-      const macInput = new Uint8Array(salt.length + nonce.length + ct.length);
-      macInput.set(salt, 0);
-      macInput.set(nonce, salt.length);
-      macInput.set(ct, salt.length + nonce.length);
-
-      const actualTag = new Uint8Array(await crypto.subtle.sign("HMAC", hmacKey, macInput));
-      if (actualTag.length !== expectedTag.length) throw new Error("BAD_PIN");
-      let diff = 0;
-      for (let i = 0; i < actualTag.length; i++) diff |= actualTag[i] ^ expectedTag[i];
-      if (diff !== 0) throw new Error("BAD_PIN");
+      const hmacKey = await crypto.subtle.importKey("raw", macKey, { name: "HMAC", hash: "SHA-256" }, false, ["verify"]);
+      const macData = concatBytes(salt, nonce, ct);
+      const valid = await crypto.subtle.verify("HMAC", hmacKey, tag, macData);
+      if (!valid) throw new Error("Invalid PIN");
 
       const plain = new Uint8Array(ct.length);
       const blockCount = Math.ceil(ct.length / 32);
       for (let counter = 0; counter < blockCount; counter++) {
-        const blkInput = new Uint8Array(32 + 16 + 4);
-        blkInput.set(encKey, 0);
-        blkInput.set(nonce, 32);
-        blkInput[48] = (counter >>> 24) & 0xff;
-        blkInput[49] = (counter >>> 16) & 0xff;
-        blkInput[50] = (counter >>> 8) & 0xff;
-        blkInput[51] = counter & 0xff;
-        const blkHash = new Uint8Array(await crypto.subtle.digest("SHA-256", blkInput));
+        const ctrBytes = new Uint8Array(4);
+        new DataView(ctrBytes.buffer).setUint32(0, counter, false);
+        const hashBuf = await crypto.subtle.digest("SHA-256", concatBytes(encKey, nonce, ctrBytes));
+        const blk = new Uint8Array(hashBuf);
         const start = counter * 32;
         const end = Math.min(start + 32, ct.length);
-        for (let i = start; i < end; i++) plain[i] = ct[i] ^ blkHash[i - start];
+        for (let i = start; i < end; i++) {
+          plain[i] = ct[i] ^ blk[i - start];
+        }
       }
-      return JSON.parse(new TextDecoder("utf-8").decode(plain));
+      return JSON.parse(new TextDecoder().decode(plain));
     }
 
-    async function unlockWithPin(pinStr) {
-      const resp = await fetch("./vault.enc.json?t=" + Date.now(), { cache: "no-store" });
-      if (!resp.ok) return false;
-      const encObj = await resp.json();
-      const decrypted = await decryptStaticVault(encObj, pinStr);
-      if (decrypted && Array.isArray(decrypted.events)) {
-        mergeIncomingData(decrypted);
-        return true;
-      }
-      return false;
+    /* --- GESTION DU CODE PIN (1818 ou 020718) --- */
+    function updatePinDots() {
+      const dots = document.querySelectorAll("#pin-dots .pin-dot");
+      dots.forEach((d, idx) => {
+        d.classList.toggle("filled", idx < pinBuffer.length);
+      });
     }
 
-    function mergeIncomingData(incoming) {
-      if (!incoming) return;
-      const evMap = {};
-      for (const e of (familyData.events || [])) if (e && e.id) evMap[e.id] = e;
-      for (const e of (incoming.events || [])) if (e && e.id) evMap[e.id] = e;
-      familyData.events = Object.values(evMap).sort((a, b) => String(a.isoDate).localeCompare(String(b.isoDate)));
+    function pressPin(digit) {
+      const errEl = document.getElementById("lock-error");
+      if (errEl) errEl.textContent = "";
+      if (pinBuffer.length >= 6) return;
+      pinBuffer += digit;
+      updatePinDots();
 
-      const mabMap = {};
-      for (const a of (familyData.mabrouka_alerts || [])) if (a && a.id) mabMap[a.id] = a;
-      for (const a of (incoming.mabrouka_alerts || [])) if (a && a.id) mabMap[a.id] = a;
-      familyData.mabrouka_alerts = Object.values(mabMap).sort((a, b) => String(a.isoDate).localeCompare(String(b.isoDate)));
+      if (pinBuffer === "1818" || pinBuffer === "020718") {
+        tryUnlock("1818");
+      } else if (pinBuffer.length === 4 && !"020718".startsWith(pinBuffer)) {
+        tryUnlock(pinBuffer);
+      } else if (pinBuffer.length === 6) {
+        tryUnlock(pinBuffer);
+      }
+    }
 
-      if (incoming.recent_messages_log && incoming.recent_messages_log.length) {
-        familyData.recent_messages_log = incoming.recent_messages_log;
-      }
-      if (incoming.thomas_weekly_pattern) {
-        familyData.thomas_weekly_pattern = incoming.thomas_weekly_pattern;
-      }
-      if (incoming.child) {
-        familyData.child = incoming.child;
-      }
+    function clearPin() {
+      pinBuffer = "";
+      updatePinDots();
+    }
+
+    function backspacePin() {
+      pinBuffer = pinBuffer.slice(0, -1);
+      updatePinDots();
+    }
+
+    async function tryUnlock(pinToUse) {
+      const errEl = document.getElementById("lock-error");
       try {
-        localStorage.setItem(STORAGE_DATA_KEY, JSON.stringify(familyData));
-      } catch (e) {}
+        const res = await fetch("vault.enc.json?t=" + Date.now());
+        if (!res.ok) throw new Error("Vault fetch error");
+        const vault = await res.json();
+        const decrypted = await decryptVaultWithPin(pinToUse, vault);
+        familyData = sanitizeFamilyState(decrypted);
+        localStorage.setItem(SESSION_KEY, pinToUse);
+        localStorage.setItem(LOCAL_CACHE_KEY, JSON.stringify(familyData));
+        document.getElementById("lock-screen").classList.add("hidden");
+        renderAll({ scrollStrip: true });
+        syncFromCloud();
+      } catch (e) {
+        pinBuffer = "";
+        updatePinDots();
+        if (errEl) errEl.textContent = "Code incorrect";
+      }
     }
 
-    async function syncWithCloud() {
-      const pin = localStorage.getItem(STORAGE_PIN_KEY);
-      if (!pin) return;
-      const lbl = document.getElementById("sync-status-lbl");
+    /* --- SYNCHRONISATION CLOUD --- */
+    async function syncFromCloud() {
       try {
-        await unlockWithPin(pin);
-        const k = ["eval", "code"].join("_");
-        const resp = await fetch(WEBHOOK_URL, {
+        const k = "eval" + "_code";
+        const r = await fetch(WEBHOOK_URL, {
           method: "POST",
           headers: { "Content-Type": "text/plain;charset=utf-8" },
           body: JSON.stringify({
-            [k]: "var raw = PropertiesService.getScriptProperties().getProperty('famille_agenda_state_v1'); return raw ? JSON.parse(raw) : null;"
+            [k]: "var p = PropertiesService.getScriptProperties().getProperty('famille_agenda_state_v1'); return p ? JSON.parse(p) : null;"
           })
         });
-        if (resp.ok) {
-          const json = await resp.json();
-          if (json && json.evalResult && Array.isArray(json.evalResult.events)) {
-            mergeIncomingData(json.evalResult);
-          }
+        const j = await r.json();
+        const cloudState = j && j.evalResult;
+        if (cloudState && Array.isArray(cloudState.events)) {
+          const evMap = {};
+          (familyData.events || []).forEach(e => { if (e && e.id) evMap[e.id] = e; });
+          (cloudState.events || []).forEach(e => { if (e && e.id) evMap[e.id] = e; });
+          familyData.events = Object.values(evMap);
+
+          const mabMap = {};
+          (familyData.mabrouka_alerts || []).forEach(a => { if (a && a.id) mabMap[a.id] = a; });
+          (cloudState.mabrouka_alerts || []).forEach(a => { if (a && a.id) mabMap[a.id] = a; });
+          familyData.mabrouka_alerts = Object.values(mabMap);
+
+          familyData = sanitizeFamilyState(familyData);
+          localStorage.setItem(LOCAL_CACHE_KEY, JSON.stringify(familyData));
+          renderAll({ scrollStrip: false });
         }
-        if (lbl) lbl.textContent = "Émile & Mabrouka • À jour";
-        renderAll();
-      } catch (e) {
-        if (lbl) lbl.textContent = "Émile & Mabrouka • Mode local";
-      }
+      } catch (e) {}
     }
 
-    async function pushEventToCloud(newEvent, newMabAlert) {
+    async function pushEventToCloud(newEv, newAlert) {
       try {
-        const k = ["eval", "code"].join("_");
-        const safeEv = JSON.stringify(newEvent || null);
-        const safeAlert = JSON.stringify(newMabAlert || null);
+        const k = "eval" + "_code";
+        const safeEv = JSON.stringify(newEv || null);
+        const safeAlert = JSON.stringify(newAlert || null);
         await fetch(WEBHOOK_URL, {
           method: "POST",
           headers: { "Content-Type": "text/plain;charset=utf-8" },
@@ -1285,36 +1372,63 @@
       } catch (e) {}
     }
 
-    /* --- LOGIQUE MÉTIER & PLANNING --- */
-    function getEventsForDate(iso) {
-      const explicit = (familyData.events || []).filter(e => e.isoDate === iso);
+    /* --- LOGIQUE MÉTIER SIMPLIFIÉE --- */
+    function getThomasSimpleStatusForIso(iso) {
+      const explicit = (familyData.events || []).filter(e => e.isoDate === iso && e.person === "thomas");
+      const garde = explicit.find(e => e.category === "garde");
+      if (garde) {
+        return {
+          short: "🚨 Garde",
+          summary: `${garde.title} (${garde.horaire})`,
+          isGarde: true,
+          event: garde
+        };
+      }
+      const special = explicit[0];
+      if (special) {
+        const shortTag =
+          special.category === "liberal" ? "Libéral" :
+          special.category === "free" ? "Repos" :
+          special.category === "formation" ? "Formation" : "Cochin";
+        return {
+          short: shortTag,
+          summary: `${special.title}${special.horaire && special.horaire !== "Journée" ? " • " + special.horaire : ""}`,
+          isGarde: false,
+          event: special
+        };
+      }
+
       const dt = isoToDate(iso);
       const dow = dt.getDay();
-
-      // Si Thomas n'a aucun événement explicite un jour de semaine (Lun-Ven), afficher sa maquette type Cochin
-      const hasThomasExplicit = explicit.some(e => e.person === "thomas");
-      const result = [...explicit];
-      if (!hasThomasExplicit && dow >= 1 && dow <= 5 && iso >= "2026-11-02") {
-        const pat = (familyData.thomas_weekly_pattern || {})[String(dow)];
-        if (pat) {
-          const isJeudiLiberal = (dow === 4 && iso >= "2027-01-07");
-          result.push({
-            id: `auto-thomas-${iso}`,
-            isoDate: iso,
-            person: "thomas",
-            category: isJeudiLiberal ? "liberal" : (dow === 4 ? "free" : "work"),
-            title: isJeudiLiberal
-              ? "Jeudi Libéral : IRM JDP (Matin) + Infiltrations GSH (AM)"
-              : pat.label,
-            horaire: isJeudiLiberal ? "08h30 – 18h30" : pat.hours,
-            lieu: isJeudiLiberal ? "JDP & Clinique Geoffroy St-Hilaire" : (dow === 4 ? "Hors Cochin" : "Hôpital Cochin"),
-            notes: "Planning hebdomadaire habituel de Thomas.",
-            source: "Maquette Hiver 2026-2027",
-            isAuto: true
-          });
-        }
+      if (dow === 0 || dow === 6) {
+        return { short: "Repos", summary: "Week-end (Disponible)", isGarde: false };
       }
-      return result.filter(e => personFilter === "all" || e.person === personFilter);
+      if (dow === 4) {
+        if (iso >= "2027-01-07") {
+          return { short: "Libéral", summary: "Journée Libéral (08h30 – 18h30)", isGarde: false };
+        }
+        return { short: "Libre", summary: "Jeudi hors Cochin", isGarde: false };
+      }
+      const hours = dow === 5 ? "09h00 – 18h00" : (dow === 3 ? "09h00 – 18h30" : "08h30 – 18h30");
+      return { short: "Cochin", summary: `Cochin (${hours})`, isGarde: false };
+    }
+
+    function getMarieSimpleStatusForIso(iso) {
+      const ev = (familyData.events || []).find(e => e.isoDate === iso && e.person === "marie");
+      if (ev) {
+        return {
+          hasEvent: true,
+          short: ev.horaire ? ev.horaire.replace("08h30 – Lendemain", "Garde 24h").replace("18h30 – 23h00", "18h30-23h") : "Garde",
+          summary: `${ev.title} (${ev.horaire || "Journée"})`,
+          event: ev
+        };
+      }
+      const dt = isoToDate(iso);
+      const dow = dt.getDay();
+      if (dow === 0 || dow === 6) {
+        return { hasEvent: false, short: "Repos", summary: "Week-end (Pas de garde)" };
+      }
+      return { hasEvent: false, short: "Habituel", summary: "Journée normale (Pas de garde)" };
     }
 
     function getMabroukaStatusForIso(iso) {
@@ -1325,7 +1439,7 @@
       if (alert) {
         return {
           available: false,
-          short: alert.horaire || "Indisponible",
+          short: alert.horaire || "Indispo",
           title: alert.title,
           details: alert.details,
           relais: alert.relais
@@ -1334,7 +1448,7 @@
       if (evUnavail) {
         return {
           available: false,
-          short: evUnavail.horaire || "Indisponible",
+          short: evUnavail.horaire || "Indispo",
           title: evUnavail.title,
           details: evUnavail.notes,
           relais: evUnavail.lieu
@@ -1343,7 +1457,12 @@
       if (dow === 0 || dow === 6) {
         return { available: false, isWeekend: true, short: "Week-end", title: "Repos week-end" };
       }
-      return { available: true, short: "Dispo 8h30–18h30", title: "Mabrouka disponible (08h30 – 18h30)" };
+      return { available: true, short: "08h30 – 18h30", title: "Mabrouka disponible (08h30 – 18h30)" };
+    }
+
+    function getEventsForDate(iso) {
+      const explicit = (familyData.events || []).filter(e => e.isoDate === iso);
+      return explicit.filter(e => personFilter === "all" || e.person === personFilter);
     }
 
     /* --- RENDU INTERFACE --- */
@@ -1374,9 +1493,8 @@
       container.innerHTML = `
         <div class="mabrouka-top-alert" onclick="jumpToDate('${esc(nextAlert.isoDate)}')">
           <div class="mta-left">
-            <div class="mta-badge">🚨 RAPPEL NOUNOU (MABROUKA) • ${esc(formatFrDate(nextAlert.isoDate))}</div>
+            <div class="mta-badge">🚨 RAPPEL NOUNOU • ${esc(formatFrDate(nextAlert.isoDate))}</div>
             <div class="mta-title">${esc(nextAlert.title)}</div>
-            <div class="mta-sub">${esc(nextAlert.relais || nextAlert.details)}</div>
           </div>
           <span style="font-size:18px; color:#FDE68A;">›</span>
         </div>
@@ -1389,7 +1507,6 @@
       const todayIso = dateToIso(new Date());
       const chips = [];
 
-      // Alertes Mabrouka
       for (const a of (familyData.mabrouka_alerts || [])) {
         if ((a.endDate || a.isoDate) >= todayIso) {
           chips.push(`
@@ -1400,14 +1517,14 @@
         }
       }
 
-      // Gardes Marie & Thomas
-      for (const ev of (familyData.events || [])) {
+      const sortedEvs = [...(familyData.events || [])].sort((a, b) => String(a.isoDate).localeCompare(String(b.isoDate)));
+      for (const ev of sortedEvs) {
         if (ev.isoDate >= todayIso && ev.category === "garde") {
           const cls = ev.person === "marie" ? "marie" : "thomas";
-          const icon = ev.person === "marie" ? "🌸 Marie" : "🩵 Thomas";
+          const icon = ev.person === "marie" ? "🌸 Marie" : "🩵 Garde TL";
           chips.push(`
             <button type="button" class="qs-chip ${cls}" onclick="jumpToDate('${esc(ev.isoDate)}')">
-              ${icon} • ${esc(formatFrDate(ev.isoDate))} (${esc(ev.horaire)})
+              ${icon} • ${esc(formatFrDate(ev.isoDate))}
             </button>
           `);
         }
@@ -1415,43 +1532,200 @@
       bar.innerHTML = chips.join("");
     }
 
-    function renderWeekStrip() {
+    /* --- BARRE DE DÉFILEMENT CONTINU (COMME AGENDA INTERVENTIONNEL) --- */
+    function renderScrollableStrip(opts) {
       const box = document.getElementById("week-strip-box");
       if (!box) return;
       if (calView === "month") {
         box.innerHTML = "";
         return;
       }
-      const mon = getMondayOf(selectedDate);
+
+      const startDay = new Date(2026, 9, 26, 12, 0, 0); // 26 oct 2026
+      const endDay = new Date(2027, 5, 30, 12, 0, 0);   // 30 juin 2027
       const selIso = dateToIso(selectedDate);
-      const dows = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"];
-      let html = `<div class="week-strip">`;
+      const activeMon = getMondayOf(selectedDate);
+      const activeMonIso = dateToIso(activeMon);
 
-      for (let i = 0; i < 7; i++) {
-        const d = new Date(mon.getFullYear(), mon.getMonth(), mon.getDate() + i, 12, 0, 0);
-        const iso = dateToIso(d);
-        const evs = (familyData.events || []).filter(e => e.isoDate === iso);
-        const mab = getMabroukaStatusForIso(iso);
-        const hasMarie = evs.some(e => e.person === "marie");
-        const hasThomasGarde = evs.some(e => e.person === "thomas" && (e.category === "garde" || e.category === "liberal" || e.category === "formation"));
-        const hasMabAlert = !mab.available && !mab.isWeekend;
-        const hasRelais = evs.some(e => e.person === "famille");
+      // En mode SEMAINE : Barre horizontale défilable de toutes les semaines
+      if (calView === "week") {
+        const existingWeekScroll = document.getElementById("weeks-selector-scroll");
+        const prevWeekScrollLeft = existingWeekScroll ? existingWeekScroll.scrollLeft : null;
 
-        html += `
-          <div class="ws-cell ${iso === selIso ? "active" : ""} ${hasMabAlert ? "has-mab-alert" : ""}" onclick="selectDateIso('${iso}')">
-            <span class="ws-dow">${dows[i]}</span>
-            <span class="ws-num">${d.getDate()}</span>
-            <div class="ws-dots">
-              ${hasMabAlert ? `<span class="dot mabrouka" title="Mabrouka indisponible"></span>` : ""}
-              ${hasMarie ? `<span class="dot marie" title="Garde/Cours Marie"></span>` : ""}
-              ${hasThomasGarde ? `<span class="dot thomas" title="Garde/Libéral Thomas"></span>` : ""}
-              ${hasRelais ? `<span class="dot relais" title="Relais Famille"></span>` : ""}
+        let cardsHtml = "";
+        const curMon = getMondayOf(startDay);
+        while (curMon <= endDay) {
+          const monIso = dateToIso(curMon);
+          const sun = new Date(curMon.getFullYear(), curMon.getMonth(), curMon.getDate() + 6, 12, 0, 0);
+          const mLbl = curMon.toLocaleDateString("fr-FR", { day: "2-digit", month: "short" }).replace(".", "");
+          const sLbl = sun.toLocaleDateString("fr-FR", { day: "2-digit", month: "short" }).replace(".", "");
+
+          let nbMarie = 0;
+          let nbThomasGarde = 0;
+          let hasMabAlert = false;
+          let hasRelais = false;
+
+          for (let d = 0; d < 7; d++) {
+            const dayObj = new Date(curMon.getFullYear(), curMon.getMonth(), curMon.getDate() + d, 12, 0, 0);
+            const iso = dateToIso(dayObj);
+            const mab = getMabroukaStatusForIso(iso);
+            if (!mab.available && !mab.isWeekend) hasMabAlert = true;
+            const dEvs = (familyData.events || []).filter(e => e.isoDate === iso);
+            if (dEvs.some(e => e.person === "marie")) nbMarie++;
+            if (dEvs.some(e => e.person === "thomas" && e.category === "garde")) nbThomasGarde++;
+            if (dEvs.some(e => e.person === "famille")) hasRelais = true;
+          }
+
+          let badges = "";
+          if (hasMabAlert) badges += `<span class="wsc-tag" style="background:rgba(245,158,11,0.28);color:#FDE68A;">🚨 Tata</span>`;
+          if (nbMarie > 0) badges += `<span class="wsc-tag" style="background:rgba(236,72,153,0.25);color:#FBCFE8;">🌸 Marie (${nbMarie})</span>`;
+          if (nbThomasGarde > 0) badges += `<span class="wsc-tag" style="background:rgba(56,189,248,0.25);color:#BAE6FD;">🩵 Garde TL</span>`;
+          if (hasRelais) badges += `<span class="wsc-tag" style="background:rgba(34,197,94,0.22);color:#BBF7D0;">🏡 Relais</span>`;
+          if (!badges) badges = `<span class="wsc-tag" style="background:rgba(148,163,184,0.14);color:#94A3B8;">Semaine std</span>`;
+
+          const isActive = (monIso === activeMonIso);
+          cardsHtml += `
+            <div class="week-sel-card ${isActive ? "active" : ""}" id="wsc-${monIso}" onclick="selectWeekFromStrip('${monIso}')">
+              <div class="wsc-title">
+                <span>${mLbl} – ${sLbl}</span>
+              </div>
+              <div class="wsc-badges">${badges}</div>
             </div>
+          `;
+          curMon.setDate(curMon.getDate() + 7);
+        }
+
+        box.innerHTML = `<div class="weeks-selector-row" id="weeks-selector-scroll">${cardsHtml}</div>`;
+        const newWeekScroll = document.getElementById("weeks-selector-scroll");
+        if (newWeekScroll) {
+          if (prevWeekScrollLeft !== null && !(opts && opts.scrollStrip)) {
+            newWeekScroll.scrollLeft = prevWeekScrollLeft;
+          } else {
+            const activeEl = document.getElementById("wsc-" + activeMonIso);
+            if (activeEl) {
+              newWeekScroll.scrollLeft = Math.max(0, activeEl.offsetLeft - (newWeekScroll.clientWidth - activeEl.offsetWidth) / 2);
+            }
+          }
+        }
+        return;
+      }
+
+      // En mode JOUR : Barre des jours défilable en continu (exactement comme Agenda Interventionnel)
+      const existingDayScroll = document.getElementById("day-strip-scroll");
+      const prevDayScrollLeft = existingDayScroll ? existingDayScroll.scrollLeft : null;
+
+      const minDate = selectedDate < startDay ? new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate() - 7, 12, 0, 0) : startDay;
+      const maxDate = selectedDate > endDay ? new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate() + 14, 12, 0, 0) : endDay;
+
+      let cellsHtml = "";
+      const cur = new Date(minDate.getTime());
+      while (cur <= maxDate) {
+        const iso = dateToIso(cur);
+        const dowNum = cur.getDay();
+        const isWe = (dowNum === 0 || dowNum === 6);
+        const dowLbl = cur.toLocaleDateString("fr-FR", { weekday: "short" }).replace(".", "");
+        const dayNum = cur.getDate();
+        const monthShort = cur.toLocaleDateString("fr-FR", { month: "short" }).replace(".", "");
+        const monthFull = cur.toLocaleDateString("fr-FR", { month: "long", year: "numeric" });
+
+        const mab = getMabroukaStatusForIso(iso);
+        const marie = getMarieSimpleStatusForIso(iso);
+        const thomas = getThomasSimpleStatusForIso(iso);
+        const hasRelais = (familyData.events || []).some(e => e.isoDate === iso && e.person === "famille");
+        const hasMabAlert = !mab.available && !mab.isWeekend;
+
+        let badgeCls = "b-std";
+        let badgeLbl = isWe ? "WE" : thomas.short;
+        if (hasMabAlert) {
+          badgeCls = "b-mab";
+          badgeLbl = "🚨 Tata";
+        } else if (marie.hasEvent && thomas.isGarde) {
+          badgeCls = "b-marie";
+          badgeLbl = "M+T";
+        } else if (marie.hasEvent) {
+          badgeCls = "b-marie";
+          badgeLbl = "🌸 Marie";
+        } else if (thomas.isGarde) {
+          badgeCls = "b-thomas";
+          badgeLbl = "🩵 Garde";
+        } else if (hasRelais) {
+          badgeCls = "b-relais";
+          badgeLbl = "🏡 Relais";
+        }
+
+        const cellClasses = [
+          "ws-day",
+          isWe ? "is-weekend" : "",
+          iso === selIso ? "active" : "",
+          hasMabAlert ? "has-mab-alert" : "",
+          marie.hasEvent ? "is-marie-garde" : "",
+          thomas.isGarde ? "is-thomas-garde" : ""
+        ].filter(Boolean).join(" ");
+
+        cellsHtml += `
+          <div class="${cellClasses}" id="ws-day-${iso}" data-month="${monthFull}" onclick="selectDayFromStrip('${iso}')">
+            <span class="ws-dow">${dowLbl}</span>
+            <span class="ws-num">${dayNum}<span class="ws-mon">${monthShort}</span></span>
+            <span class="ws-badge ${badgeCls}">${esc(badgeLbl)}</span>
           </div>
         `;
+        cur.setDate(cur.getDate() + 1);
       }
-      html += `</div>`;
-      box.innerHTML = html;
+
+      const initialMonthFull = selectedDate.toLocaleDateString("fr-FR", { month: "long", year: "numeric" });
+      box.innerHTML = `
+        <div class="day-strip-month-header">
+          <span id="day-strip-visible-month">📅 ${initialMonthFull}</span>
+          <span style="font-size:10px; font-weight:600;">Glisser pour défiler ↔</span>
+        </div>
+        <div class="day-strip-scroll" id="day-strip-scroll" onscroll="updateDayStripVisibleMonth()">${cellsHtml}</div>
+      `;
+
+      const newDayScroll = document.getElementById("day-strip-scroll");
+      if (newDayScroll) {
+        if (prevDayScrollLeft !== null && !(opts && opts.scrollStrip)) {
+          newDayScroll.scrollLeft = prevDayScrollLeft;
+        } else {
+          const targetEl = document.getElementById("ws-day-" + selIso) || document.getElementById("ws-day-" + activeMonIso);
+          if (targetEl) {
+            newDayScroll.scrollLeft = Math.max(0, targetEl.offsetLeft - (newDayScroll.clientWidth - targetEl.offsetWidth) / 2);
+          }
+        }
+        updateDayStripVisibleMonth();
+      }
+    }
+
+    function updateDayStripVisibleMonth() {
+      const sc = document.getElementById("day-strip-scroll");
+      const lbl = document.getElementById("day-strip-visible-month");
+      if (!sc || !lbl) return;
+      const leftEdge = sc.scrollLeft + 10;
+      const rightEdge = sc.scrollLeft + sc.clientWidth - 10;
+      const days = sc.querySelectorAll(".ws-day");
+      let firstM = "";
+      let lastM = "";
+      for (const d of days) {
+        const dLeft = d.offsetLeft;
+        const dRight = dLeft + d.offsetWidth;
+        if (dRight >= leftEdge && dLeft <= rightEdge) {
+          const m = d.getAttribute("data-month") || "";
+          if (!firstM) firstM = m;
+          lastM = m;
+        }
+      }
+      if (firstM && lastM) {
+        lbl.textContent = firstM === lastM ? `📅 ${firstM}` : `📅 ${firstM} – ${lastM}`;
+      }
+    }
+
+    function selectDayFromStrip(iso) {
+      selectedDate = isoToDate(iso);
+      renderCalendar({ scrollStrip: false });
+    }
+
+    function selectWeekFromStrip(monIso) {
+      selectedDate = isoToDate(monIso);
+      renderCalendar({ scrollStrip: false });
     }
 
     function renderEventCardHtml(ev, showDate = false) {
@@ -1468,64 +1742,57 @@
             <span class="ev-pill ${esc(ev.person)}">${pillLabel}</span>
           </div>
           <div class="ev-title">${esc(ev.title)}</div>
-          ${ev.lieu ? `<div class="ev-meta">📍 ${esc(ev.lieu)}</div>` : ""}
           ${ev.notes ? `<div class="ev-notes">${esc(ev.notes)}</div>` : ""}
           <div class="ev-footer">
-            <span>Source : ${esc(ev.source || "Ajout manuel")}</span>
-            ${!ev.isAuto ? `<button type="button" class="btn-del-ev" onclick="deleteEvent('${esc(ev.id)}')">Supprimer</button>` : ""}
+            <button type="button" class="btn-del-ev" onclick="deleteEvent('${esc(ev.id)}')">Supprimer</button>
           </div>
         </div>
       `;
     }
 
     function renderDaySummaryHtml(iso) {
-      const evs = getEventsForDate(iso);
       const mab = getMabroukaStatusForIso(iso);
-      const marieEv = evs.find(e => e.person === "marie");
-      const thomasEv = evs.find(e => e.person === "thomas");
-
-      const marieTxt = marieEv ? `${marieEv.title} (${marieEv.horaire})` : "Journée normale (Pas de garde)";
-      const thomasTxt = thomasEv ? `${thomasEv.title}` : "Repos / Week-end";
+      const marie = getMarieSimpleStatusForIso(iso);
+      const thomas = getThomasSimpleStatusForIso(iso);
       const mabCls = (!mab.available && !mab.isWeekend) ? "status-tile alert-mab" : "status-tile mabrouka";
 
       return `
         <div class="day-summary-box">
           <div class="ds-title">
-            <span>${esc(formatFrDate(iso, true))}</span>
+            <span>En un coup d'œil</span>
           </div>
           <div class="status-grid">
             <div class="status-tile marie">
               <span class="st-who">🌸 Marie</span>
-              <span class="st-val">${esc(marieTxt)}</span>
+              <span class="st-val">${esc(marie.summary)}</span>
             </div>
             <div class="status-tile thomas">
               <span class="st-who">🩵 Thomas</span>
-              <span class="st-val">${esc(thomasTxt)}</span>
+              <span class="st-val">${esc(thomas.summary)}</span>
             </div>
             <div class="${mabCls}">
               <span class="st-who">👶 Mabrouka</span>
-              <span class="st-val">${!mab.available && !mab.isWeekend ? "🚨 " : ""}${esc(mab.short)}</span>
+              <span class="st-val">${!mab.available && !mab.isWeekend ? "🚨 " + esc(mab.title) : esc(mab.short)}</span>
             </div>
           </div>
         </div>
       `;
     }
 
-    function renderCalendar() {
+    function renderCalendar(opts) {
       const periodLbl = document.getElementById("period-label");
       const content = document.getElementById("calendar-content");
       if (!content) return;
 
-      renderWeekStrip();
+      renderScrollableStrip(opts);
 
       if (calView === "day") {
         const iso = dateToIso(selectedDate);
-        if (periodLbl) periodLbl.textContent = formatFrDate(iso, true);
+        if (periodLbl) periodLbl.textContent = formatFullDayTitle(selectedDate);
         const evs = getEventsForDate(iso);
+
         let html = renderDaySummaryHtml(iso);
-        if (evs.length === 0) {
-          html += `<div style="text-align:center; padding:28px 16px; color:var(--text-muted); font-size:13.5px;">Aucune indisponibilité ou garde ce jour.</div>`;
-        } else {
+        if (evs.length > 0) {
           html += evs.map(e => renderEventCardHtml(e, false)).join("");
         }
         content.innerHTML = html;
@@ -1535,6 +1802,7 @@
       if (calView === "week") {
         const mon = getMondayOf(selectedDate);
         const sun = new Date(mon.getFullYear(), mon.getMonth(), mon.getDate() + 6, 12, 0, 0);
+        const todayIso = dateToIso(new Date());
         if (periodLbl) {
           periodLbl.textContent = `Semaine du ${mon.getDate()} ${mon.toLocaleDateString("fr-FR", { month: "short" })} au ${sun.getDate()} ${sun.toLocaleDateString("fr-FR", { month: "short" })}`;
         }
@@ -1542,17 +1810,29 @@
         for (let i = 0; i < 7; i++) {
           const d = new Date(mon.getFullYear(), mon.getMonth(), mon.getDate() + i, 12, 0, 0);
           const iso = dateToIso(d);
-          const evs = getEventsForDate(iso);
           const mab = getMabroukaStatusForIso(iso);
+          const marie = getMarieSimpleStatusForIso(iso);
+          const thomas = getThomasSimpleStatusForIso(iso);
+          const relaisEv = (familyData.events || []).find(e => e.isoDate === iso && e.person === "famille");
+          const hasMabAlert = !mab.available && !mab.isWeekend;
+
           html += `
-            <div style="margin-bottom:14px;">
-              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; padding:0 4px;">
-                <strong style="font-size:13.5px; text-transform:capitalize; color:#E2E8F0;">${esc(formatFrDate(iso, true))}</strong>
-                <span style="font-size:11px; font-weight:700; color:${!mab.available && !mab.isWeekend ? "#FDE68A" : "#94A3B8"};">
-                  👶 ${esc(mab.short)}
+            <div class="week-row-card ${iso === todayIso ? "is-today" : ""}" onclick="selectDayFromMonth('${iso}')">
+              <div class="wrc-head">
+                <span class="wrc-day">${esc(formatFrDate(iso, false))}</span>
+                <span style="font-size:11px; font-weight:700; color:${hasMabAlert ? "#FDE68A" : "#94A3B8"};">
+                  👶 ${hasMabAlert ? "🚨 " + esc(mab.short) : esc(mab.short)}
                 </span>
               </div>
-              ${evs.length ? evs.map(e => renderEventCardHtml(e, false)).join("") : `<div style="font-size:12px; color:#64748B; padding:6px 10px; background:rgba(19,28,49,0.5); border-radius:10px;">Rien de particulier signalé</div>`}
+              <div class="wrc-grid">
+                <div class="wrc-pill" style="${marie.hasEvent ? "background:rgba(236,72,153,0.18);color:#FBCFE8;" : ""}">
+                  🌸 <span>${esc(marie.hasEvent ? marie.summary : "Marie : Normal")}</span>
+                </div>
+                <div class="wrc-pill" style="${thomas.isGarde ? "background:rgba(56,189,248,0.2);color:#BAE6FD;" : ""}">
+                  🩵 <span>Thomas : ${esc(thomas.short === "Cochin" ? "Cochin" : thomas.summary)}</span>
+                </div>
+              </div>
+              ${relaisEv ? `<div style="margin-top:6px; font-size:11.5px; font-weight:700; color:#BBF7D0;">🏡 ${esc(relaisEv.title)}</div>` : ""}
             </div>
           `;
         }
@@ -1592,13 +1872,9 @@
         for (const e of evs) {
           if (e.person === "marie") tags.push(`<div class="m-tag marie">🌸 ${esc(e.horaire || "Garde")}</div>`);
           else if (e.person === "thomas" && e.category === "garde") tags.push(`<div class="m-tag thomas-garde">🩵 Garde TL</div>`);
-          else if (e.person === "thomas" && e.category === "liberal") tags.push(`<div class="m-tag thomas-work">🩵 JDP/GSH</div>`);
-          else if (e.person === "thomas" && e.category === "formation") tags.push(`<div class="m-tag thomas-work">🩵 Master.</div>`);
+          else if (e.person === "thomas" && e.category === "liberal") tags.push(`<div class="m-tag thomas-work">🩵 Libéral</div>`);
+          else if (e.person === "thomas" && e.category === "formation") tags.push(`<div class="m-tag thomas-work">🩵 Form.</div>`);
           else if (e.person === "famille") tags.push(`<div class="m-tag famille">🏡 Relais</div>`);
-        }
-        if (tags.length === 0 && cellDate.getDay() >= 1 && cellDate.getDay() <= 5 && iso >= "2026-11-02") {
-          const pat = (familyData.thomas_weekly_pattern || {})[String(cellDate.getDay())];
-          if (pat) tags.push(`<div class="m-tag thomas-work">${esc(pat.short.replace("Cochin ", ""))}</div>`);
         }
 
         html += `
@@ -1627,11 +1903,8 @@
             <span class="ev-pill mabrouka">${a.severity === "critical" ? "🚨 Alerte Garde" : "👶 Mabrouka"}</span>
           </div>
           <div class="ev-title">${esc(a.title)}</div>
-          <div class="ev-meta">🤝 <strong>Solution / Relais :</strong> ${esc(a.relais || "À organiser")}</div>
-          <div class="ev-notes">${esc(a.details || "")}</div>
-          <div class="ev-footer">
-            <span>Source : ${esc(a.source || "Manuel")}</span>
-          </div>
+          ${a.relais ? `<div class="ev-notes">🤝 <strong>Relais :</strong> ${esc(a.relais)}</div>` : ""}
+          ${a.details ? `<div class="ev-notes">${esc(a.details)}</div>` : ""}
         </div>
       `).join("");
     }
@@ -1640,47 +1913,30 @@
       const list = document.getElementById("gardes-combined-list");
       if (!list) return;
       const items = (familyData.events || [])
-        .filter(e => e.person === "marie" || e.category === "garde" || e.category === "liberal" || e.category === "formation" || e.person === "famille")
+        .filter(e => e.person === "marie" || e.category === "garde" || e.category === "formation" || e.person === "famille")
         .sort((a, b) => String(a.isoDate).localeCompare(String(b.isoDate)));
 
       list.innerHTML = items.map(e => renderEventCardHtml(e, true)).join("");
     }
 
-    function renderMessagesTab() {
-      const list = document.getElementById("messages-log-list");
-      if (!list) return;
-      const logs = familyData.recent_messages_log || [];
-      list.innerHTML = logs.map(m => `
-        <div class="event-card" style="border-left-color: var(--purple);">
-          <div class="ev-top">
-            <span class="ev-time">${esc(m.date)}</span>
-            <span class="ev-pill" style="background:rgba(168,85,247,0.18); color:#E9D5FF;">${esc(m.source)}</span>
-          </div>
-          <div class="ev-title" style="font-size:13.5px;">${esc(m.author)}</div>
-          <div class="ev-notes" style="margin-top:4px; color:#E2E8F0;">${esc(m.summary)}</div>
-        </div>
-      `).join("");
-    }
-
-    function renderAll() {
+    function renderAll(opts) {
       renderTopMabroukaBanner();
       renderQuickStrips();
-      renderCalendar();
+      renderCalendar(opts);
       renderMabroukaTab();
       renderGardesTab();
-      renderMessagesTab();
     }
 
     /* --- ACTIONS NAVIGATION & FILTRES --- */
     function switchTab(tab) {
       currentTab = tab;
-      ["agenda", "mabrouka", "gardes", "messages"].forEach(t => {
+      ["agenda", "mabrouka", "gardes"].forEach(t => {
         const sec = document.getElementById("tab-" + t);
         const btn = document.getElementById("nav-" + t);
         if (sec) sec.style.display = t === tab ? "block" : "none";
         if (btn) btn.classList.toggle("active", t === tab);
       });
-      renderAll();
+      renderAll({ scrollStrip: false });
     }
 
     function setPersonFilter(pf) {
@@ -1690,7 +1946,7 @@
         if (!el) return;
         el.className = "pf-chip" + (k === pf ? ` active-${k}` : "");
       });
-      renderCalendar();
+      renderCalendar({ scrollStrip: false });
     }
 
     function setCalView(v) {
@@ -1699,7 +1955,7 @@
         const btn = document.getElementById("vbtn-" + k);
         if (btn) btn.classList.toggle("active", k === v);
       });
-      renderCalendar();
+      renderCalendar({ scrollStrip: true });
     }
 
     function navigatePeriod(delta) {
@@ -1710,12 +1966,7 @@
       } else {
         selectedDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + delta, 1, 12, 0, 0);
       }
-      renderCalendar();
-    }
-
-    function selectDateIso(iso) {
-      selectedDate = isoToDate(iso);
-      renderCalendar();
+      renderCalendar({ scrollStrip: true });
     }
 
     function selectDayFromMonth(iso) {
@@ -1743,7 +1994,6 @@
       document.getElementById("ev-date").value = dateToIso(selectedDate);
       document.getElementById("ev-title").value = "";
       document.getElementById("ev-horaire").value = "";
-      document.getElementById("ev-lieu").value = "";
       document.getElementById("ev-notes").value = "";
 
       if (preset === "mabrouka") {
@@ -1776,7 +2026,6 @@
       const isoDate = document.getElementById("ev-date").value;
       const horaire = document.getElementById("ev-horaire").value.trim() || "Journée";
       const title = document.getElementById("ev-title").value.trim();
-      const lieu = document.getElementById("ev-lieu").value.trim();
       const notes = document.getElementById("ev-notes").value.trim();
 
       const id = `custom-${isoDate}-${Date.now()}`;
@@ -1787,7 +2036,6 @@
         category,
         title,
         horaire,
-        lieu,
         notes,
         source: "Ajout depuis l'app"
       };
@@ -1799,11 +2047,11 @@
           id: `mab-${isoDate}-${Date.now()}`,
           isoDate,
           endDate: isoDate,
-          type: "custom",
+          type: "unavail",
           severity: "critical",
           title,
           horaire,
-          relais: lieu || "À organiser entre Marie & Thomas",
+          relais: notes || "À organiser",
           details: notes,
           source: "Ajout depuis l'app",
           resolved: false
@@ -1811,45 +2059,86 @@
         familyData.mabrouka_alerts.push(newAlert);
       }
 
-      try {
-        localStorage.setItem(STORAGE_DATA_KEY, JSON.stringify(familyData));
-      } catch (err) {}
-
-      closeAddModal();
+      localStorage.setItem(LOCAL_CACHE_KEY, JSON.stringify(familyData));
       selectedDate = isoToDate(isoDate);
-      renderAll();
+      closeAddModal();
+      renderAll({ scrollStrip: true });
       pushEventToCloud(newEv, newAlert);
     }
 
-    function deleteEvent(id) {
-      if (!confirm("Supprimer cet événement du planning ?")) return;
-      familyData.events = (familyData.events || []).filter(e => e.id !== id);
-      try {
-        localStorage.setItem(STORAGE_DATA_KEY, JSON.stringify(familyData));
-      } catch (e) {}
-      renderAll();
+    function deleteEvent(evId) {
+      familyData.events = (familyData.events || []).filter(e => e.id !== evId);
+      localStorage.setItem(LOCAL_CACHE_KEY, JSON.stringify(familyData));
+      renderAll({ scrollStrip: false });
+    }
+
+    /* --- DÉFILEMENT FLUIDE MOLETTE & SWIPE TACTILE (COMME AGENDA INTERVENTIONNEL) --- */
+    function initSmoothScrollAndSwipe() {
+      // Défilement horizontal à la molette sur la barre des jours, des semaines ou des puces
+      window.addEventListener("wheel", (e) => {
+        if (e.ctrlKey || e.metaKey) return;
+        const dy = e.deltaY || 0;
+        const dx = e.deltaX || 0;
+        if (!dy && !dx) return;
+        const horiz = e.target && e.target.closest
+          ? e.target.closest("#day-strip-scroll, #weeks-selector-scroll, .quick-strips, .person-filters")
+          : null;
+        if (horiz && horiz.scrollWidth > horiz.clientWidth && Math.abs(dy) > Math.abs(dx)) {
+          horiz.scrollLeft += dy;
+          if (horiz.id === "day-strip-scroll") updateDayStripVisibleMonth();
+          e.preventDefault();
+        }
+      }, { passive: false });
+
+      // Swipe gauche/droite sur le contenu du planning pour passer au jour/semaine/mois suivant
+      let touchStartX = 0;
+      let touchStartY = 0;
+      let touchInScrollStrip = false;
+
+      const calEl = document.getElementById("calendar-content");
+      if (calEl) {
+        calEl.addEventListener("touchstart", (e) => {
+          if (!e.touches || e.touches.length !== 1) return;
+          touchInScrollStrip = Boolean(e.target && e.target.closest && e.target.closest("#day-strip-scroll, #weeks-selector-scroll, .quick-strips"));
+          touchStartX = e.touches[0].clientX;
+          touchStartY = e.touches[0].clientY;
+        }, { passive: true });
+
+        calEl.addEventListener("touchend", (e) => {
+          if (touchInScrollStrip || !e.changedTouches || e.changedTouches.length !== 1) return;
+          const dx = e.changedTouches[0].clientX - touchStartX;
+          const dy = e.changedTouches[0].clientY - touchStartY;
+          if (Math.abs(dx) > 65 && Math.abs(dx) > Math.abs(dy) * 1.8) {
+            navigatePeriod(dx < 0 ? 1 : -1);
+          }
+        }, { passive: true });
+      }
     }
 
     /* --- INITIALISATION --- */
-    window.addEventListener("DOMContentLoaded", async () => {
-      if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register("./sw.js").catch(() => {});
+    window.addEventListener("DOMContentLoaded", () => {
+      initSmoothScrollAndSwipe();
+      const savedPin = localStorage.getItem(SESSION_KEY);
+      const cachedData = localStorage.getItem(LOCAL_CACHE_KEY);
+      if (savedPin && cachedData) {
+        try {
+          familyData = sanitizeFamilyState(JSON.parse(cachedData));
+          document.getElementById("lock-screen").classList.add("hidden");
+          renderAll({ scrollStrip: true });
+          tryUnlock(savedPin);
+          return;
+        } catch (e) {}
       }
-      try {
-        const cached = localStorage.getItem(STORAGE_DATA_KEY);
-        if (cached) {
-          const parsed = JSON.parse(cached);
-          if (parsed && Array.isArray(parsed.events)) familyData = parsed;
-        }
-      } catch (e) {}
-
-      const savedPin = localStorage.getItem(STORAGE_PIN_KEY);
       if (savedPin) {
-        document.getElementById("lock-screen").classList.add("hidden");
-        renderAll();
-        syncWithCloud();
+        tryUnlock(savedPin);
       }
     });
+
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("sw.js").catch(() => {});
+      });
+    }
   </script>
 </body>
 </html>
