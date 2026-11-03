@@ -1,0 +1,8 @@
+__pycache__/
+.DS_Store
+family_data.json
+sync_family_agenda.py
+Lancer_Agenda_Famille.command
+.agents/
+.gemini/
+.env
