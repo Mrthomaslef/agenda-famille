@@ -3,32 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>Agenda Famille • Marie &amp; Thomas</title>
-  <meta name="theme-color" content="#0F172A" />
+  <title>Notre Famille • Marie, Thomas &amp; Émile</title>
+  <meta name="theme-color" content="#FCF8F2" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="Agenda Famille" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Notre Famille" />
   <link rel="manifest" href="manifest.json" />
   <link rel="icon" type="image/svg+xml" href="icon.svg" />
   <link rel="apple-touch-icon" href="icon.svg" />
   <style>
     :root {
-      --bg: #0B1120;
-      --bg-card: #131C31;
-      --bg-elevated: #1E293B;
-      --border: rgba(148, 163, 184, 0.16);
-      --text: #F8FAFC;
-      --text-muted: #94A3B8;
-      --marie: #EC4899;
-      --marie-bg: rgba(236, 72, 153, 0.16);
-      --thomas: #38BDF8;
-      --thomas-bg: rgba(56, 189, 248, 0.16);
-      --mabrouka: #F59E0B;
-      --mabrouka-bg: rgba(245, 158, 11, 0.18);
-      --famille: #22C55E;
-      --famille-bg: rgba(34, 197, 94, 0.16);
-      --danger: #EF4444;
-      --purple: #A855F7;
+      --bg: #FCF8F2;
+      --bg-card: #FFFFFF;
+      --bg-elevated: #F5EDE2;
+      --bg-subtle: #FBF4EB;
+      --border: #EAE0D5;
+      --border-strong: #DECFC0;
+      --text: #2C221E;
+      --text-muted: #7A6A5E;
+      --marie: #DB2777;
+      --marie-soft: #FDF2F7;
+      --marie-bg: rgba(219, 39, 119, 0.12);
+      --marie-text: #9D174D;
+      --thomas: #0284C7;
+      --thomas-soft: #F0F9FF;
+      --thomas-bg: rgba(2, 132, 199, 0.12);
+      --thomas-text: #075985;
+      --mabrouka: #D97706;
+      --mabrouka-soft: #FFFBEB;
+      --mabrouka-bg: rgba(217, 119, 6, 0.14);
+      --mabrouka-text: #92400E;
+      --famille: #16A34A;
+      --famille-soft: #F0FDF4;
+      --famille-bg: rgba(22, 163, 74, 0.13);
+      --famille-text: #166534;
+      --danger: #DC2626;
+      --purple: #9333EA;
+      --shadow-sm: 0 2px 8px rgba(92, 64, 40, 0.05);
+      --shadow-md: 0 8px 24px rgba(92, 64, 40, 0.08);
       --safe-top: env(safe-area-inset-top, 0px);
       --safe-bottom: env(safe-area-inset-bottom, 0px);
     }
@@ -38,13 +50,17 @@
       margin: 0;
       padding: 0;
       background: var(--bg);
+      background-image:
+        radial-gradient(circle at 12% 8%, rgba(244, 114, 182, 0.08) 0%, transparent 38%),
+        radial-gradient(circle at 88% 12%, rgba(251, 191, 36, 0.10) 0%, transparent 42%),
+        radial-gradient(circle at 50% 90%, rgba(56, 189, 248, 0.06) 0%, transparent 45%);
       color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Rounded", "SF Pro Text", "Nunito", "Segoe UI", Roboto, sans-serif;
       min-height: 100%;
       overscroll-behavior-y: contain;
     }
     body {
-      padding-bottom: calc(74px + var(--safe-bottom));
+      padding-bottom: calc(78px + var(--safe-bottom));
     }
 
     /* LOCK SCREEN */
@@ -52,7 +68,8 @@
       position: fixed;
       inset: 0;
       z-index: 9999;
-      background: radial-gradient(circle at 50% 20%, #1E293B 0%, #0B1120 75%);
+      background:
+        radial-gradient(circle at 50% 18%, #FFF7ED 0%, #FCF8F2 55%, #F6ECE0 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -68,19 +85,37 @@
       width: 100%;
       max-width: 340px;
       text-align: center;
+      background: rgba(255, 255, 255, 0.86);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 26px 22px 22px;
+      box-shadow: 0 18px 42px rgba(124, 65, 30, 0.10);
     }
     .lock-logo {
-      width: 72px;
-      height: 72px;
-      border-radius: 20px;
+      width: 84px;
+      height: 84px;
+      border-radius: 24px;
       margin: 0 auto 14px;
       overflow: hidden;
-      box-shadow: 0 10px 28px rgba(236, 72, 153, 0.35);
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      box-shadow: 0 10px 24px rgba(219, 39, 119, 0.18);
+      border: 2px solid #FFFFFF;
     }
     .lock-logo img { width: 100%; height: 100%; display: block; }
-    .lock-title { font-size: 21px; font-weight: 800; margin: 0 0 4px; letter-spacing: -0.02em; }
-    .lock-sub { font-size: 13px; color: var(--text-muted); margin: 0 0 20px; }
+    .lock-title {
+      font-size: 21px;
+      font-weight: 800;
+      margin: 0 0 4px;
+      letter-spacing: -0.02em;
+      color: var(--text);
+    }
+    .lock-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin: 0 0 20px;
+      font-weight: 600;
+    }
     .pin-dots {
       display: flex;
       justify-content: center;
@@ -91,14 +126,14 @@
       width: 14px;
       height: 14px;
       border-radius: 50%;
-      border: 2px solid rgba(148, 163, 184, 0.45);
-      background: transparent;
+      border: 2px solid #D6C5B3;
+      background: #FAF5EE;
       transition: all 0.15s ease;
     }
     .pin-dot.filled {
-      background: var(--marie);
-      border-color: var(--marie);
-      box-shadow: 0 0 12px rgba(236, 72, 153, 0.7);
+      background: linear-gradient(135deg, #E11D48, #F97316);
+      border-color: #E11D48;
+      box-shadow: 0 0 10px rgba(225, 29, 72, 0.35);
       transform: scale(1.1);
     }
     .pin-pad {
@@ -111,28 +146,31 @@
     .pin-btn {
       height: 54px;
       border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      background: rgba(30, 41, 59, 0.75);
-      color: #FFF;
+      border: 1px solid var(--border);
+      background: #FFFFFF;
+      color: var(--text);
       font-size: 20px;
-      font-weight: 700;
+      font-weight: 800;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       user-select: none;
-      transition: transform 0.1s, background 0.15s;
+      box-shadow: 0 2px 6px rgba(92, 64, 40, 0.05);
+      transition: transform 0.1s, background 0.15s, border-color 0.15s;
     }
     .pin-btn:active {
       transform: scale(0.94);
-      background: rgba(236, 72, 153, 0.35);
+      background: var(--marie-soft);
+      border-color: var(--marie);
+      color: var(--marie);
     }
     .lock-error {
       min-height: 20px;
       font-size: 12.5px;
-      color: #FCA5A5;
+      color: var(--danger);
       margin-top: 12px;
-      font-weight: 600;
+      font-weight: 700;
     }
 
     /* HEADER */
@@ -141,10 +179,11 @@
       top: 0;
       z-index: 50;
       padding: calc(10px + var(--safe-top)) 14px 10px;
-      background: rgba(11, 17, 32, 0.92);
+      background: rgba(252, 248, 242, 0.90);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 12px rgba(92, 64, 40, 0.04);
     }
     .header-top {
       display: flex;
@@ -160,34 +199,37 @@
       gap: 10px;
     }
     .brand-icon {
-      width: 34px;
-      height: 34px;
-      border-radius: 10px;
+      width: 40px;
+      height: 40px;
+      border-radius: 13px;
       overflow: hidden;
       flex-shrink: 0;
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      border: 1.5px solid #FFFFFF;
+      box-shadow: 0 4px 12px rgba(180, 83, 9, 0.14);
     }
     .brand-icon img { width: 100%; height: 100%; display: block; }
     .brand-title {
-      font-size: 15.5px;
+      font-size: 16px;
       font-weight: 800;
       line-height: 1.15;
-      letter-spacing: -0.01em;
+      letter-spacing: -0.02em;
+      color: var(--text);
     }
     .brand-sub {
       font-size: 11px;
       color: var(--text-muted);
-      font-weight: 600;
+      font-weight: 700;
       display: flex;
       align-items: center;
       gap: 5px;
+      margin-top: 1px;
     }
     .live-dot {
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: #22C55E;
-      box-shadow: 0 0 8px #22C55E;
+      background: #16A34A;
+      box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.18);
     }
     .header-actions {
       display: flex;
@@ -195,33 +237,36 @@
       gap: 6px;
     }
     .btn-header {
-      height: 34px;
-      padding: 0 11px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
+      height: 35px;
+      padding: 0 12px;
+      border-radius: 11px;
+      border: 1px solid var(--border-strong);
       background: var(--bg-card);
       color: var(--text);
       font-size: 12px;
-      font-weight: 700;
+      font-weight: 800;
       display: inline-flex;
       align-items: center;
       gap: 5px;
       cursor: pointer;
+      box-shadow: var(--shadow-sm);
     }
     .btn-header.primary {
-      background: linear-gradient(135deg, #EC4899, #8B5CF6);
+      background: linear-gradient(135deg, #E11D48, #F97316);
       border-color: transparent;
       color: #FFF;
+      box-shadow: 0 4px 12px rgba(225, 29, 72, 0.24);
     }
 
     /* MABROUKA TOP ALERT BANNER */
     .mabrouka-top-alert {
       max-width: 692px;
       margin: 10px auto 0;
-      padding: 10px 13px;
-      border-radius: 13px;
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.22), rgba(239, 68, 68, 0.22));
-      border: 1px solid rgba(245, 158, 11, 0.55);
+      padding: 11px 14px;
+      border-radius: 15px;
+      background: linear-gradient(135deg, #FFFBEB, #FEF3C7);
+      border: 1.5px solid #F59E0B;
+      box-shadow: 0 4px 14px rgba(217, 119, 6, 0.12);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -238,12 +283,12 @@
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.04em;
-      color: #FDE68A;
+      color: #B45309;
     }
     .mta-title {
       font-size: 13px;
       font-weight: 800;
-      color: #FFF;
+      color: #78350F;
       line-height: 1.25;
     }
 
@@ -270,43 +315,44 @@
     }
     .person-filters::-webkit-scrollbar { display: none; }
     .pf-chip {
-      padding: 5px 10px;
+      padding: 5.5px 11px;
       border-radius: 999px;
       border: 1px solid var(--border);
       background: var(--bg-card);
       color: var(--text-muted);
       font-size: 11.5px;
-      font-weight: 700;
+      font-weight: 800;
       white-space: nowrap;
       cursor: pointer;
+      box-shadow: var(--shadow-sm);
     }
     .pf-chip.active-all {
-      background: var(--bg-elevated);
-      color: #FFF;
-      border-color: rgba(255,255,255,0.35);
+      background: var(--text);
+      color: #FFFFFF;
+      border-color: var(--text);
     }
     .pf-chip.active-marie {
-      background: var(--marie-bg);
-      color: #FBCFE8;
-      border-color: var(--marie);
+      background: var(--marie-soft);
+      color: var(--marie-text);
+      border-color: #F472B6;
     }
     .pf-chip.active-thomas {
-      background: var(--thomas-bg);
-      color: #BAE6FD;
-      border-color: var(--thomas);
+      background: var(--thomas-soft);
+      color: var(--thomas-text);
+      border-color: #38BDF8;
     }
     .pf-chip.active-mabrouka {
-      background: var(--mabrouka-bg);
-      color: #FDE68A;
-      border-color: var(--mabrouka);
+      background: var(--mabrouka-soft);
+      color: var(--mabrouka-text);
+      border-color: #F59E0B;
     }
 
     .view-switcher {
       display: inline-flex;
-      background: var(--bg-card);
+      background: var(--bg-elevated);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 2px;
+      border-radius: 11px;
+      padding: 2.5px;
       flex-shrink: 0;
     }
     .vs-btn {
@@ -314,14 +360,15 @@
       background: transparent;
       color: var(--text-muted);
       font-size: 11px;
-      font-weight: 700;
+      font-weight: 800;
       padding: 5px 9px;
       border-radius: 8px;
       cursor: pointer;
     }
     .vs-btn.active {
-      background: var(--bg-elevated);
-      color: #FFF;
+      background: var(--bg-card);
+      color: var(--text);
+      box-shadow: 0 1px 4px rgba(92, 64, 40, 0.10);
     }
 
     /* QUICK STRIP (GARDES MARIE, GARDES THOMAS, MABROUKA) */
@@ -336,10 +383,10 @@
     }
     .quick-strips::-webkit-scrollbar { display: none; }
     .qs-chip {
-      padding: 5px 9px;
-      border-radius: 9px;
+      padding: 5px 10px;
+      border-radius: 999px;
       font-size: 11px;
-      font-weight: 700;
+      font-weight: 800;
       white-space: nowrap;
       cursor: pointer;
       border: 1px solid transparent;
@@ -347,21 +394,22 @@
       align-items: center;
       gap: 4px;
       flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
     }
     .qs-chip.mab {
-      background: rgba(245, 158, 11, 0.18);
-      border-color: rgba(245, 158, 11, 0.5);
-      color: #FDE68A;
+      background: #FFFBEB;
+      border-color: #FCD34D;
+      color: #92400E;
     }
     .qs-chip.marie {
-      background: rgba(236, 72, 153, 0.16);
-      border-color: rgba(236, 72, 153, 0.45);
-      color: #FBCFE8;
+      background: #FDF2F7;
+      border-color: #F9A8D4;
+      color: #9D174D;
     }
     .qs-chip.thomas {
-      background: rgba(56, 189, 248, 0.16);
-      border-color: rgba(56, 189, 248, 0.45);
-      color: #BAE6FD;
+      background: #F0F9FF;
+      border-color: #7DD3FC;
+      color: #075985;
     }
 
     /* PERIOD NAVIGATION */
@@ -371,19 +419,20 @@
       justify-content: space-between;
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 6px 10px;
       margin-bottom: 8px;
+      box-shadow: var(--shadow-sm);
     }
     .pn-btn {
       width: 32px;
       height: 32px;
-      border-radius: 8px;
+      border-radius: 9px;
       border: 1px solid var(--border);
-      background: var(--bg-elevated);
-      color: #FFF;
-      font-size: 15px;
-      font-weight: 700;
+      background: var(--bg-subtle);
+      color: var(--text);
+      font-size: 16px;
+      font-weight: 800;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -394,6 +443,7 @@
       font-weight: 800;
       text-transform: capitalize;
       text-align: center;
+      color: var(--text);
     }
 
     /* SCROLLABLE DAY STRIP (COMME AGENDA INTERVENTIONNEL) */
@@ -425,7 +475,7 @@
       min-width: 52px;
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 13px;
       padding: 6px 4px;
       display: flex;
       flex-direction: column;
@@ -433,47 +483,48 @@
       gap: 2px;
       cursor: pointer;
       user-select: none;
+      box-shadow: var(--shadow-sm);
     }
     .ws-day.is-weekend {
       flex: 0 0 calc((100% - 25px) * 0.112);
       min-width: 40px;
       padding: 5px 2px;
-      opacity: 0.92;
-      background: rgba(15, 23, 42, 0.65);
-      border: 1px dashed rgba(148, 163, 184, 0.28);
+      background: #F6EFE6;
+      border: 1px dashed #D8C8B8;
+      box-shadow: none;
     }
     .ws-day.active {
-      background: rgba(236, 72, 153, 0.22);
+      background: #FFF5F8;
       border-color: var(--marie);
-      box-shadow: 0 0 0 1px var(--marie);
+      box-shadow: 0 0 0 1.5px var(--marie), 0 4px 10px rgba(219, 39, 119, 0.14);
     }
     .ws-day.is-marie-garde {
-      border-color: rgba(236, 72, 153, 0.65);
-      background: rgba(236, 72, 153, 0.12);
+      border-color: #F472B6;
+      background: #FDF2F7;
     }
     .ws-day.is-thomas-garde {
-      border-color: rgba(56, 189, 248, 0.65);
-      background: rgba(56, 189, 248, 0.12);
+      border-color: #38BDF8;
+      background: #F0F9FF;
     }
     .ws-day.has-mab-alert {
-      border-color: rgba(245, 158, 11, 0.8);
-      background: rgba(245, 158, 11, 0.14);
+      border-color: #F59E0B;
+      background: #FFFBEB;
     }
     .ws-dow {
       font-size: 9px;
-      font-weight: 700;
+      font-weight: 800;
       text-transform: uppercase;
       color: var(--text-muted);
     }
     .ws-num {
       font-size: 13px;
       font-weight: 800;
-      color: #FFF;
+      color: var(--text);
       line-height: 1.1;
     }
     .ws-mon {
       font-size: 8.5px;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--text-muted);
       margin-left: 2px;
     }
@@ -489,11 +540,11 @@
       text-overflow: ellipsis;
       margin-top: 1px;
     }
-    .ws-badge.b-mab { background: rgba(245, 158, 11, 0.28); color: #FDE68A; }
-    .ws-badge.b-marie { background: rgba(236, 72, 153, 0.28); color: #FBCFE8; }
-    .ws-badge.b-thomas { background: rgba(56, 189, 248, 0.26); color: #BAE6FD; }
-    .ws-badge.b-relais { background: rgba(34, 197, 94, 0.25); color: #BBF7D0; }
-    .ws-badge.b-std { background: rgba(148, 163, 184, 0.14); color: #94A3B8; }
+    .ws-badge.b-mab { background: #FEF3C7; color: #92400E; }
+    .ws-badge.b-marie { background: #FCE7F3; color: #9D174D; }
+    .ws-badge.b-thomas { background: #E0F2FE; color: #075985; }
+    .ws-badge.b-relais { background: #DCFCE7; color: #166534; }
+    .ws-badge.b-std { background: #F3ECE3; color: #6E5D4F; }
 
     /* SCROLLABLE WEEKS SELECTOR (EN VUE SEMAINE) */
     .weeks-selector-row {
@@ -510,23 +561,24 @@
       flex: 0 0 148px;
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 13px;
       padding: 8px 10px;
       cursor: pointer;
       display: flex;
       flex-direction: column;
       gap: 4px;
       user-select: none;
+      box-shadow: var(--shadow-sm);
     }
     .week-sel-card.active {
       border-color: var(--marie);
-      background: rgba(236, 72, 153, 0.16);
-      box-shadow: 0 0 0 1px var(--marie);
+      background: #FFF5F8;
+      box-shadow: 0 0 0 1.5px var(--marie);
     }
     .wsc-title {
       font-size: 11.5px;
       font-weight: 800;
-      color: #FFF;
+      color: var(--text);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -538,7 +590,7 @@
     }
     .wsc-tag {
       font-size: 9px;
-      font-weight: 700;
+      font-weight: 800;
       padding: 1.5px 5px;
       border-radius: 5px;
     }
@@ -547,12 +599,13 @@
     .day-summary-box {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 14px;
+      border-radius: 16px;
       padding: 12px;
       margin-bottom: 10px;
+      box-shadow: var(--shadow-sm);
     }
     .ds-title {
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 800;
       color: var(--text-muted);
       text-transform: uppercase;
@@ -572,20 +625,29 @@
     }
     .status-tile {
       padding: 9px 11px;
-      border-radius: 11px;
+      border-radius: 12px;
       border: 1px solid var(--border);
-      background: rgba(30, 41, 59, 0.5);
+      background: var(--bg-subtle);
       display: flex;
       flex-direction: column;
       gap: 2px;
     }
-    .status-tile.marie { border-left: 3px solid var(--marie); }
-    .status-tile.thomas { border-left: 3px solid var(--thomas); }
-    .status-tile.mabrouka { border-left: 3px solid #22C55E; }
+    .status-tile.marie {
+      border-left: 3.5px solid var(--marie);
+      background: linear-gradient(90deg, #FDF2F7 0%, #FFFFFF 100%);
+    }
+    .status-tile.thomas {
+      border-left: 3.5px solid var(--thomas);
+      background: linear-gradient(90deg, #F0F9FF 0%, #FFFFFF 100%);
+    }
+    .status-tile.mabrouka {
+      border-left: 3.5px solid var(--famille);
+      background: linear-gradient(90deg, #F0FDF4 0%, #FFFFFF 100%);
+    }
     .status-tile.alert-mab {
-      border-left: 3px solid var(--mabrouka);
-      background: rgba(245, 158, 11, 0.14);
-      border-color: rgba(245, 158, 11, 0.4);
+      border-left: 3.5px solid var(--mabrouka);
+      background: #FFFBEB;
+      border-color: #FCD34D;
     }
     .st-who {
       font-size: 10.5px;
@@ -595,8 +657,8 @@
     }
     .st-val {
       font-size: 13px;
-      font-weight: 700;
-      color: #FFF;
+      font-weight: 800;
+      color: var(--text);
       line-height: 1.25;
     }
 
@@ -605,17 +667,24 @@
       background: var(--bg-card);
       border: 1px solid var(--border);
       border-left: 4px solid var(--text-muted);
-      border-radius: 13px;
-      padding: 11px 13px;
+      border-radius: 15px;
+      padding: 12px 14px;
       margin-bottom: 8px;
+      box-shadow: var(--shadow-sm);
     }
     .event-card.person-marie { border-left-color: var(--marie); }
     .event-card.person-thomas { border-left-color: var(--thomas); }
     .event-card.person-mabrouka {
       border-left-color: var(--mabrouka);
-      background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(19, 28, 49, 0.95));
+      background: linear-gradient(135deg, #FFFBEB, #FFFFFF);
+      border-color: #FDE68A;
+      border-left-width: 4px;
+      border-left-color: var(--mabrouka);
     }
-    .event-card.person-famille { border-left-color: var(--famille); }
+    .event-card.person-famille {
+      border-left-color: var(--famille);
+      background: linear-gradient(135deg, #F0FDF4, #FFFFFF);
+    }
 
     .ev-top {
       display: flex;
@@ -632,23 +701,23 @@
     .ev-pill {
       font-size: 10.5px;
       font-weight: 800;
-      padding: 2px 8px;
+      padding: 2.5px 8px;
       border-radius: 999px;
     }
-    .ev-pill.marie { background: var(--marie-bg); color: #FBCFE8; }
-    .ev-pill.thomas { background: var(--thomas-bg); color: #BAE6FD; }
-    .ev-pill.mabrouka { background: var(--mabrouka-bg); color: #FDE68A; }
-    .ev-pill.famille { background: var(--famille-bg); color: #BBF7D0; }
+    .ev-pill.marie { background: #FCE7F3; color: var(--marie-text); }
+    .ev-pill.thomas { background: #E0F2FE; color: var(--thomas-text); }
+    .ev-pill.mabrouka { background: #FEF3C7; color: var(--mabrouka-text); }
+    .ev-pill.famille { background: #DCFCE7; color: var(--famille-text); }
 
     .ev-title {
       font-size: 14px;
       font-weight: 800;
-      color: #FFF;
+      color: var(--text);
       line-height: 1.25;
     }
     .ev-notes {
       font-size: 12px;
-      color: #CBD5E1;
+      color: #5C4D42;
       line-height: 1.35;
       margin-top: 4px;
     }
@@ -659,13 +728,13 @@
       margin-top: 6px;
     }
     .btn-del-ev {
-      background: transparent;
-      border: 1px solid rgba(239, 68, 68, 0.35);
-      color: #FCA5A5;
-      border-radius: 6px;
-      padding: 2px 7px;
+      background: #FEF2F2;
+      border: 1px solid #FECACA;
+      color: #B91C1C;
+      border-radius: 7px;
+      padding: 2.5px 8px;
       font-size: 10.5px;
-      font-weight: 700;
+      font-weight: 800;
       cursor: pointer;
     }
 
@@ -673,13 +742,15 @@
     .week-row-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 10px 12px;
       margin-bottom: 7px;
       cursor: pointer;
+      box-shadow: var(--shadow-sm);
     }
     .week-row-card.is-today {
-      border-color: rgba(236, 72, 153, 0.5);
+      border-color: var(--marie);
+      box-shadow: 0 0 0 1px var(--marie);
     }
     .wrc-head {
       display: flex;
@@ -691,7 +762,7 @@
       font-size: 13.5px;
       font-weight: 800;
       text-transform: capitalize;
-      color: #FFF;
+      color: var(--text);
     }
     .wrc-grid {
       display: grid;
@@ -702,12 +773,13 @@
     .wrc-pill {
       padding: 5px 8px;
       border-radius: 8px;
-      background: rgba(30, 41, 59, 0.55);
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
       display: flex;
       align-items: center;
       gap: 5px;
-      font-weight: 600;
-      color: #E2E8F0;
+      font-weight: 700;
+      color: var(--text);
     }
 
     /* MONTH CALENDAR GRID (OPTIMISÉ MOBILE SANS DÉBORDEMENT) */
@@ -733,11 +805,12 @@
       white-space: nowrap;
       cursor: pointer;
       flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
     }
     .month-sel-pill.active {
-      background: rgba(236, 72, 153, 0.22);
+      background: var(--marie-soft);
       border-color: var(--marie);
-      color: #FFF;
+      color: var(--marie-text);
     }
     .month-legend {
       display: flex;
@@ -746,7 +819,7 @@
       justify-content: center;
       margin-bottom: 8px;
       font-size: 10.5px;
-      font-weight: 700;
+      font-weight: 800;
       color: var(--text-muted);
     }
     .ml-item {
@@ -783,7 +856,7 @@
       overflow: hidden;
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 9px;
+      border-radius: 10px;
       padding: 4px 2px 3px;
       cursor: pointer;
       display: flex;
@@ -794,13 +867,13 @@
       user-select: none;
     }
     .m-cell.is-weekend {
-      background: rgba(15, 23, 42, 0.65);
+      background: #F6EFE6;
     }
-    .m-cell.other-month { opacity: 0.32; }
+    .m-cell.other-month { opacity: 0.38; }
     .m-cell.selected {
-      border-color: #FFF !important;
-      box-shadow: 0 0 0 1.5px #FFF;
-      background: rgba(255, 255, 255, 0.08);
+      border-color: var(--text) !important;
+      box-shadow: 0 0 0 1.5px var(--text);
+      background: #FFF9F2;
     }
     .m-cell.today .m-num span {
       background: var(--marie);
@@ -809,21 +882,21 @@
       padding: 1px 5px;
     }
     .m-cell.mab-alert {
-      border-color: rgba(245, 158, 11, 0.75);
-      background: rgba(245, 158, 11, 0.14);
+      border-color: #F59E0B;
+      background: #FFFBEB;
     }
     .m-cell.is-marie-garde {
-      border-color: rgba(236, 72, 153, 0.65);
-      background: rgba(236, 72, 153, 0.13);
+      border-color: #F472B6;
+      background: #FDF2F7;
     }
     .m-cell.is-thomas-garde {
-      border-color: rgba(56, 189, 248, 0.65);
-      background: rgba(56, 189, 248, 0.13);
+      border-color: #38BDF8;
+      background: #F0F9FF;
     }
     .m-num {
       font-size: 11.5px;
       font-weight: 800;
-      color: #E2E8F0;
+      color: var(--text);
       line-height: 1.1;
       text-align: center;
       width: 100%;
@@ -841,12 +914,12 @@
       text-overflow: ellipsis;
       line-height: 1.15;
     }
-    .m-tag.marie { background: rgba(236, 72, 153, 0.28); color: #FBCFE8; }
-    .m-tag.thomas-garde { background: rgba(56, 189, 248, 0.28); color: #BAE6FD; }
-    .m-tag.thomas-work { background: rgba(56, 189, 248, 0.14); color: #7DD3FC; }
-    .m-tag.mabrouka { background: rgba(245, 158, 11, 0.34); color: #FDE68A; }
-    .m-tag.famille { background: rgba(34, 197, 94, 0.26); color: #BBF7D0; }
-    .m-tag.std { background: rgba(148, 163, 184, 0.12); color: #94A3B8; font-weight: 700; }
+    .m-tag.marie { background: #FCE7F3; color: #9D174D; }
+    .m-tag.thomas-garde { background: #E0F2FE; color: #075985; }
+    .m-tag.thomas-work { background: #E0F2FE; color: #0369A1; }
+    .m-tag.mabrouka { background: #FEF3C7; color: #92400E; }
+    .m-tag.famille { background: #DCFCE7; color: #166534; }
+    .m-tag.std { background: #F3ECE3; color: #7A6A5E; font-weight: 700; }
     .m-dots {
       display: flex;
       gap: 3px;
@@ -859,18 +932,19 @@
       height: 5px;
       border-radius: 50%;
     }
-    .m-dot.mabrouka { background: #F59E0B; }
-    .m-dot.marie { background: #EC4899; }
-    .m-dot.thomas { background: #38BDF8; }
-    .m-dot.famille { background: #22C55E; }
+    .m-dot.mabrouka { background: #D97706; }
+    .m-dot.marie { background: #DB2777; }
+    .m-dot.thomas { background: #0284C7; }
+    .m-dot.famille { background: #16A34A; }
 
     /* NANNY PROFILE CARD */
     .nanny-hero {
-      background: linear-gradient(135deg, #1E293B, #131C31);
-      border: 1px solid var(--border);
-      border-radius: 16px;
+      background: linear-gradient(135deg, #FFFBEB 0%, #FFF1E6 100%);
+      border: 1px solid #FCD34D;
+      border-radius: 18px;
       padding: 14px;
       margin-bottom: 14px;
+      box-shadow: var(--shadow-sm);
     }
     .nh-top {
       display: flex;
@@ -878,8 +952,8 @@
       align-items: center;
       margin-bottom: 10px;
     }
-    .nh-name { font-size: 16px; font-weight: 800; }
-    .nh-sub { font-size: 12px; color: var(--text-muted); }
+    .nh-name { font-size: 16px; font-weight: 800; color: var(--text); }
+    .nh-sub { font-size: 12px; color: var(--text-muted); font-weight: 600; }
     .nh-actions {
       display: flex;
       gap: 8px;
@@ -888,14 +962,15 @@
     .nh-btn {
       flex: 1;
       padding: 9px 10px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: var(--bg-elevated);
-      color: #FFF;
+      border-radius: 11px;
+      border: 1px solid #FDE68A;
+      background: #FFFFFF;
+      color: var(--text);
       text-decoration: none;
       font-size: 12px;
-      font-weight: 700;
+      font-weight: 800;
       text-align: center;
+      box-shadow: var(--shadow-sm);
     }
 
     /* BOTTOM TAB BAR */
@@ -905,30 +980,34 @@
       left: 0;
       right: 0;
       z-index: 60;
-      background: rgba(11, 17, 32, 0.94);
+      background: rgba(255, 255, 255, 0.94);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border-top: 1px solid var(--border);
       padding: 6px 10px calc(6px + var(--safe-bottom));
       display: flex;
       justify-content: space-around;
+      box-shadow: 0 -4px 16px rgba(92, 64, 40, 0.05);
     }
     .nav-btn {
       border: none;
       background: transparent;
       color: var(--text-muted);
       font-size: 10.5px;
-      font-weight: 700;
+      font-weight: 800;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 3px;
-      padding: 4px 12px;
-      border-radius: 10px;
+      padding: 4px 14px;
+      border-radius: 12px;
       cursor: pointer;
       position: relative;
     }
-    .nav-btn.active { color: #FFF; }
+    .nav-btn.active {
+      color: var(--marie);
+      background: var(--marie-soft);
+    }
     .nav-btn.active::before {
       content: "";
       position: absolute;
@@ -936,7 +1015,7 @@
       width: 24px;
       height: 3px;
       border-radius: 999px;
-      background: linear-gradient(90deg, var(--marie), var(--thomas));
+      background: linear-gradient(90deg, var(--marie), #F97316);
     }
     .nav-badge {
       position: absolute;
@@ -955,7 +1034,9 @@
       position: fixed;
       inset: 0;
       z-index: 200;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(44, 34, 30, 0.45);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
       display: none;
       align-items: flex-end;
       justify-content: center;
@@ -966,27 +1047,29 @@
       max-width: 520px;
       background: var(--bg-card);
       border-top: 1px solid var(--border);
-      border-radius: 20px 20px 0 0;
+      border-radius: 24px 24px 0 0;
       padding: 18px 16px calc(20px + var(--safe-bottom));
       max-height: 90vh;
       overflow-y: auto;
+      box-shadow: 0 -10px 30px rgba(44, 34, 30, 0.14);
     }
     .form-group { margin-bottom: 12px; }
     .form-label {
       display: block;
       font-size: 11.5px;
-      font-weight: 700;
+      font-weight: 800;
       color: var(--text-muted);
       margin-bottom: 5px;
     }
     .form-input, .form-select, .form-textarea {
       width: 100%;
       padding: 10px 12px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      background: var(--bg-elevated);
-      color: #FFF;
+      border-radius: 11px;
+      border: 1px solid var(--border-strong);
+      background: var(--bg-subtle);
+      color: var(--text);
       font-size: 14px;
+      font-weight: 600;
       font-family: inherit;
     }
     .form-row {
@@ -998,12 +1081,12 @@
 </head>
 <body>
 
-  <!-- ÉCRAN DE CONNEXION SIMPLE -->
+  <!-- ÉCRAN DE CONNEXION FAMILIAL -->
   <div id="lock-screen">
     <div class="lock-card">
-      <div class="lock-logo"><img src="icon.svg" alt="Agenda Famille" /></div>
-      <h1 class="lock-title">Agenda Marie &amp; Thomas</h1>
-      <p class="lock-sub">Planning familial &amp; alertes garde d'Émile</p>
+      <div class="lock-logo"><img src="icon.svg" alt="Notre Famille" /></div>
+      <h1 class="lock-title">Notre Famille</h1>
+      <p class="lock-sub">Marie, Thomas &amp; petit Émile 👶</p>
       <div class="pin-dots" id="pin-dots">
         <div class="pin-dot"></div>
         <div class="pin-dot"></div>
@@ -1032,12 +1115,12 @@
   <header class="app-header">
     <div class="header-top">
       <div class="brand">
-        <div class="brand-icon"><img src="icon.svg" alt="Icon" /></div>
+        <div class="brand-icon"><img src="icon.svg" alt="Logo Famille" /></div>
         <div>
-          <div class="brand-title">Marie &amp; Thomas</div>
+          <div class="brand-title">Marie, Thomas &amp; Émile</div>
           <div class="brand-sub">
             <span class="live-dot"></span>
-            <span id="sync-status-label">Émile &amp; Mabrouka</span>
+            <span id="sync-status-label">Maison &amp; Nounou Mabrouka</span>
           </div>
         </div>
       </div>
@@ -1196,7 +1279,7 @@
 
   <script>
     const SESSION_KEY = "agenda_famille_unlocked_pin_v1";
-    const LOCAL_CACHE_KEY = "agenda_famille_data_cache_v3";
+    const LOCAL_CACHE_KEY = "agenda_famille_data_cache_v4";
     const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxLGqUevVWi36mNQ7WNoY2uhRsYLdsG_gQcscMPkP1GcQEt0LgdhGIuzYL2SM-uTcPq/exec";
 
     let pinBuffer = "";
@@ -1259,13 +1342,19 @@
       return d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
     }
 
-    /* --- NETTOYAGE AUTOMATIQUE DES DÉTAILS DE LA JOURNÉE DE THOMAS --- */
+    /* --- NETTOYAGE AUTOMATIQUE DES DÉTAILS DE LA JOURNÉE DE THOMAS & ALERTES PASSÉES --- */
     function sanitizeFamilyState(raw) {
       if (!raw || typeof raw !== "object") return raw;
-      // Supprimer tout événement purement descriptif du travail quotidien de Thomas (sans impact horaire/garde)
+      raw.mabrouka_alerts = (raw.mabrouka_alerts || []).filter(a => {
+        if (!a) return false;
+        if (a.id === "mab-2026-11-03" || /dentiste/i.test(String(a.title || ""))) return false;
+        return true;
+      });
+      // Supprimer tout événement purement descriptif du travail quotidien de Thomas (sans impact horaire/garde) ou rdv dentiste passé
       raw.events = (raw.events || []).filter(e => {
         if (!e) return false;
         if (e.person === "thomas" && e.category === "work") return false;
+        if (e.id === "ev-2026-11-03-mabrouka" || (e.person === "mabrouka" && /dentiste/i.test(String(e.title || "")))) return false;
         return true;
       }).map(e => {
         if (e.person === "thomas") {
@@ -1526,8 +1615,18 @@
     function getMabroukaStatusForIso(iso) {
       const dt = isoToDate(iso);
       const dow = dt.getDay();
-      const alert = (familyData.mabrouka_alerts || []).find(a => iso >= a.isoDate && iso <= (a.endDate || a.isoDate));
-      const evUnavail = (familyData.events || []).find(e => e.isoDate === iso && e.person === "mabrouka");
+      const now = new Date();
+      const todayIso = dateToIso(now);
+      const alert = (familyData.mabrouka_alerts || []).find(a => {
+        if (!(iso >= a.isoDate && iso <= (a.endDate || a.isoDate))) return false;
+        if (iso === todayIso && !isReminderUpcoming(a, now, 18 * 60 + 30)) return false;
+        return true;
+      });
+      const evUnavail = (familyData.events || []).find(e => {
+        if (!(e.isoDate === iso && e.person === "mabrouka")) return false;
+        if (iso === todayIso && !isReminderUpcoming(e, now, 18 * 60 + 30)) return false;
+        return true;
+      });
       if (alert) {
         return {
           available: false,
@@ -1558,13 +1657,64 @@
     }
 
     /* --- RENDU INTERFACE --- */
+    function parseTimesInMinutes(text) {
+      if (!text) return [];
+      const out = [];
+      const re = /\b(\d{1,2})\s*(?:h|:)\s*(\d{0,2})\b/gi;
+      let m;
+      while ((m = re.exec(String(text))) !== null) {
+        const hh = parseInt(m[1], 10);
+        const mm = m[2] ? parseInt(m[2], 10) : 0;
+        if (hh >= 0 && hh <= 23 && mm >= 0 && mm <= 59) {
+          out.push(hh * 60 + mm);
+        }
+      }
+      return out;
+    }
+
+    function isReminderUpcoming(item, now = new Date(), defaultEndMin = 18 * 60 + 30) {
+      if (!item) return false;
+      const todayIso = dateToIso(now);
+      const startIso = item.isoDate || "";
+      const endIso = item.endDate || startIso;
+      if (!endIso || endIso < todayIso) return false;
+      if (endIso > todayIso) return true;
+
+      const combinedText = `${item.horaire || ""} ${item.title || ""}`;
+      if (startIso === todayIso && /lendemain|24\s*h|dim\b/i.test(combinedText)) {
+        return true;
+      }
+
+      let times = parseTimesInMinutes(item.horaire);
+      if (times.length === 0) {
+        times = parseTimesInMinutes(item.title);
+      }
+
+      const nowMin = now.getHours() * 60 + now.getMinutes();
+      if (times.length >= 2) {
+        if (times[times.length - 1] < times[0] && startIso === todayIso) {
+          return true;
+        }
+        return nowMin < times[times.length - 1];
+      }
+      if (times.length === 1) {
+        if (/journ[ée]e/i.test(item.horaire || "")) {
+          return nowMin < Math.max(times[0], defaultEndMin);
+        }
+        return nowMin < times[0];
+      }
+      return nowMin < defaultEndMin;
+    }
+
     function renderTopMabroukaBanner() {
       const container = document.getElementById("top-mabrouka-banner");
       const badge = document.getElementById("mab-nav-badge");
       if (!container) return;
 
-      const todayIso = dateToIso(new Date());
-      const upcoming = (familyData.mabrouka_alerts || []).filter(a => (a.endDate || a.isoDate) >= todayIso);
+      const now = new Date();
+      const upcoming = [...(familyData.mabrouka_alerts || [])]
+        .filter(a => isReminderUpcoming(a, now, 18 * 60 + 30))
+        .sort((a, b) => String(a.isoDate).localeCompare(String(b.isoDate)));
       const critical = upcoming.filter(a => !a.resolved || a.severity === "critical");
 
       if (badge) {
@@ -1576,7 +1726,7 @@
         }
       }
 
-      const nextAlert = critical[0] || upcoming[0];
+      const nextAlert = critical[0];
       if (!nextAlert) {
         container.innerHTML = "";
         return;
@@ -1588,7 +1738,7 @@
             <div class="mta-badge">🚨 RAPPEL NOUNOU • ${esc(formatFrDate(nextAlert.isoDate))}</div>
             <div class="mta-title">${esc(nextAlert.title)}</div>
           </div>
-          <span style="font-size:18px; color:#FDE68A;">›</span>
+          <span style="font-size:18px; color:#B45309; font-weight:800;">›</span>
         </div>
       `;
     }
@@ -1596,11 +1746,13 @@
     function renderQuickStrips() {
       const bar = document.getElementById("quick-strips-bar");
       if (!bar) return;
-      const todayIso = dateToIso(new Date());
+      const now = new Date();
       const chips = [];
 
-      for (const a of (familyData.mabrouka_alerts || [])) {
-        if ((a.endDate || a.isoDate) >= todayIso) {
+      const sortedAlerts = [...(familyData.mabrouka_alerts || [])]
+        .sort((a, b) => String(a.isoDate).localeCompare(String(b.isoDate)));
+      for (const a of sortedAlerts) {
+        if (isReminderUpcoming(a, now, 18 * 60 + 30)) {
           chips.push(`
             <button type="button" class="qs-chip mab" onclick="jumpToDate('${esc(a.isoDate)}')">
               👶 Tata ${esc(formatFrDate(a.isoDate))} (${esc(a.horaire)})
@@ -1611,9 +1763,9 @@
 
       const sortedEvs = [...(familyData.events || [])].sort((a, b) => String(a.isoDate).localeCompare(String(b.isoDate)));
       for (const ev of sortedEvs) {
-        if (ev.isoDate >= todayIso && ev.category === "garde") {
+        if (ev.category === "garde" && isReminderUpcoming(ev, now, 23 * 60 + 59)) {
           const cls = ev.person === "marie" ? "marie" : "thomas";
-          const icon = ev.person === "marie" ? "🌸 Marie" : "🩵 Garde TL";
+          const icon = ev.person === "marie" ? "🌸 Marie" : "🥼 Garde TL";
           chips.push(`
             <button type="button" class="qs-chip ${cls}" onclick="jumpToDate('${esc(ev.isoDate)}')">
               ${icon} • ${esc(formatFrDate(ev.isoDate))}
@@ -1687,11 +1839,11 @@
           }
 
           let badges = "";
-          if (hasMabAlert) badges += `<span class="wsc-tag" style="background:rgba(245,158,11,0.28);color:#FDE68A;">🚨 Tata</span>`;
-          if (nbMarie > 0) badges += `<span class="wsc-tag" style="background:rgba(236,72,153,0.25);color:#FBCFE8;">🌸 Marie (${nbMarie})</span>`;
-          if (nbThomasGarde > 0) badges += `<span class="wsc-tag" style="background:rgba(56,189,248,0.25);color:#BAE6FD;">🩵 Garde TL</span>`;
-          if (hasRelais) badges += `<span class="wsc-tag" style="background:rgba(34,197,94,0.22);color:#BBF7D0;">🏡 Relais</span>`;
-          if (!badges) badges = `<span class="wsc-tag" style="background:rgba(148,163,184,0.14);color:#94A3B8;">Semaine std</span>`;
+          if (hasMabAlert) badges += `<span class="wsc-tag" style="background:#FEF3C7;color:#92400E;">🚨 Tata</span>`;
+          if (nbMarie > 0) badges += `<span class="wsc-tag" style="background:#FCE7F3;color:#9D174D;">🌸 Marie (${nbMarie})</span>`;
+          if (nbThomasGarde > 0) badges += `<span class="wsc-tag" style="background:#E0F2FE;color:#075985;">🥼 Garde TL</span>`;
+          if (hasRelais) badges += `<span class="wsc-tag" style="background:#DCFCE7;color:#166534;">🏡 Relais</span>`;
+          if (!badges) badges = `<span class="wsc-tag" style="background:#F3ECE3;color:#7A6A5E;">Semaine std</span>`;
 
           const isActive = (monIso === activeMonIso);
           cardsHtml += `
@@ -1930,19 +2082,19 @@
             <div class="week-row-card ${iso === todayIso ? "is-today" : ""}" onclick="selectDayFromMonth('${iso}')">
               <div class="wrc-head">
                 <span class="wrc-day">${esc(formatFrDate(iso, false))}</span>
-                <span style="font-size:11px; font-weight:700; color:${hasMabAlert ? "#FDE68A" : "#94A3B8"};">
+                <span style="font-size:11px; font-weight:800; color:${hasMabAlert ? "#B45309" : "var(--text-muted)"};">
                   👶 ${hasMabAlert ? "🚨 " + esc(mab.short) : esc(mab.short)}
                 </span>
               </div>
               <div class="wrc-grid">
-                <div class="wrc-pill" style="${marie.hasEvent ? "background:rgba(236,72,153,0.18);color:#FBCFE8;" : ""}">
+                <div class="wrc-pill" style="${marie.hasEvent ? "background:#FDF2F7;border-color:#F9A8D4;color:#9D174D;" : ""}">
                   🌸 <span>${esc(marie.hasEvent ? marie.summary : "Marie : Normal")}</span>
                 </div>
-                <div class="wrc-pill" style="${thomas.isGarde ? "background:rgba(56,189,248,0.2);color:#BAE6FD;" : ""}">
-                  🩵 <span>Thomas : ${esc(thomas.short === "Cochin" ? "Cochin" : thomas.summary)}</span>
+                <div class="wrc-pill" style="${thomas.isGarde ? "background:#F0F9FF;border-color:#7DD3FC;color:#075985;" : ""}">
+                  🥼 <span>Thomas : ${esc(thomas.short === "Cochin" ? "Cochin" : thomas.summary)}</span>
                 </div>
               </div>
-              ${relaisEv ? `<div style="margin-top:6px; font-size:11.5px; font-weight:700; color:#BBF7D0;">🏡 ${esc(relaisEv.title)}</div>` : ""}
+              ${relaisEv ? `<div style="margin-top:6px; font-size:11.5px; font-weight:800; color:#166534;">🏡 ${esc(relaisEv.title)}</div>` : ""}
             </div>
           `;
         }
@@ -1966,10 +2118,10 @@
 
       let html = `
         <div class="month-legend">
-          <span class="ml-item"><span class="ml-dot" style="background:#F59E0B;"></span>Tata indispo</span>
-          <span class="ml-item"><span class="ml-dot" style="background:#EC4899;"></span>Garde Marie</span>
-          <span class="ml-item"><span class="ml-dot" style="background:#38BDF8;"></span>Garde Thomas</span>
-          <span class="ml-item"><span class="ml-dot" style="background:#22C55E;"></span>Relais Famille</span>
+          <span class="ml-item"><span class="ml-dot" style="background:#D97706;"></span>Tata indispo</span>
+          <span class="ml-item"><span class="ml-dot" style="background:#DB2777;"></span>Garde Marie</span>
+          <span class="ml-item"><span class="ml-dot" style="background:#0284C7;"></span>Garde Thomas</span>
+          <span class="ml-item"><span class="ml-dot" style="background:#16A34A;"></span>Relais Famille</span>
         </div>
         <div class="month-grid-header">
           <div>Lun</div><div>Mar</div><div>Mer</div><div>Jeu</div><div>Ven</div><div>Sam</div><div>Dim</div>
@@ -2053,7 +2205,7 @@
       html += `
         <div style="margin-top:10px;">
           <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; padding:0 2px;">
-            <strong style="font-size:13.5px; text-transform:capitalize; color:#FFF;">📅 ${esc(formatFullDayTitle(selectedDate))}</strong>
+            <strong style="font-size:13.5px; text-transform:capitalize; color:var(--text);">📅 ${esc(formatFullDayTitle(selectedDate))}</strong>
             <button type="button" class="btn-header" style="height:28px; font-size:11px; padding:0 9px;" onclick="setCalView('day')">Vue Jour ›</button>
           </div>
           ${renderDaySummaryHtml(selIso)}
@@ -2066,7 +2218,10 @@
     function renderMabroukaTab() {
       const list = document.getElementById("mabrouka-alerts-list");
       if (!list) return;
-      const alerts = [...(familyData.mabrouka_alerts || [])].sort((a, b) => String(a.isoDate).localeCompare(String(b.isoDate)));
+      const now = new Date();
+      const alerts = [...(familyData.mabrouka_alerts || [])]
+        .filter(a => isReminderUpcoming(a, now, 18 * 60 + 30))
+        .sort((a, b) => String(a.isoDate).localeCompare(String(b.isoDate)));
       if (alerts.length === 0) {
         list.innerHTML = `<div style="color:var(--text-muted); text-align:center; padding:24px;">Aucune indisponibilité enregistrée pour Mabrouka.</div>`;
         return;
@@ -2303,6 +2458,16 @@
     /* --- INITIALISATION --- */
     window.addEventListener("DOMContentLoaded", () => {
       initSmoothScrollAndSwipe();
+      setInterval(() => {
+        renderTopMabroukaBanner();
+        renderQuickStrips();
+      }, 60000);
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden) {
+          renderTopMabroukaBanner();
+          renderQuickStrips();
+        }
+      });
       const savedPin = localStorage.getItem(SESSION_KEY);
       const cachedData = localStorage.getItem(LOCAL_CACHE_KEY);
       if (savedPin && cachedData) {
