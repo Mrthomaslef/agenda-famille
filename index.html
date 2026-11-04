@@ -57,7 +57,8 @@
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Rounded", "SF Pro Text", "Nunito", "Segoe UI", Roboto, sans-serif;
       min-height: 100%;
-      overscroll-behavior-y: contain;
+      overscroll-behavior-y: auto;
+      overflow-y: auto;
     }
     body {
       padding-bottom: calc(78px + var(--safe-bottom));
@@ -1876,7 +1877,7 @@
       const existingDayScroll = document.getElementById("day-strip-scroll");
       const prevDayScrollLeft = existingDayScroll ? existingDayScroll.scrollLeft : null;
 
-      const minDate = selectedDate < startDay ? new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate() - 7, 12, 0, 0) : startDay;
+      const minDate = selectedDate < startDay ? getMondayOf(new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate() - 7, 12, 0, 0)) : startDay;
       const maxDate = selectedDate > endDay ? new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate() + 14, 12, 0, 0) : endDay;
 
       let cellsHtml = "";
@@ -1948,9 +1949,9 @@
         if (prevDayScrollLeft !== null && !(opts && opts.scrollStrip)) {
           newDayScroll.scrollLeft = prevDayScrollLeft;
         } else {
-          const targetEl = document.getElementById("ws-day-" + selIso) || document.getElementById("ws-day-" + activeMonIso);
-          if (targetEl) {
-            newDayScroll.scrollLeft = Math.max(0, targetEl.offsetLeft - (newDayScroll.clientWidth - targetEl.offsetWidth) / 2);
+          const monEl = document.getElementById("ws-day-" + activeMonIso) || document.getElementById("ws-day-" + selIso);
+          if (monEl) {
+            newDayScroll.scrollLeft = Math.max(0, monEl.offsetLeft);
           }
         }
         updateDayStripVisibleMonth();
@@ -2289,9 +2290,7 @@
     }
 
     function navigatePeriod(delta) {
-      if (calView === "day") {
-        selectedDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate() + delta, 12, 0, 0);
-      } else if (calView === "week") {
+      if (calView === "day" || calView === "week") {
         selectedDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate() + delta * 7, 12, 0, 0);
       } else {
         selectedDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth() + delta, 1, 12, 0, 0);
